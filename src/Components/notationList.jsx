@@ -21,11 +21,10 @@ const NotationList = ({direction,area}) =>{
 
     let startingPointNum = 0;
     let isAscending = false;
-    let widthOrHeight = `w-[30rem]`
-    let flexDirection = ''
-    let position = ''
-
-    
+    let widthOrHeight = `w-[30rem]`;
+    let flexDirection = '';
+    let position = '';
+        
 
     switch (true) {
         case direction == 'left':
@@ -71,4 +70,4 @@ const NotationList = ({direction,area}) =>{
     )
 }
 
-export default NotationList
+export default NotationList;

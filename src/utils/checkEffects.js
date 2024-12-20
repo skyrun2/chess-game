@@ -1,4 +1,4 @@
-import piece from "./piece";
+// import piece from "./piece";
 import pieceSet from "./pieceSet";
 
 function checkEffects(bs,ts) {
@@ -8,14 +8,14 @@ function checkEffects(bs,ts) {
     let tiles = ts.tiles;
 
     let targetKing = '';
-    let pieceToMove = '';
-    let p = '';
+    // let pieceToMove = '';
+    // let p = '';
     let set = '';
     let checkTile ;
     let kingTile ;
-    let oppSet = '';
+    // let oppSet = '';
     for (const checkPiece in checkPieces) {
-        p = piece(tiles[checkPiece]);
+        // p = piece(tiles[checkPiece]);
         set = pieceSet(tiles[checkPiece]);
         
         

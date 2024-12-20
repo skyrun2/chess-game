@@ -1,10 +1,9 @@
-// import { useState } from 'react'
-import Board from './Components/board'
-import BoardCard from './Components/boardCard'
-import './App.css'
-import { useEffect,useReducer } from 'react'
-import reducer from './utils/ruducer'
-import {create} from 'zustand'
+
+import Board from './Components/board';
+import './App.css';
+import {useReducer } from 'react';
+import reducer from './utils/ruducer';
+import {create} from 'zustand';
 
 const defaultState = {
   currentPosition :{},

@@ -8,7 +8,7 @@ for (let i = 0; i < 16; i++) {
         defaultSetup[String.fromCharCode(97+i)+'8'] = pieceIs(i,'b')
     }
     else{
-        // defaultSetup[String.fromCharCode(97+(i%8))+'7'] = pieceIs(i,'b')
+        defaultSetup[String.fromCharCode(97+(i%8))+'7'] = pieceIs(i,'b')
     }
 }
 for (let i = 0; i < 16; i++) {
@@ -16,7 +16,7 @@ for (let i = 0; i < 16; i++) {
         defaultSetup[String.fromCharCode(97+i)+'1'] = pieceIs(i,'w')
     }
     else{
-        // defaultSetup[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
+        defaultSetup[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
     }
 }
   
@@ -33,7 +33,7 @@ const useTiles = create((set,get)=>({
         const pSet = pieceSet(pieceToMove);
         const currentPosition = payload.currentPosition;
         const newPosition = payload.newPosition;
-        const castlingPieces = payload.castlingPieces;
+        // const castlingPieces = payload.castlingPieces;
         const castlingRook = payload.castlingRook;
         const passant = payload.passant;
         const updatedTiles = get().tiles;

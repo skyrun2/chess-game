@@ -4,7 +4,7 @@ import pieceSet from "./pieceSet";
 
 function safePath (availableMoves,bs,terms) {
     let badTile = 'o0';
-    let castlingPieces = bs.castlingPieces;
+    // let castlingPieces = bs.castlingPieces;
     let checkPieceTile1 = '';
     let checkPieceTile2 = '';
     let checkPiece1 = '';
@@ -23,7 +23,7 @@ function safePath (availableMoves,bs,terms) {
     let kingPath = {...availableMoves};
     let kingX = terms.x; 
     let kingY = terms.y; 
-    let path = {};
+    // let path = {};
     let set  = terms.set;
     let tiles = terms.tiles;
     let upLeft = 'o0';
@@ -113,7 +113,7 @@ function safePath (availableMoves,bs,terms) {
                 else if (direction == 'bottomLeft') badTile = String.fromCharCode(kingX-1)+(kingY-1)
                 else if (direction == 'left') badTile = String.fromCharCode(kingX-1)+kingY;
                 else if (direction == 'topLeft') badTile = String.fromCharCode(kingX-1)+(kingY+1)
-                    
+
                 delete kingPath[badTile];
                     break;
 

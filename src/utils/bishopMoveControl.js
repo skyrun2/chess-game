@@ -7,7 +7,7 @@ import pieceSet from "./pieceSet";
 
 function bishopMoveControl(set,terms,bs) {
     let availableMoves = {};
-    let checkPieces = bs.checkPieces;
+    // let checkPieces = bs.checkPieces;
     let checkPiecesPath = bs.checkPiecesPath;
     let checkingSet = bs.checkingSet;
     let countForMoves = bs.countForMoves;

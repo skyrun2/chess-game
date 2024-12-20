@@ -1,5 +1,5 @@
     import { create } from "zustand"
-import isEnPassant from "./isEnPassant"; 
+// import isEnPassant from "./isEnPassant"; 
 const useBoardState = create((set,get) => ({
     bears:0,
     blackKingPosition:'e8',

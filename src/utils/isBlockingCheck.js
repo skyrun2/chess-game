@@ -4,11 +4,11 @@ function isBlockingCheck (capturingTile,bs,terms,availableMoves){
     let blackKingPosition = bs.blackKingPosition;
     let blockerX = terms.x;
     let blockerY = terms.y;
-    let currentPosition = bs.currentPosition;;
+    // let currentPosition = bs.currentPosition;
     let currTile = 'o0';
     let direction = 'not set';
     let distance = 0;
-    let pieceToMove = bs.pieceToMove;
+    // let pieceToMove = bs.pieceToMove;
     let path = {};
     let tiles  = terms.tiles;
     let set = terms.set;

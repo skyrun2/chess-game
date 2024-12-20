@@ -11,7 +11,7 @@ function setNotation(payload,bs) {
     let notation = '';
     let isCapture = bs.isCapture;
     let isEnPassant = payload.isEnPassant;
-    let passant  = payload.passant;
+    // let passant  = payload.passant;
 
     
     

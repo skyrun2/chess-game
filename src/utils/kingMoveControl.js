@@ -7,25 +7,24 @@ function kingMoveControl(set,terms,bs) {
     let castlingPieces = bs.castlingPieces;  
     let canKingSideCastle = true;
     let canQueenSideCastle = true;
-    let checkPieces = bs.checkPieces;
-    let checkPiecesPath = bs.checkPiecesPath;
-    let checkingSet = bs.checkingSet;
-    let countForMoves = bs.countForMoves;
+    // let checkPieces = bs.checkPieces;
+    // let checkPiecesPath = bs.checkPiecesPath;
+    // let checkingSet = bs.checkingSet;
+    // let countForMoves = bs.countForMoves;
     let currentPosition = bs.currentPosition;  
     let currTile = '';
     let eightPointX = terms.eightPointX;
     let isCheck = bs.isCheck;
     let isDoubleCheck = bs.isDoubleCheck;
-    let kingPath = {};
+    // let kingPath = {};
     let startTile = terms.startTile;
-    let tentativePath = {};
+    // let tentativePath = {};
     let tiles = terms.tiles;
     let x = terms.x;
     let y = terms.y;
     
     
     let oppSet = set =='white' ? 'black':'white';
-    // let baseline = set =='white' ? 'd1' : 'd8';
     let kingSide = set =='white' ? 'h1' : 'h8';
     let queenSide = set =='white' ? 'a1' : 'a8';
     let castlingTileKingSide = set =='white' ? 'g1' : 'g8';

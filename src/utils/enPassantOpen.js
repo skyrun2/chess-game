@@ -2,7 +2,7 @@ import piece from "./piece";
 import pieceSet from "./pieceSet";
 
 
-function enPassantOpen(payload,passant) {
+function enPassantOpen(payload) {
     let currentPosition = payload.currentPosition;
     let newPosition = payload.newPosition ;
     let p = piece(payload.pieceToMove);
@@ -12,7 +12,6 @@ function enPassantOpen(payload,passant) {
     let baseline = set == 'white' ? 2 : 7;
     let canPassant = set == 'white' ? 4 : 5;
     let isOpen = !!(p == 'pawn' && currY == baseline && newY == canPassant);
-
     if (isOpen) return {tile :newPosition, set:set};
     else return null
     

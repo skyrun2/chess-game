@@ -1,5 +1,5 @@
 import pieceData from "./pieceData"
-function peiceSrsIs(i,set) {
+function pieceSrsIs(i,set) {
     if (set=='w') {
         if(i==0||i==7) return pieceData.rook
         else if (i==1||i==6) return pieceData.knight
@@ -18,4 +18,4 @@ function peiceSrsIs(i,set) {
     }
 
 }
-export default peiceSrsIs
+export default pieceSrsIs;

@@ -1,8 +1,10 @@
-import NotationList from "./Notationlist"
+import NotationList from "./notationList";
+
 const BottomLetter = ()=>{
     
     return(
         <NotationList direction='bottom' />
+        
     )
 }
 

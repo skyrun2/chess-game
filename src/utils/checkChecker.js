@@ -2,11 +2,10 @@ import piece from "./piece";
 import pieceSet from "./pieceSet";
 import pawnMoveControl from "./pawnMoveControl";
 import rookMoveControl from "./rookMoveControl";
-import bishopMoveControl from "./bishopMoveContrrol";
+import bishopMoveControl from "./bishopMoveControl";
 import knightMoveControl from "./knightMoveControl";
 import kingMoveControl from "./kingMoveControl";
 import checkPath from "./checkPath";
-import checkEffects from "./checkEffects";
 import queenMoveControl from "./queenMoveControl";
 
 function checkChecker (payload,bs,tiles) {

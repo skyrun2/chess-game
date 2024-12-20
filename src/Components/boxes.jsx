@@ -1,18 +1,17 @@
-import { string } from "prop-types"
-import peiceSrsIs from "../utils/peicesrsIs"
-import useTiles from "../utils/useTiles"
-import useBoardState from "../utils/boardState"
-import defaultSrs from "../utils/defaultSrs"
-import setId from "../utils/setId"
-import setSrs from "../utils/setSrs"
-import setClass from "../utils/setClass"
-import { useEffect } from "react"
-import checkEffects from "../utils/checkEffects"
+
+
+import useTiles from "../utils/useTiles";
+import useBoardState from "../utils/boardState";
+import setId from "../utils/setId";
+import setSrs from "../utils/setSrs";
+import setClass from "../utils/setClass";
+import { useEffect } from "react";
+import checkEffects from "../utils/checkEffects";
 
 const Boxes = () =>{
     const currentPosition = useBoardState((state) => state.currentPosition);
     const boardState =  useBoardState((state)=>state);
-    const checkPieces = useBoardState((state)=> state.checkPieces);
+    // const checkPieces = useBoardState((state)=> state.checkPieces);
     const checkPiecesPath = useBoardState((state)=> state.checkPiecesPath);
     const isCheck = useBoardState((state)=> state.isCheck);
     const isDoubleCheck = useBoardState((state)=> state.isDoubleCheck);
@@ -105,8 +104,8 @@ const Boxes = () =>{
                 
             }
             if (isDoubleCheck) {
-                let checkPiece1 = Object.keys(checkPiecesPath)[0];
-                let checkPiece2 = Object.keys(checkPiecesPath)[1];
+                // let checkPiece1 = Object.keys(checkPiecesPath)[0];
+                // let checkPiece2 = Object.keys(checkPiecesPath)[1];
                 
                 
                 if (Object.keys(checkPiecesPath).length) {

@@ -1,4 +1,5 @@
-import bishopMoveControl from "./bishopMoveContrrol";
+
+import bishopMoveControl from "./bishopMoveControl";
 import kingMoveControl from "./kingMoveControl";
 import knightMoveControl from "./knightMoveControl";
 import pawnMoveControl from "./pawnMoveControl";
@@ -10,12 +11,12 @@ import rookMoveControl from "./rookMoveControl";
 
 function legalMoves(boardState,tileState) {
     let availableMoves = {};
-    let direction = [];
+    // let direction = [];
     let currPiece = boardState.pieceToMove;
     let startTile = boardState.currentPosition;
     let tiles = tileState.tiles;
     let passant = boardState.passant;
-    let checkPieces = boardState.checkPieces;
+    // let checkPieces = boardState.checkPieces;
     let eightPointX =  Number(startTile[0].charCodeAt()) - 96;
     let y = Number(startTile[1])*1;
     let topRight = Math.min(8-eightPointX,8-y);

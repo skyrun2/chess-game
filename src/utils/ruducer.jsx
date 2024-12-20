@@ -1,7 +1,7 @@
 import legalMoves from "./legalMoves";
 const reducer = ( state, action) =>{
     let updatedCurrentPosition = {};
-    let moveCount = state.moveCount;
+    // let moveCount = state.moveCount;
     let updatedPieceMoveNotation = [];
     let updatedMoveNotation = ''
     let isPieceToMove = state.isPieceToMove
@@ -12,7 +12,7 @@ const reducer = ( state, action) =>{
                 legalMoves(updatedCurrentPosition)
                 
             }
-            // console.log(`piece current ${state.currentPosition.boardRelativeX},${state.currentPosition.boardRelativeY}`);
+            
             return{
                 ...state,
 
@@ -44,7 +44,7 @@ const reducer = ( state, action) =>{
             }
         case 'PIECE_MOVE_NOTATION':
             
-            // updatedPieceMoveNotaion = Object(state.pieceMoveNotation).length >0? {...action.payload,...state.pieceMoveNotation} : {...action.payload};
+            
             updatedPieceMoveNotation=[...state.pieceMoveNotation,...action.payload];
             
             return{
@@ -54,7 +54,7 @@ const reducer = ( state, action) =>{
             }
         case 'MOVE_NOTATION':
             
-            // updatedPieceMoveNotaion = Object(state.pieceMoveNotation).length >0? {...action.payload,...state.pieceMoveNotation} : {...action.payload};
+            
             updatedMoveNotation = state.moveNotation +' '+action.payload.currentNotation;
             
             return{
