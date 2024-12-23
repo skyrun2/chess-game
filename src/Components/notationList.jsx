@@ -2,7 +2,8 @@ const List = ({isAscending,startingPointNum  })=>{
     const List = Array(8).fill(0).map((_,i)=>{
         const currPoint = isAscending? startingPointNum+i : startingPointNum-i;
         return(
-            <list key={i}
+            <list key={i} 
+            id = 'notation'
             className=" w-[12.5%]
                         h-[12.5%]
                         text-center

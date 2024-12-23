@@ -10,7 +10,7 @@ import useTiles from "../utils/useTiles";
 import showPossibleMoves from "../utils/showPossibleTiles";
 
 import pieceSet from "../utils/pieceSet";
-// import piece  from "../utils/piece";
+import pieceIs  from "../utils/piece";
 import setNotation from "../utils/setNotation";
 import enPassantOpen from "../utils/enPassantOpen";
 import isEnPassant from "../utils/isEnPassant";
@@ -21,15 +21,20 @@ import kingTile from "../utils/kingTile";
 
 
 
+
 const Board = () =>{
+    const addCapturedPieces = useBoardState((state)=> state.addCapturedPieces);
+    const blackKingPosition = useBoardState((state)=> state.blackKingPosition);
     const boardState = useBoardState((state) => state);
+    const capturedPieces = useBoardState((state)=>state.capturedPieces);
     const castlingPieces = useBoardState((state)=> state.castlingPieces);
     const castlingRook = useBoardState((state)=> state.castlingRook);
     const checkPiecesPath =  useBoardState((state)=> state.checkPiecesPath);
+    const countForMoves = useBoardState((state)=>state.countForMoves);
     const currentPosition = useBoardState((state) => state.currentPosition);
     const isPieceToMove = useBoardState((state) => state.isPieceToMove);
     const isCheck = useBoardState((state)=>state.isCheck);
-    // const isDoubleCheck = useBoardState((state)=>state.isDoubleCheck);
+    const isDoubleCheck = useBoardState((state)=>state.isDoubleCheck);
     const moveNotation = useBoardState((state) => state.moveNotation);
     // const moveCount = useBoardState((state) => state.moveCount);
     const newPosition = useBoardState((state) => state.newPosition);
@@ -41,6 +46,7 @@ const Board = () =>{
     const possibleMoveTiles = useTiles((state)=>state.possibleMoveTiles);
     const setCheckLevel =  useBoardState((state)=> state.setCheckLevel);
     const setCurrentPosition = useBoardState((state) => state.setCurrentPosition);
+    const setHasMoves = useBoardState((state)=> state.setHasMoves);
     // const setIsPieceToMove = useBoardState((state) => state.setIsPieceToMove);
     const setNewPosition = useBoardState((state) => state.setNewPosition);
     const setNotations = useBoardState((state)=> state.setNotations);
@@ -50,13 +56,13 @@ const Board = () =>{
     const tiles = useTiles((state)=>state.tiles);
     const tileState = useTiles((state)=>state)
     const turn =  useBoardState((state)=> state.turn);
-    // const whiteKingPosition = useBoardState((state)=> state.whiteKingPosition);
+    const whiteKingPosition = useBoardState((state)=> state.whiteKingPosition);
     const unSetCheckLevel =  useBoardState((state)=> state.unSetCheckLevel);
     
 
     let payload = {};
     let LocalCheckPieces = {};
-    let classList =`absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[15%] w-[35rem] aspect-square border border-black grid grid-cols-8` ;
+    
     
     
     const handleOnClick = (e) => {
@@ -68,11 +74,11 @@ const Board = () =>{
         //     boardRelativeY: Math.ceil(relativeY/64),
         // }
         
-        
         let box = e.target.parentElement;
         let emptyTile = e.target;
         let id = e.target.parentElement.id;
         let piece = e.target.id;
+        
         
         payload = {
             currentPosition:'',
@@ -89,6 +95,9 @@ const Board = () =>{
         
 
         switch (true) {
+            case e.target.id == 'notation':
+                break;
+
             case isPieceToMove && (currentPosition == id):                
                 console.log('piece did not move');
                 payload.currentPosition = '';
@@ -114,8 +123,7 @@ const Board = () =>{
                 setNewPosition(payload);
 
                 
-                if (isCheck) {
-                    
+                if (isCheck) {    
                     if (pieceToMove.slice(-4) !== 'king') {
                         if (checkPiecesPath[payload.newPosition]) {
                             unSetCheckLevel();
@@ -123,10 +131,12 @@ const Board = () =>{
                     }
                     else{
                         if (!checkPiecesPath[payload.newPosition]) {
-                            
                             unSetCheckLevel();
                         }
                     }
+                }
+                if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+                    unSetCheckLevel()
                 }
 
                 break;
@@ -143,30 +153,74 @@ const Board = () =>{
                 payload.castlingPiece = removeCastlingPiece(payload,boardState);
                 payload.whiteKingPosition = kingTile(payload,boardState,'w');
                 payload.blackKingPosition = kingTile(payload,boardState,'b');
+                payload.piece = pieceIs(tiles[payload.newPosition]);
+                console.log(tiles[payload.newPosition]);
+                console.log(payload.newPosition);
+                
+                
+                if (pieceSet(tiles[payload.newPosition]) == 'white'){
+                    payload.set = 'white';
+                    if (capturedPieces.whiteSet[pieceIs(tiles[payload.newPosition])]) {
+                        
+                        payload.whiteSet = Number(capturedPieces.whiteSet[pieceIs(tiles[payload.newPosition])])+1;
+                    }
+                    else payload.whiteSet = 1;
+                }
+                else if (pieceSet(tiles[payload.newPosition]) == 'black'){
+                    payload.set = 'black';
+                    if (capturedPieces.blackSet[pieceIs(tiles[payload.newPosition])]) {
+                        console.log(capturedPieces  );
+                        console.log('HEEEEYYYY!!!');
+                        
+                        
+                        console.log(capturedPieces.blackSet[pieceIs(tiles[payload.newPosition])]);
+                        
+                        
+                        payload.blackSet = capturedPieces.blackSet[pieceIs(tiles[payload.newPosition])]+1;
+                    }
+                    else payload.blackSet = 1
 
+
+                }
                 setNewPosition(payload);
+                addCapturedPieces(payload);
+
 
 
                 if (isCheck) {
                     
-                    if (checkPiecesPath[payload.newPosition]) {
-                        unSetCheckLevel();
+                    if (pieceToMove.slice(-4) !== 'king') {
+                        if (checkPiecesPath[payload.newPosition]) {
+                            unSetCheckLevel();
+                        }
+                    }
+                    else{
+                        if (!checkPiecesPath[payload.newPosition]) {
+                            
+                            unSetCheckLevel();
+                        }
                     }
                 }
+                if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+                    unSetCheckLevel()
+                }
+
+                
+                
                 // setTiles(payload);
 
                 break;
 
 
             case !!tiles[id]:
-                if (pieceSet(tiles[id]) == turn){
+                // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload.currentPosition = id;
                     payload.currentTile = box;
                     payload.isPieceToMove = true ;               
                     payload.pieceToMove =  piece;
                     setCurrentPosition(payload);
-                }
+                // }
                 
                 break;
 
@@ -179,7 +233,16 @@ const Board = () =>{
     
     useEffect(()=>{
         if (boardState.isPieceToMove) {
-            setPossibleMoveTiles(legalMoves(boardState,tileState));   
+            if (Object.keys(legalMoves(boardState,tileState)).length) {
+                payload.hasMoves = true;
+                setHasMoves(payload);
+                setPossibleMoveTiles(legalMoves(boardState,tileState)); 
+
+            }
+            else {
+                payload.hasMoves = false;
+                setHasMoves(payload);
+            }
         }
         
         
@@ -216,7 +279,7 @@ const Board = () =>{
         }
         
 
-    },[newPosition ])
+    },[newPosition])
 
     useEffect(()=>{
         
@@ -251,17 +314,27 @@ const Board = () =>{
         
 
     },[moveNotation])
+
+    // useEffect(()=>{
+    //     console.log(capturedPieces);
+    //     console.log(checkChecker(payload,boardState,tiles));
+    //     console.log(countForMoves);
+        
+        
+        
+        
+    // },[])
     
     
 
     return(
-        <div className={classList}  onClick={e=>handleOnClick(e)}>
+        <div className=' relative w-[35rem] aspect-square border border-black grid grid-cols-8 '  onClick={e=>handleOnClick(e)}>
             {/* <p
                 className="absolute top-[-10%]  z-30"> {moveNotation}
             </p> */}
-            <p
-                className="absolute top-[40%] bg-red-600 z-30"> {isPieceToMove}
-            </p>
+            {/* <p
+                className=" bg-red-600 z-30"> {isPieceToMove}
+            </p> */}
             <Boxes/>
             <LeftNum/>
             <BottomLetter/>

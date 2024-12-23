@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+    background-color: #D7D3BF;
+}
 .check{
     background-color: red;
     

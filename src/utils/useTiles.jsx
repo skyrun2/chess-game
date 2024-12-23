@@ -16,7 +16,7 @@ for (let i = 0; i < 16; i++) {
         defaultSetup[String.fromCharCode(97+i)+'1'] = pieceIs(i,'w')
     }
     else{
-        defaultSetup[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
+        // defaultSetup[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
     }
 }
   

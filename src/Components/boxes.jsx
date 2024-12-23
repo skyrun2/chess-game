@@ -13,6 +13,7 @@ const Boxes = () =>{
     const boardState =  useBoardState((state)=>state);
     // const checkPieces = useBoardState((state)=> state.checkPieces);
     const checkPiecesPath = useBoardState((state)=> state.checkPiecesPath);
+    const hasMoves = useBoardState((state)=> state.hasMoves);
     const isCheck = useBoardState((state)=> state.isCheck);
     const isDoubleCheck = useBoardState((state)=> state.isDoubleCheck);
     const pieceToMove =  useBoardState((state)=>state.pieceToMove);
@@ -60,7 +61,12 @@ const Boxes = () =>{
         }
         // console.log(i);
         if (id == currentPosition) {
-            bgColor = 'bg-[#fff111]'
+            if (hasMoves) {
+                bgColor = 'bg-[#fff111]';
+            }
+            else{
+                bgColor = 'bg-[#D7D3BF]';
+            }
         }
         else if (Math.floor(i/8)%2) {
             bgColor = i%2 ? 'bg-[white]' : 'bg-[black]'    
@@ -91,13 +97,13 @@ const Boxes = () =>{
     useEffect(()=>{
         
         if (isCheck||isDoubleCheck){
-            console.log('animation');
+
             if (isCheck) {
                 let checkPiece = Object.keys(checkPiecesPath)[0];
-                console.log(tiles[checkPiece]);
+                
                 
                 if (Object.keys(checkPiecesPath).length) {
-                    console.log(pieceToMove);
+
                     
                     checkEffects(boardState,tileState);
                 }
@@ -109,7 +115,7 @@ const Boxes = () =>{
                 
                 
                 if (Object.keys(checkPiecesPath).length) {
-                    console.log(pieceToMove);
+                    
                     
                     checkEffects(boardState,tileState);
                 }

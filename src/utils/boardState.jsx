@@ -1,8 +1,13 @@
-    import { create } from "zustand"
+    
+import { create } from "zustand"
 // import isEnPassant from "./isEnPassant"; 
 const useBoardState = create((set,get) => ({
     bears:0,
     blackKingPosition:'e8',
+    capturedPieces : {
+        blackSet:{},
+        whiteSet:{},
+    },
     castlingRook :'',
     checkPieces:{},
     checkPiecesPath:{},
@@ -10,6 +15,7 @@ const useBoardState = create((set,get) => ({
     countForMoves:{},
     currentPosition :[],
     currentTile:'',
+    hasMoves: false,
     isCapture: false,
     isCheck:false,
     isCheckMate:false,
@@ -39,6 +45,29 @@ const useBoardState = create((set,get) => ({
         
     },
 
+
+    addCapturedPieces : (payload) =>{
+        console.log(payload);
+        
+        let updatedCapturedPieces = {...get().capturedPieces};
+        console.log(updatedCapturedPieces);
+        if (payload.set == 'white' ) {
+            updatedCapturedPieces.whiteSet[payload.piece] = payload.whiteSet;
+        }
+        else if (payload.set == 'black' ) {
+            console.log(payload.blackSet);
+            
+            updatedCapturedPieces.blackSet[payload.piece] = payload.blackSet;
+        }
+        
+
+        set(()=>({
+            capturedPieces : updatedCapturedPieces,
+        }))
+        
+
+    },
+
     setCurrentPosition :  (payload) => {
 
         
@@ -54,7 +83,9 @@ const useBoardState = create((set,get) => ({
 
         }))
     },
-    setNewPosition :  (payload) => {
+    
+
+    setNewPosition:  (payload) => {
         const count = get().turn == 'white' ? get().moveCount +1 : get().moveCount;
         const newTile = payload.newPosition;
         const currentTile = payload.currentPosition;
@@ -91,14 +122,17 @@ const useBoardState = create((set,get) => ({
             
         }))
     },
+    
     setIsPieceToMove : () => set((state)=>({
         isPieceToMove:!state.isPieceToMove
     })),
+
     setTurn : () => {
         let updatedTurn = get().turn == 'white' ? 'black' : 'white';
         set(()=>({
             turn : updatedTurn,
     }))},
+
     setNotations : (payload) => {
         const prevMoveNotation  = get().moveNotation;
         const updatedMoveNotation = prevMoveNotation + " "+ payload.moveNotation;
@@ -143,7 +177,12 @@ const useBoardState = create((set,get) => ({
             }))
         }
     },
-
+    setHasMoves : (payload) => {
+        
+        set(()=>({
+            hasMoves: payload.hasMoves,
+        }))
+    },
     unSetCheckLevel : () => {
         console.log('i should work');
         

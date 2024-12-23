@@ -89,12 +89,14 @@ function pawnMoveControl(set,terms,passant,bs){
     }
 
     if (currentPosition == startTile) {
-        console.log(checkPieces);
+        
         
         console.log(isCheck);
         if (isCheck) {
+            console.log(isCheck);
             
             if (set !== checkingSet) {
+                console.log(availableMoves);
                 
                 if (p !== 'king') {
                     if (checkPiecesPath) {
@@ -115,10 +117,9 @@ function pawnMoveControl(set,terms,passant,bs){
                 availableMoves = {}
             }
         }
+        
         if (!(isCheck && isDoubleCheck)){
-            
-            
-                
+        
             if (countForMoves[currentPosition]) {
                 for (const capturePiece in countForMoves[currentPosition].pieces) {
                     if (pieceSet(tiles[capturePiece]) !== set) {
