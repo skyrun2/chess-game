@@ -41,14 +41,16 @@ function setNotation(payload,bs) {
             break;
     }
     if (isCapture) {
-        notation = moveCount+'. '+symbol+'x'+newPosition;
+        notation = symbol+'x'+newPosition;
         if( turn =='black')  notation = symbol+'x'+newPosition;
     }
     else{
-        notation = moveCount+'. '+symbol+newPosition;
+        notation = symbol+newPosition;
         if( turn =='black')  notation =symbol+newPosition;
 
     }
+    
+    
     return notation;
     
     

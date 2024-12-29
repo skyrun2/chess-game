@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    background-color: #D7D3BF;
+    background-color: #302E2B;
 }
 .check{
     background-color: red;
@@ -16,7 +16,16 @@ body{
         animation-duration: 0.3s ;
     }
 }
+.notation-order{
+    grid-template-columns: 1fr 3fr 4fr;
+}
+/* .move-count{
+    grid-column: 1/5;
+}
 
+.notation{
+    grid-column: 4/5;
+} */
 @keyframes check{
     0%   {transform: rotateZ(20deg);}
     25%  {transform: rotateZ(-20deg);}

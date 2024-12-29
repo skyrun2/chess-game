@@ -9,7 +9,7 @@ const List = ({isAscending,startingPointNum  })=>{
                         text-center
                         text-red-500
                         font-bold
-                        text-[1.3rem]"    
+                        text-[100%]"    
             >
                 {String.fromCharCode(currPoint)}</list>
         )

@@ -36,7 +36,7 @@ const Board = () =>{
     const isCheck = useBoardState((state)=>state.isCheck);
     const isDoubleCheck = useBoardState((state)=>state.isDoubleCheck);
     const moveNotation = useBoardState((state) => state.moveNotation);
-    // const moveCount = useBoardState((state) => state.moveCount);
+    const moveCount = useBoardState((state) => state.moveCount);
     const newPosition = useBoardState((state) => state.newPosition);
     // const NewBoardPosition = useBoardState((state) => state.NewBoardPosition);
     const pieceToMove = useBoardState((state) => state.pieceToMove);
@@ -154,8 +154,7 @@ const Board = () =>{
                 payload.whiteKingPosition = kingTile(payload,boardState,'w');
                 payload.blackKingPosition = kingTile(payload,boardState,'b');
                 payload.piece = pieceIs(tiles[payload.newPosition]);
-                console.log(tiles[payload.newPosition]);
-                console.log(payload.newPosition);
+                
                 
                 
                 if (pieceSet(tiles[payload.newPosition]) == 'white'){
@@ -268,6 +267,7 @@ const Board = () =>{
             payload.moveNotation =  setNotation(payload,boardState);
             payload.castlingPieces = castlingPieces;
             payload.castlingRook = castlingRook;
+            payload.moveCount = moveCount;
             
             setTiles(payload);
             setNotations(payload);

@@ -23,7 +23,8 @@ const useBoardState = create((set,get) => ({
     isEnPassant:false,
     isPieceToMove:false,
     moveCount:0,
-    moveNotation:'',
+    moveNotation:[],
+    notationOrder:[],
     newBoardPosition:'',
     newPosition : {},
     passant : [], 
@@ -47,15 +48,15 @@ const useBoardState = create((set,get) => ({
 
 
     addCapturedPieces : (payload) =>{
-        console.log(payload);
+        
         
         let updatedCapturedPieces = {...get().capturedPieces};
-        console.log(updatedCapturedPieces);
+        
         if (payload.set == 'white' ) {
             updatedCapturedPieces.whiteSet[payload.piece] = payload.whiteSet;
         }
         else if (payload.set == 'black' ) {
-            console.log(payload.blackSet);
+            
             
             updatedCapturedPieces.blackSet[payload.piece] = payload.blackSet;
         }
@@ -134,11 +135,28 @@ const useBoardState = create((set,get) => ({
     }))},
 
     setNotations : (payload) => {
-        const prevMoveNotation  = get().moveNotation;
-        const updatedMoveNotation = prevMoveNotation + " "+ payload.moveNotation;
-        set(()=>({
-            moveNotation : updatedMoveNotation
-        }))
+        set(prev => {
+            
+            
+            const count = get().moveCount;
+            let prevMoveNotation  = [...prev.moveNotation];
+            let updatedNotationOrder = [...prev.notationOrder];
+            if (prevMoveNotation.length%2) {
+                updatedNotationOrder.push(payload.moveNotation);
+                
+            }
+            else{
+                updatedNotationOrder.push(`${count}.`);
+                updatedNotationOrder.push(payload.moveNotation);
+            }
+            prevMoveNotation.push(payload.moveNotation);
+            
+            
+            return { 
+                moveNotation : prevMoveNotation,
+                notationOrder: updatedNotationOrder,
+            };
+        });
     },
 
     setCheckLevel : (payload) => {

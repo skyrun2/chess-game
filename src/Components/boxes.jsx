@@ -69,10 +69,10 @@ const Boxes = () =>{
             }
         }
         else if (Math.floor(i/8)%2) {
-            bgColor = i%2 ? 'bg-[white]' : 'bg-[black]'    
+            bgColor = i%2 ? 'bg-[#EBECD0]' : 'bg-[#739552]'    
         }
         else{
-            bgColor = i%2 ? 'bg-[black]' : 'bg-[white]'    
+            bgColor = i%2 ? 'bg-[#739552]' : 'bg-[#EBECD0]'    
         }
         // console.log(tiles[id]);
         

@@ -1,6 +1,7 @@
 import BoardCard from './Components/BoardCard';
 
 import './App.css';
+import NotationBar from './Components/notationBar';
 
 
 function App() {
@@ -8,9 +9,10 @@ function App() {
 
   return (
     <>
-      <div className=' body w-full h-full relative '>
-        
-          <BoardCard></BoardCard>
+      <div 
+       className=' w-[100%] h-fit flex items-end justify-around '>
+          <BoardCard/>
+          <NotationBar/>
       </div>
     </>
   )
