@@ -2,6 +2,7 @@ import { create } from "zustand";
 import pieceIs from "./pieceIs";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
+
 const defaultSetup = {}
 for (let i = 0; i < 16; i++) {
     if ( i < 8) {
@@ -26,6 +27,10 @@ const useTiles = create((set,get)=>({
     
     possibleMoveTiles: {},
     tiles:{...defaultSetup},
+    tilesHistory:{},
+    isPresentTiles: true,
+    presentTiles: {},
+    currentTiles: {},
 
     setTiles: (payload) => {
         const pieceToMove = payload.pieceToMove;
@@ -44,7 +49,8 @@ const useTiles = create((set,get)=>({
         let newQueenSideRookTile = pSet =='white' ? 'd1' : 'd8';
         let rook = pSet == 'white' ? 'rook' :'b_rook'
 
-        updatedTiles[currentPosition] = undefined;
+        
+        delete updatedTiles[currentPosition];
         updatedTiles[newPosition] = payload.pieceToMove;
             
         if (passant.length){        
@@ -54,7 +60,7 @@ const useTiles = create((set,get)=>({
         }
         if (p == 'king') {
             if(castlingRook){
-                updatedTiles[castlingRook] = undefined;
+                delete updatedTiles[castlingRook];
                 if (castlingRook == castlingKingSideRook) {
                     updatedTiles[newKingSideRookTile] = rook;
                 }
@@ -72,10 +78,51 @@ const useTiles = create((set,get)=>({
             tiles:updatedTiles
         })
     )},
+
     setPossibleMoveTiles: (payload)=>{
         set(()=>({
             possibleMoveTiles: payload
         }))
+    },
+
+    setTilesHistory : (payload) =>{        
+        set(prev=>{
+            let updatedTilesHistory = ''
+            if (payload.moveCount) {
+                
+                let total = payload.notationOrder.length - payload.moveCount;
+                let history = Math.ceil(total/2) +'_'+ (total-1)%2;
+                updatedTilesHistory = { ...prev.tilesHistory};
+                updatedTilesHistory[history] = {...payload.tiles};
+
+                // console.log(updatedTilesHistory);
+            }
+            
+            return{
+                tilesHistory: updatedTilesHistory,
+                presentTiles: {...payload.tiles},
+                currentTiles:{...payload.tiles}
+            }
+
+        })
+    },
+
+    resetTiles: (payload)=>{
+        
+        set(prev=>{
+            
+            let newTiles = {...prev.tilesHistory[payload.id]}
+            console.log({id:payload.id});
+            console.log({newTiles});
+            
+            
+            return{
+                tiles : newTiles,
+                currentTiles : newTiles,
+                isPresentTiles : payload.isPresentTiles,
+            }
+            
+        })
     }
 
 }))

@@ -16,6 +16,7 @@ const useBoardState = create((set,get) => ({
     currentPosition :[],
     currentTile:'',
     hasMoves: false,
+    id:'',
     isCapture: false,
     isCheck:false,
     isCheckMate:false,
@@ -85,6 +86,12 @@ const useBoardState = create((set,get) => ({
         }))
     },
     
+    setId : (payload)=>{
+        set(()=>({
+            id :payload.id,
+            isCapture: payload.isCapture,
+        }))
+    },
 
     setNewPosition:  (payload) => {
         const count = get().turn == 'white' ? get().moveCount +1 : get().moveCount;
@@ -117,9 +124,6 @@ const useBoardState = create((set,get) => ({
             whiteKingPosition: payload.whiteKingPosition,
             blackKingPosition: payload.blackKingPosition,
             moveCount : count,
-            
-
-
             
         }))
     },

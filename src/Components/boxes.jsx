@@ -19,6 +19,7 @@ const Boxes = () =>{
     const pieceToMove =  useBoardState((state)=>state.pieceToMove);
     const tileState = useTiles((state)=>state);
     const tiles = useTiles((state)=>state.tiles);
+    const currentTiles = useTiles((state)=>state.currentTiles);
     const BoxArrangement = ()=>{
         
         
@@ -81,9 +82,11 @@ const Boxes = () =>{
            return( <li key={i}
                 className={`relative w-[100%] aspect-square ${bgColor} list-none `}
                 id={id}>
-                    {tiles[id]?<img src={setSrs(id,tiles)}
-                     id={setId(id,tiles)}
-                     className={`${setClass(id,tiles)} absolute w-[65%] left-[15%]` }/>
+                    {currentTiles[id]
+                    ?
+                        <img src={setSrs(id,currentTiles)}
+                        id={setId(id,currentTiles)}
+                        className={`${setClass(id,currentTiles)} absolute w-[65%] left-[15%]` }/>
                      
                     :null}
                 </li>)
