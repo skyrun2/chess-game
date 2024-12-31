@@ -55,7 +55,8 @@ const useTiles = create((set,get)=>({
             
         if (passant.length){        
             if (passant[0].tile == capture) {
-                updatedTiles[capture] = undefined;
+                
+                delete updatedTiles[capture];
             }
         }
         if (p == 'king') {
@@ -112,7 +113,7 @@ const useTiles = create((set,get)=>({
         set(prev=>{
             
             let newTiles = {...prev.tilesHistory[payload.id]}
-            console.log({id:payload.id});
+            console.log({isPresentTiles:payload.isPresentTiles});
             console.log({newTiles});
             
             

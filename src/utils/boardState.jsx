@@ -73,15 +73,15 @@ const useBoardState = create((set,get) => ({
     setCurrentPosition :  (payload) => {
 
         
+        // console.log(payload);
         
         set((state)=>({
             currentPosition:payload.currentPosition,
             newPosition:'',
-            currentTile: payload.currentTile,
+            currentTile: payload.currentTile, 
             isPieceToMove : payload.isPieceToMove,
             pieceToMove: payload.pieceToMove,
-            pieceToMoveClass : payload.pieceToMoveClass,
-            bears : state.bears+1
+            
 
         }))
     },

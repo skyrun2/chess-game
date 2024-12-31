@@ -14,6 +14,8 @@ function legalMoves(boardState,tileState) {
     // let direction = [];
     let currPiece = boardState.pieceToMove;
     let startTile = boardState.currentPosition;
+    console.log(boardState.pieceToMove);
+    
     let tiles = tileState.tiles;
     let passant = boardState.passant;
     // let checkPieces = boardState.checkPieces;

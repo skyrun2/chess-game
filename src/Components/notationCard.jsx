@@ -33,13 +33,12 @@ const NotationCard = () =>{
         payload.id = id
         payload.count = i+1;
         if (notationOrder.length == payload.count) {
-            payload.isPresentTile = true;
+            payload.isPresentTiles = true;
         }
         else if (notationOrder.length != payload.count) {
-            payload.isPresentTile = false;            
+            payload.isPresentTiles = false;            
         }
-        // console.log({isPresentTile: payload.isPresentTile});
-        // console.log({length:notationOrder.length, count:i+1});
+        
         
         
         resetTiles(payload);

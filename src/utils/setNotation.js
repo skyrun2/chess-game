@@ -4,13 +4,12 @@ import piece from "./piece";
 function setNotation(payload,bs) {
     let symbol 
     let turn = bs.turn ;
-    let p = payload.pieceToMove;
-    let moveCount = bs.moveCount;
-    let currentPosition = payload.currentPosition;
-    let newPosition = payload.newPosition;
+    let p = bs.pieceToMove;
+    let currentPosition = bs.currentPosition;
+    let newPosition = bs.newPosition;
     let notation = '';
     let isCapture = bs.isCapture;
-    let isEnPassant = payload.isEnPassant;
+    let isEnPassant = bs.isEnPassant;
     // let passant  = payload.passant;
 
     

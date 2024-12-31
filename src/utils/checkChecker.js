@@ -19,6 +19,7 @@ function checkChecker (payload,bs,tiles) {
     let targetKing = set == 'white' ? blackKingPosition : whiteKingPosition;
     let checkPieces = {}
     
+    // console.log({whiteKingPosition,blackKingPosition});
     
     const terms = {
         tiles: tiles
@@ -72,6 +73,7 @@ function checkChecker (payload,bs,tiles) {
     
 
     
+    console.log(targetKing);
     
     for (const tile in allMoves) {
         if (allMoves[tile][targetKing]) {
@@ -106,6 +108,7 @@ function checkChecker (payload,bs,tiles) {
             }
         }
     }
+    
     
     
     
