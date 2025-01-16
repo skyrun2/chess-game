@@ -82,51 +82,51 @@ function queenMoveControl(set,terms,bs) {
     });
 
 
-    if (currentPosition == startTile) {
-        if (isCheck) {
-            if (set !== checkingSet) {
-                if (p !== 'king') {
-                    if (checkPiecesPath) {
-                        for (const path in checkPiecesPath) {
-                            if (availableMoves[path]) {
-                                pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
+    // if (currentPosition == startTile) {
+    //     if (isCheck) {
+    //         if (set !== checkingSet) {
+    //             if (p !== 'king') {
+    //                 if (checkPiecesPath) {
+    //                     for (const path in checkPiecesPath) {
+    //                         if (availableMoves[path]) {
+    //                             pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
                                 
-                            }
-                        }
-                        availableMoves = pathBlockers;
-                    }
-                    else availableMoves = {};
-                }
-            }
-        }
-        else if ( isDoubleCheck){
-            if (set !== checkingSet) {
-                availableMoves = {}
-            }
-        }
+    //                         }
+    //                     }
+    //                     availableMoves = pathBlockers;
+    //                 }
+    //                 else availableMoves = {};
+    //             }
+    //         }
+    //     }
+    //     else if ( isDoubleCheck){
+    //         if (set !== checkingSet) {
+    //             availableMoves = {}
+    //         }
+    //     }
         
-        if (!(isCheck && isDoubleCheck)){
+    //     if (!(isCheck && isDoubleCheck)){
                         
                 
-            if (countForMoves[currentPosition]) {
-                for (const capturePiece in countForMoves[currentPosition].pieces) {
-                    if (pieceSet(tiles[capturePiece]) !== set) {
-                        terms.set = set;
-                        if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
+    //         if (countForMoves[currentPosition]) {
+    //             for (const capturePiece in countForMoves[currentPosition].pieces) {
+    //                 if (pieceSet(tiles[capturePiece]) !== set) {
+    //                     terms.set = set;
+    //                     if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
                             
-                            availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
+    //                         availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
                             
-                            // availableMoves = {};
-                        }                    
-                    }
+    //                         // availableMoves = {};
+    //                     }                    
+    //                 }
                     
                     
-                }
-            }
-        }
+    //             }
+    //         }
+    //     }
         
         
-    }
+    // }
     
     return availableMoves;
 }

@@ -21,6 +21,15 @@ import pawn from '../assets/pawn.svg';
 
 
 
+
+
+import left_arrow from '../assets/left_arrow.svg'
+import right_arrow from '../assets/right_arrow.svg'
+import resign from '../assets/resign.svg'
+import settings from '../assets/settings.svg'
+import cancel from '../assets/cancel.svg'
+
+
 const pieceData={
     b_bishop :   b_bishop,
     b_rook :   b_rook,
@@ -42,6 +51,12 @@ const pieceData={
     queen :   queen,
     knight :   knight,
     pawn :   pawn,
+
+    left_arrow :   left_arrow,
+    right_arrow :   right_arrow,
+    resign :   resign,
+    settings :   settings,
+    cancel :   cancel,
 }
 
-export default pieceData
+export default pieceData;

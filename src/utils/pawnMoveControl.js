@@ -71,9 +71,7 @@ function pawnMoveControl(set,terms,passant,bs){
     if (passant.length) {
         
         if(passant[0].tile == left||passant[0].tile == right){
-            console.log(passant[0].tile);
-            console.log(left);
-            console.log(right);
+            
             
             
             if(passant[0].tile == left){
@@ -91,12 +89,12 @@ function pawnMoveControl(set,terms,passant,bs){
     if (currentPosition == startTile) {
         
         
-        console.log(isCheck);
+        
         if (isCheck) {
-            console.log(isCheck);
+            
             
             if (set !== checkingSet) {
-                console.log(availableMoves);
+                
                 
                 if (p !== 'king') {
                     if (checkPiecesPath) {

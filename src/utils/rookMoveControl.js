@@ -71,9 +71,7 @@ function rookMoveControl(set,terms,bs) {
     });
 
     if (currentPosition == startTile) {
-        console.log(checkPieces);
         
-        console.log(isCheck);
         if (isCheck) {
             
             if (set !== checkingSet) {

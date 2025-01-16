@@ -77,7 +77,7 @@ const Boxes = () =>{
         }
         // console.log(tiles[id]);
         
-            // console.log(tiles[id]);
+            
             
            return( <li key={i}
                 className={`relative w-[100%] aspect-square ${bgColor} list-none `}

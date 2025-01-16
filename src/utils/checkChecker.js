@@ -7,14 +7,16 @@ import knightMoveControl from "./knightMoveControl";
 import kingMoveControl from "./kingMoveControl";
 import checkPath from "./checkPath";
 import queenMoveControl from "./queenMoveControl";
+import setMoves from "./setMoves";
 
 function checkChecker (payload,bs,tiles) {
-    
+    let allMoves = payload.allMoves;
     let blackKingPosition = bs.blackKingPosition;
     let whiteKingPosition = bs.whiteKingPosition;
     let passant = bs.passant;
-    let pieceToMove = payload.pieceToMove;
-    let p = ''
+    let pieceToMove = bs.pieceToMove;
+    let currentPosition = bs.currentPosition;
+    let p = '';
     let set = pieceSet(pieceToMove);
     let targetKing = set == 'white' ? blackKingPosition : whiteKingPosition;
     let checkPieces = {}
@@ -24,95 +26,49 @@ function checkChecker (payload,bs,tiles) {
     const terms = {
         tiles: tiles
     }
-    let allMoves = {}
+    // let allMoves = {}
     let countForMoves = {}
-    for (const tile in tiles) {
-        if (tiles[tile]) {
-            p = piece(tiles[tile])
-            terms.x = Number(tile[0].charCodeAt());
-            terms.y = Number(tile[1]);
-            terms.eightPointX =  Number(tile[0].charCodeAt()) - 96;
-            terms.startTile = tile;
-            terms.topRight = Math.min(8-terms.eightPointX,8-terms.y);
-            terms.topLeft = Math.min(terms.eightPointX-1,8-terms.y);
-            terms.bottomLeft = Math.min(terms.eightPointX-1,terms.y-1);
-            terms.bottomRight = Math.min(8-terms.eightPointX,terms.y-1);
-
-            switch (p) {
-                case 'pawn':
-                    allMoves[tile] = pawnMoveControl(pieceSet(tiles[tile]),terms,passant,bs);
-
-                    break;
-                case 'rook':
-                    allMoves[tile] = rookMoveControl(pieceSet(tiles[tile]),terms,bs);
-                    
-                    break;
-                case 'bishop':
-                    allMoves[tile] = bishopMoveControl(set,terms,bs);
-                    
-                    break;
-                case 'knight':                    
-                    allMoves[tile] = knightMoveControl(pieceSet(tiles[tile]),terms,bs);
-                    
-                    break;
-                case 'queen':
-                    allMoves[tile] = queenMoveControl(pieceSet(tiles[tile]),terms,bs);   
-
-                    break;
-                case 'king':
-                    allMoves[tile] = kingMoveControl(pieceSet(tiles[tile]),terms,bs);
-
-                    break;
-            
-                default:
-                    break;
+    let count = 0
+    let updatedCount = 0;
+    let newTile = {};
+    let updatedTile = {};
+    let isCheck = false;
+    let isDoubleCheck = false;
+    
+    
+    for (const tilePiece in allMoves) {
+        
+        for (const tile in allMoves[tilePiece].path) {            
+            if (!countForMoves[tile]) {                
+                countForMoves[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]}};   
             }
-        }
+            else if (countForMoves[tile]) {  
+                updatedCount = countForMoves[tile].count + 1;
+                newTile = {[tilePiece]:tiles[tilePiece]};
+                updatedTile = {...countForMoves[tile].pieces,...newTile}
+                countForMoves[tile] = { count:updatedCount,pieces:updatedTile}                
+            }           
+        }   
+        
+        count += Object.keys(allMoves[tilePiece].path).length;
         
     }
     
-
     
-    console.log(targetKing);
     
-    for (const tile in allMoves) {
-        if (allMoves[tile][targetKing]) {
-            p = piece(tiles[tile])
-            checkPieces[tile] = checkPath(p,tile,targetKing);
+    
+    if (countForMoves[targetKing]) {
+        checkPieces = countForMoves[targetKing].pieces;
+        console.log({kingmoves:countForMoves[targetKing],chckingpice:countForMoves[currentPosition]});
+        
+        
+        isCheck =   Object.keys(countForMoves[targetKing].pieces).length == 1 ? true : false
+        isDoubleCheck =   Object.keys(countForMoves[targetKing].pieces).length > 1 ? true : false
             
-        }
-    }
-
-    let count = 0;
-    let updatedPieces = {}
-    let updatedCount = 0;
-
-
-    for (const checkTile in allMoves) {    
-        // let checkPiece = tiles[checkTile];
-        for (const move in allMoves[checkTile]) {
-            count += 1;
-            if (!countForMoves[move]) {
-                countForMoves[move] = { 
-                    count:1,
-                    pieces:{[checkTile]:checkTile},
-                };
-            }
-            else if(countForMoves[move]){
-                updatedPieces = {...countForMoves[move].pieces, [checkTile]:checkTile}
-                updatedCount = Object.keys(updatedPieces).length;
-                countForMoves[move] = { 
-                    count:updatedCount,
-                    pieces:{...updatedPieces},
-                };
-            }
-        }
     }
     
     
-    
-    
-    if(!Object.keys(checkPieces).length) return {'checkPieces':null,'countForMoves':countForMoves,'totalCount':count};
+    if(!Object.keys(checkPieces).length) return {'checkPieces':null,'countForMoves':countForMoves,'totalCount':count,isCheck,isDoubleCheck};
     
     return {'checkPieces':checkPieces,'countForMoves':countForMoves,'totalCount':count};
     

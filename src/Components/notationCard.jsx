@@ -12,6 +12,8 @@ const NotationCard = () =>{
     const moveCount = useBoardState((state)=> state.moveCount);
     const tilesHistory = useTiles((state)=>state.tilesHistory);
     const resetTiles = useTiles((state)=>state.resetTiles);
+    const currentView = useTiles((state)=>state.currentView);
+    const setCurrentView = useTiles((state)=>state.setCurrentView);
     
     let orderCount = notationOrder.length;
     
@@ -63,7 +65,7 @@ const NotationCard = () =>{
                 <div
                 className=" notation-order grid  h-fit">
                     {
-                        notationOrder.map((e,i,a) =>{
+                        notationOrder.map((e,i) =>{
                             
                             if ((i+1)%3 == 1) {                                             
                                 count = (i+3)/3;
@@ -76,16 +78,14 @@ const NotationCard = () =>{
                             }       
                             total = (i+1) - count;
                             history = count +'_'+ (total+1)%2;
+                                                        
+                            orderCount = i;                                                    
                             
-                            
-
-                            orderCount = i;
-                            
-                            backgroundColor = orderCount%6 > 2 ? '#ffffff05' : '';
-                            buttonBG = orderCount ==  a.length-1 ? '#484745' : '';
-                            buttonBorder = orderCount ==  a.length-1 ? '4px solid #5A5A57' : '';
-                            color = orderCount%3  == 0  ? '#8F9191' : '#ffffffb8';
                             key =  i%3 == 0 ? e : history;
+                            backgroundColor = orderCount%6 > 2 ? '#ffffff05' : '';
+                            buttonBG = key == currentView  ? '#484745' : '';
+                            buttonBorder = key == currentView ? '4px solid #5A5A57' : '';
+                            color = orderCount%3  == 0  ? '#8F9191' : '#ffffffb8';
                             
                             
                             

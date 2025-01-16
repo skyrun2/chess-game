@@ -84,7 +84,7 @@ function safePath (availableMoves,bs,terms) {
                 else if (checkingTileY > kingY && checkingTileX < kingX) direction = 'bottomRight';
                 else if(checkingTileY > kingY && checkingTileX > kingX) direction = 'bottomLeft';
                 else if (checkingTileY < kingY && checkingTileX > kingX) direction = 'topLeft';
-                console.log(direction);
+                
                 
                 if (direction == 'topRight') badTile = String.fromCharCode(kingX+1)+(kingY+1)
                 else if (direction == 'bottomRight') badTile = String.fromCharCode(kingX+1)+(kingY-1)

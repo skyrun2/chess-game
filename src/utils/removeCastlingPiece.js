@@ -13,10 +13,10 @@ function removeCastlingPiece(payload,bs) {
     if (p == 'king' || p == 'rook') {
         console.log(castlingPieces[currentPosition]);
         if (castlingPieces[currentPosition]) {
-            console.log(currentPosition);
+            
             return currentPosition;   
         }
-        return null
+        return null 
     }
     return null;
 

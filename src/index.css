@@ -5,6 +5,9 @@
 body{
     background-color: #302E2B;
 }
+#blur{
+    filter: blur(5px);
+}
 .check{
     background-color: red;
     
@@ -19,13 +22,17 @@ body{
 .notation-order{
     grid-template-columns: 1fr 3fr 4fr;
 }
-/* .move-count{
-    grid-column: 1/5;
+.cancel:hover{
+    fill:red;
+    
 }
-
-.notation{
-    grid-column: 4/5;
-} */
+.cancel{
+    fill:#C8C7C6;
+    /* background-color: #30ff2B; */
+}
+#none{
+    display: none;
+}
 @keyframes check{
     0%   {transform: rotateZ(20deg);}
     25%  {transform: rotateZ(-20deg);}

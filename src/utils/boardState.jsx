@@ -1,7 +1,11 @@
     
 import { create } from "zustand"
+import piece from "./piece";
+
+
 // import isEnPassant from "./isEnPassant"; 
 const useBoardState = create((set,get) => ({
+    allMoves:{},
     bears:0,
     blackKingPosition:'e8',
     capturedPieces : {
@@ -63,13 +67,18 @@ const useBoardState = create((set,get) => ({
         }
         
 
+        
         set(()=>({
             capturedPieces : updatedCapturedPieces,
         }))
         
 
     },
-
+    setAllMoves: (payload) =>{
+        set(()=>({
+            allMoves:payload
+        }))
+    },
     setCurrentPosition :  (payload) => {
 
         
@@ -77,7 +86,7 @@ const useBoardState = create((set,get) => ({
         
         set((state)=>({
             currentPosition:payload.currentPosition,
-            newPosition:'',
+            // newPosition:'',
             currentTile: payload.currentTile, 
             isPieceToMove : payload.isPieceToMove,
             pieceToMove: payload.pieceToMove,
@@ -97,19 +106,8 @@ const useBoardState = create((set,get) => ({
         const count = get().turn == 'white' ? get().moveCount +1 : get().moveCount;
         const newTile = payload.newPosition;
         const currentTile = payload.currentPosition;
-        const castlingPiece = payload.castlingPiece;    
-        const updatedCastlingPieces = {...get().castlingPieces};
-        if (castlingPiece) {
-            updatedCastlingPieces[currentTile] = null;
-        }
-        if (updatedCastlingPieces[newTile]) {
-            updatedCastlingPieces[newTile] = null;
-        }
-
-        let updatedPassant = [...get().passant];
-        if (payload.passant){
-            updatedPassant = [payload.passant,...get().passant];
-        }
+        
+        
         
         
         set((state)=>({
@@ -117,13 +115,9 @@ const useBoardState = create((set,get) => ({
             newBoardPosition: payload.newBoardPosition,
             isPieceToMove : !state.isPieceToMove,
             isCapture : payload.isCapture,
-            passant: updatedPassant,
-            isEnPassant: payload.isEnPassant,
-            castlingPieces:updatedCastlingPieces,
-            castlingRook:payload.castlingRook,
+            moveCount : count,
             whiteKingPosition: payload.whiteKingPosition,
             blackKingPosition: payload.blackKingPosition,
-            moveCount : count,
             
         }))
     },
@@ -143,6 +137,18 @@ const useBoardState = create((set,get) => ({
             
             
             const count = get().moveCount;
+            const newTile = payload.newPosition;
+            const currentTile = payload.currentPosition;
+            const castlingPiece = payload.castlingPiece;    
+            const updatedCastlingPieces = {...get().castlingPieces};
+            if (castlingPiece) {
+                updatedCastlingPieces[currentTile] = null;
+            }
+            if (updatedCastlingPieces[newTile]) {
+                updatedCastlingPieces[newTile] = null;
+            }
+    
+
             let prevMoveNotation  = [...prev.moveNotation];
             let updatedNotationOrder = [...prev.notationOrder];
             if (prevMoveNotation.length%2) {
@@ -155,10 +161,20 @@ const useBoardState = create((set,get) => ({
             }
             prevMoveNotation.push(payload.moveNotation);
             
+            let updatedPassant = [...get().passant];
+            if (payload.passant){
+                updatedPassant = [payload.passant,...get().passant];
+            }
+            
+            
             
             return { 
                 moveNotation : prevMoveNotation,
                 notationOrder: updatedNotationOrder,
+                castlingPieces:updatedCastlingPieces,
+                castlingRook:payload.castlingRook,
+                passant: updatedPassant,
+                isEnPassant: payload.isEnPassant,
             };
         });
     },
@@ -167,17 +183,23 @@ const useBoardState = create((set,get) => ({
         const isCheck = payload.isCheck ? true : false ;
         const isDoubleCheck = payload.isDoubleCheck ? true : false ;
         let checkPiecesPath = {};
+        
+        
+        
 
         
+        
         if (isCheck||isDoubleCheck) {
-
             
             for(let piece in payload.checkPieces) {
-                if (payload.checkPieces[piece].path) {
-                    checkPiecesPath = {...checkPiecesPath, ...payload.checkPieces[piece].path }
+                
+                if (payload.allMoves[piece].path) {
+                    checkPiecesPath = {...checkPiecesPath, ...payload.allMoves[piece].path }
                 }
                 else checkPiecesPath = null;
             }
+            
+            
             set(()=>({
                 checkPieces: payload.checkPieces,
                 checkPiecesPath:checkPiecesPath,

@@ -1,23 +1,20 @@
 
-import bishopMoveControl from "./bishopMoveControl";
-import kingMoveControl from "./kingMoveControl";
-import knightMoveControl from "./knightMoveControl";
-import pawnMoveControl from "./pawnMoveControl";
-import pieceSet from "./pieceSet";
-import queenMoveControl from "./queenMoveControl";
-import rookMoveControl from "./rookMoveControl";
+
 
 
 
 function legalMoves(boardState,tileState) {
-    let availableMoves = {};
+    
     // let direction = [];
-    let currPiece = boardState.pieceToMove;
+    
     let startTile = boardState.currentPosition;
-    console.log(boardState.pieceToMove);
+    let allMoves = boardState.allMoves;
+
     
     let tiles = tileState.tiles;
     let passant = boardState.passant;
+    
+    
     // let checkPieces = boardState.checkPieces;
     let eightPointX =  Number(startTile[0].charCodeAt()) - 96;
     let y = Number(startTile[1])*1;
@@ -44,54 +41,14 @@ function legalMoves(boardState,tileState) {
         return piece[1]=='_' ?  piece.substring(2):piece;    
     }
     
+    return allMoves[startTile]
     
     
     
     
     
-    switch (piece(currPiece)) {
-        case 'pawn':
-            availableMoves = pawnMoveControl(pieceSet(tiles[startTile]),terms,passant,boardState);
-            return availableMoves
-                
-
-
-        case 'rook':
     
-
-                availableMoves = rookMoveControl(pieceSet(tiles[startTile]),terms,boardState);
-        
-
-            
-            return availableMoves;
-            
-        case 'bishop':
-            
-            availableMoves = bishopMoveControl(pieceSet(tiles[startTile]),terms,boardState);
-
-            
-            
-            return availableMoves;
-
-        case 'knight':
-            
-            availableMoves = knightMoveControl(pieceSet(tiles[startTile]),terms,boardState);
-            
-            return availableMoves;
-
-        case 'king':
-            
-                availableMoves = kingMoveControl(pieceSet(tiles[startTile]),terms,boardState);
-            
-            return availableMoves;
-            case 'queen':
-                
-                availableMoves = queenMoveControl(pieceSet(tiles[startTile]),terms,boardState);
-            
-            return availableMoves;
-            default:
-            break;
-    }
+    
 }
 
 
