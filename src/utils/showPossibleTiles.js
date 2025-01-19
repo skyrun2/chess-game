@@ -2,13 +2,19 @@
 function showPossibleMoves(moves) {
 
     
+    
+
+
     if (moves) {
-        for (const move in moves) {
-            if (Object.prototype.hasOwnProperty.call(moves, move)) {
-                document.getElementById(moves[move].tile).style.backgroundColor = moves[move].color;
+        for (const move in moves.path) {
+            
+            
+            
+            document.getElementById(moves.path[move].tile).style.backgroundColor = moves.path[move].color;
+            // if (moves.path[move]) {
                 
                 
-            }
+            // }
         }
     }
     

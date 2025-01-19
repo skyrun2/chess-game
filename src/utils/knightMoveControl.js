@@ -16,6 +16,7 @@ function knightMoveControl(set,terms,bs){
     let isDoubleCheck = bs.isDoubleCheck;
     let pathBlockers = {};
     let pieceToMove = bs.pieceToMove;
+    let pieceToMoveSet = pieceSet(pieceToMove);
     let startTile = terms.startTile
     let tiles = terms.tiles;
     let x = terms.x;
@@ -61,54 +62,60 @@ function knightMoveControl(set,terms,bs){
     });
     
     
-    if (currentPosition == startTile) {
-        if (isCheck) {
-            
-            if (set !== checkingSet) {
-                
-                if (p !== 'king') {
-                    if (checkPiecesPath) {
-                        for (const path in checkPiecesPath) {
-                            if (availableMoves[path]) {
-                                pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
-                                
-                            }
-                        }
-                        availableMoves = pathBlockers;
+    
+    
+    if (isCheck) {
+        
+        
+        if (set !== set) {            
+            if (checkPiecesPath) {                
+                for (const path in checkPiecesPath.path) {             
+                    console.log({path});
+                           
+                    if (availableMoves[path]) {                        
+                        pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
+                        
                     }
-                    else availableMoves = {};
                 }
+                availableMoves = pathBlockers;
+                        
+                
+                
             }
-        }
-        else if ( isDoubleCheck){
-            if (set !== checkingSet) {
-                availableMoves = {};
-            }
+        
         }
         
-        if (!(isCheck && isDoubleCheck)){
+    }
+    else if ( isDoubleCheck){
+        if (set !== checkingSet) {
+            availableMoves = {}
+        }
+    }
+    
+    if (!(isCheck && isDoubleCheck)){
+        
+        
+        
+        
+        
             
-            
-            
-            
-                
-            if (countForMoves[currentPosition]) {
-                for (const capturePiece in countForMoves[currentPosition].pieces) {
-                    if (pieceSet(tiles[capturePiece]) !== set) {
-                        terms.set = set;
-                        
+        if (countForMoves[currentPosition]) {
+            for (const capturePiece in countForMoves[currentPosition].pieces) {
+                if (pieceSet(tiles[capturePiece]) !== set) {
+                    terms.set = set;
+                    
 
-                        
-                        if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
-                            availableMoves = {};
-                        }                    
-                    }
                     
-                    
+                    if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
+                        availableMoves = {};
+                    }                    
                 }
+                
+                
             }
         }
     }
+    
 
     
     return availableMoves;

@@ -1,4 +1,5 @@
 
+import path from "path";
 import isBlockingCheck from "./isBlockingCheck";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
@@ -23,6 +24,7 @@ function queenMoveControl(set,terms,bs) {
     let tiles = terms.tiles;
     let x = terms.x;
     let y = terms.y;
+    let pieceToMoveSet = pieceSet(pieceToMove);
     
     
     
@@ -82,51 +84,59 @@ function queenMoveControl(set,terms,bs) {
     });
 
 
-    // if (currentPosition == startTile) {
-    //     if (isCheck) {
-    //         if (set !== checkingSet) {
-    //             if (p !== 'king') {
-    //                 if (checkPiecesPath) {
-    //                     for (const path in checkPiecesPath) {
-    //                         if (availableMoves[path]) {
-    //                             pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
-                                
-    //                         }
-    //                     }
-    //                     availableMoves = pathBlockers;
-    //                 }
-    //                 else availableMoves = {};
-    //             }
-    //         }
-    //     }
-    //     else if ( isDoubleCheck){
-    //         if (set !== checkingSet) {
-    //             availableMoves = {}
-    //         }
-    //     }
-        
-    //     if (!(isCheck && isDoubleCheck)){
+    
+    if (isCheck) {
+        if (set !== checkingSet) {            
+            if (checkPiecesPath) {                
+                for (const path in checkPiecesPath.path) {                    
+                    if (availableMoves[path]) {                        
+                        pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
                         
+                    }
+                }
+                availableMoves = pathBlockers;
+
                 
-    //         if (countForMoves[currentPosition]) {
-    //             for (const capturePiece in countForMoves[currentPosition].pieces) {
-    //                 if (pieceSet(tiles[capturePiece]) !== set) {
-    //                     terms.set = set;
-    //                     if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
-                            
-    //                         availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
-                            
-    //                         // availableMoves = {};
-    //                     }                    
-    //                 }
-                    
-                    
-    //             }
-    //         }
-    //     }
+            }
+        
+        }
         
         
-    // }
+        
+    }
+    else if ( isDoubleCheck){
+        
+        
+        if (set !== checkingSet) {
+            availableMoves = {}
+        }
+        
+        
+    }
+    
+    if (!(isCheck && isDoubleCheck)){
+                    
+            
+            
+        if (countForMoves[currentPosition]) {
+            for (const capturePiece in countForMoves[currentPosition].pieces) {
+                if (pieceSet(tiles[capturePiece]) !== pieceToMoveSet) {
+                    terms.set = pieceToMoveSet;
+                    if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
+                        
+                        availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
+                        
+                        // availableMoves = {};
+                    }                    
+                }
+                
+                
+            }
+        }
+    }
+    
+        
+    
     
     return availableMoves;
 }

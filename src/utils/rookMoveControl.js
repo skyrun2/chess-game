@@ -17,6 +17,7 @@ function rookMoveControl(set,terms,bs) {
     let isDoubleCheck = bs.isDoubleCheck;
     let pathBlockers = {};
     let pieceToMove = bs.pieceToMove;
+    let pieceToMoveSet = pieceSet(pieceToMove);
     let startTile = terms.startTile;
     let tiles = terms.tiles;
     let x = terms.x;
@@ -70,57 +71,57 @@ function rookMoveControl(set,terms,bs) {
         }
     });
 
-    if (currentPosition == startTile) {
+    
         
-        if (isCheck) {
-            
-            if (set !== checkingSet) {
-                
-                if (p !== 'king') {
-                    if (checkPiecesPath) {
-                        for (const path in checkPiecesPath) {
-                            if (availableMoves[path]) {
-                                pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
-                                
-                            }
-                        }
-                        availableMoves = pathBlockers;
+    
+    if (isCheck) {
+        if (set !== checkingSet) {            
+            if (checkPiecesPath) {                
+                for (const path in checkPiecesPath.path) {                    
+                    if (availableMoves[path]) {                        
+                        pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
+                        
                     }
-                    else availableMoves = {};
                 }
-            }
-        }
-        else if ( isDoubleCheck){
-            if (set !== checkingSet) {
-                availableMoves = {}
-            }
-        }
+                availableMoves = pathBlockers;
 
-        if (!(isCheck && isDoubleCheck)){
-            
-            
                 
-            if (countForMoves[currentPosition]) {
-                for (const capturePiece in countForMoves[currentPosition].pieces) {
-                    if (pieceSet(tiles[capturePiece]) !== set) {
-                        terms.set = set;
-                        if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
-                            
-                            availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
-                            
-                            // availableMoves = {};
-                        }                    
-                    }
-                    
-                    
-                }
             }
+        
         }
-        
-        
-        
         
     }
+    else if ( isDoubleCheck){
+        if (set !== checkingSet) {
+            availableMoves = {}
+        }
+    }
+
+    if (!(isCheck && isDoubleCheck)){
+        
+        
+            
+        if (countForMoves[currentPosition]) {
+            for (const capturePiece in countForMoves[currentPosition].pieces) {
+                if (pieceSet(tiles[capturePiece]) !== set) {
+                    terms.set = set;
+                    if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
+                        
+                        availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
+                        
+                        // availableMoves = {};
+                    }                    
+                }
+                
+                
+            }
+        }
+    }
+    
+        
+        
+        
+    
     // console.log(availableMoves);
     
     return availableMoves;

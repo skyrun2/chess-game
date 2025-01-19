@@ -2,11 +2,13 @@ import pieceSet from "./pieceSet";
 
   
 
-function handleSetCheckLevel(bs,ts,cc) {
+function handleSetCheckLevel(bs,ts,cc,allMoves) {
     const payload = {};
+    
     const tiles = ts.tiles;
     
     let LocalCheckPieces = cc.checkPieces
+    
     
     
     if (LocalCheckPieces) {                
@@ -17,6 +19,9 @@ function handleSetCheckLevel(bs,ts,cc) {
         payload.checkingSet = checkingSet;
         payload.countForMoves = cc.countForMoves;
         payload.totalCount = cc.totalCount;
+        payload.allMoves = cc.newMoves;
+        payload.checkMate = cc.checkMate;
+        
         
         
                 
@@ -24,6 +29,8 @@ function handleSetCheckLevel(bs,ts,cc) {
     else{
         payload.countForMoves = cc.countForMoves;
         payload.totalCount = cc.totalCount;
+        payload.allMoves = allMoves;
+        
         
     }
     

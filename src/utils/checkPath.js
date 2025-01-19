@@ -115,31 +115,56 @@ function checkPath(p,tile,targetKing) {
             break;
         case 'queen':
             path[tile] = tile;
-            if(pieceY < kingY && pieceX < kingX) direction = 'topRight';
+            if(pieceY < kingY && pieceX == kingX) direction = 'top';
+            else if(pieceY < kingY && pieceX < kingX) direction = 'topRight';
+            else if (pieceY == kingY && pieceX < kingX) direction = 'right';
             else if (pieceY > kingY && pieceX <kingX) direction = 'bottomRight';
+            else if(pieceY > kingY && pieceX == kingX) direction = 'bottom';
             else if(pieceY > kingY && pieceX > kingX) direction = 'bottomLeft';
+            else if (pieceY == kingY && pieceX > kingX) direction = 'left';
             else if (pieceY < kingY && pieceX > kingX) direction = 'topLeft';
             
             
             
+            
+            
+            if (direction == 'top') distance = kingY - pieceY;
             if (direction == 'topRight') distance = kingY - pieceY;
+            if (direction == 'right')  distance = kingX - pieceX;
             if (direction == 'bottomRight')  distance = kingX - pieceX;
+            if (direction == 'bottom') distance = pieceY - kingY;
             if (direction == 'bottomLeft') distance = pieceY - kingY;
+            if (direction == 'left') distance = pieceX - kingX;
             if (direction == 'topLeft') distance = pieceX - kingX;
+            console.log({direction,distance});
             
             for (let i = 1; i < distance; i++) {
                 switch (direction) {
+                    case 'top':
+                        currTile = tile[0] + (pieceY+i) ;
+                        path[currTile] = currTile;
+                        break;
+
                     case 'topRight':
                         currTile = String.fromCharCode(pieceX+i) + (pieceY+i) ;
                         path[currTile] = currTile;
+                        break;
+                    
+                    case 'right':
+                        currTile = String.fromCharCode(pieceX+i) + tile[1];
+                        path[currTile] = currTile;
+
                         break;
 
                     case 'bottomRight':
                         currTile = String.fromCharCode(pieceX+i) + (pieceY-i) ;
                         path[currTile] = currTile;
-                        
-                        
+                                            
+                        break;
 
+                    case 'bottom':
+                        currTile = tile[0] + (pieceY-i) ;
+                        path[currTile] = currTile;
                         break;
 
                     case 'bottomLeft':
@@ -147,6 +172,13 @@ function checkPath(p,tile,targetKing) {
                         path[currTile] = currTile;
                         break;
 
+
+                    case 'left':
+                        currTile = String.fromCharCode(pieceX-i) + tile[1];
+                        path[currTile] = currTile;
+
+                        break;
+                        
                     case 'topLeft':
                         currTile = String.fromCharCode(pieceX-i) + (pieceY+i) ;
                         path[currTile] = currTile;

@@ -8,6 +8,9 @@ import kingMoveControl from "./kingMoveControl";
 import checkPath from "./checkPath";
 import queenMoveControl from "./queenMoveControl";
 import setMoves from "./setMoves";
+import handleAllMoves from "./handleAllMoves";
+import cFM from "./countForMoves";
+
 
 function checkChecker (payload,bs,tiles) {
     let allMoves = payload.allMoves;
@@ -16,8 +19,9 @@ function checkChecker (payload,bs,tiles) {
     let passant = bs.passant;
     let pieceToMove = bs.pieceToMove;
     let currentPosition = bs.currentPosition;
-    let p = '';
+    let p = piece(pieceToMove);
     let set = pieceSet(pieceToMove);
+    let oppSet = set == 'white' ? 'black' : 'white';
     let targetKing = set == 'white' ? blackKingPosition : whiteKingPosition;
     let checkPieces = {}
     
@@ -31,46 +35,83 @@ function checkChecker (payload,bs,tiles) {
     let count = 0
     let updatedCount = 0;
     let newTile = {};
+    let newMoves = {}
     let updatedTile = {};
     let isCheck = false;
     let isDoubleCheck = false;
+    let checkMate = false;
     
-    
-    for (const tilePiece in allMoves) {
-        
-        for (const tile in allMoves[tilePiece].path) {            
-            if (!countForMoves[tile]) {                
-                countForMoves[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]}};   
-            }
-            else if (countForMoves[tile]) {  
-                updatedCount = countForMoves[tile].count + 1;
-                newTile = {[tilePiece]:tiles[tilePiece]};
-                updatedTile = {...countForMoves[tile].pieces,...newTile}
-                countForMoves[tile] = { count:updatedCount,pieces:updatedTile}                
-            }           
-        }   
-        
-        count += Object.keys(allMoves[tilePiece].path).length;
-        
-    }
+    payload.allMoves = allMoves;
+    payload.tiles = tiles;
+    countForMoves = cFM(payload).countForMoves;
+    count = cFM(payload).count
     
     
     
     
     if (countForMoves[targetKing]) {
         checkPieces = countForMoves[targetKing].pieces;
-        console.log({kingmoves:countForMoves[targetKing],chckingpice:countForMoves[currentPosition]});
-        
-        
         isCheck =   Object.keys(countForMoves[targetKing].pieces).length == 1 ? true : false
         isDoubleCheck =   Object.keys(countForMoves[targetKing].pieces).length > 1 ? true : false
-            
+        
+        let copyBs  = bs;
+        let copyTs = {};
+        let newCountForMoves = {};
+        let freeCheckPieces = false;
+        let trappedKing = false;
+        let outOfReachPieces  = true;
+        console.log({isCheck,isDoubleCheck});
+        
+        
+        
+        if (isCheck) {
+            copyBs.checkPiecesPath = checkPath(p,currentPosition,targetKing);            
+        }
+        
+        copyTs.tiles = tiles;
+        copyBs.isCheck = isCheck;
+        copyBs.isDoubleCheck = isDoubleCheck;
+        copyBs.checkingSet = set;
+        newMoves = handleAllMoves(copyBs,copyTs); 
+        payload.allMoves = newMoves;
+        payload.tiles = tiles
+        newCountForMoves = cFM(payload);
+        trappedKing  = !!newMoves[targetKing];
+        for (const checkPiece in checkPieces) {
+            if (!newCountForMoves[checkPiece]) freeCheckPieces = true; 
+            if (newCountForMoves[checkPiece]) freeCheckPieces = false; 
+        }
+        for (const piece in newMoves) {
+            if (pieceSet(newMoves[piece].piece)==oppSet) {
+                if (Object.keys(newMoves[piece].path).length) {
+                    console.log(piece);
+                    
+                    outOfReachPieces = false;    
+                }
+                
+                    checkMate = freeCheckPieces&&trappedKing&&newMoves&&outOfReachPieces            
+                
+                console.log({freeCheckPieces,trappedKing,newMoves,outOfReachPieces});
+                console.log({checkMate:checkMate});
+                
+                        
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
+         
+        
     }
     
+    if(isCheck||isDoubleCheck) return {'checkPieces':checkPieces,'countForMoves':countForMoves,'totalCount':count,newMoves,checkMate,isCheck,isDoubleCheck};
     
-    if(!Object.keys(checkPieces).length) return {'checkPieces':null,'countForMoves':countForMoves,'totalCount':count,isCheck,isDoubleCheck};
+    else return {'checkPieces':null,'countForMoves':countForMoves,'totalCount':count,isCheck,isDoubleCheck,checkMate};
     
-    return {'checkPieces':checkPieces,'countForMoves':countForMoves,'totalCount':count};
     
     
     

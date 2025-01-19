@@ -142,7 +142,7 @@ const Board = () =>{
                 // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}
-                    console.log(payload);
+                    
                     
                     setCurrentPosition(payload);
                 // }
@@ -237,23 +237,25 @@ const Board = () =>{
         payload.allMoves = handleAllMoves(boardState,tileState);
         let allMoves = payload.allMoves
         setAllMoves(payload.allMoves);
-        console.log(checkChecker(payload,boardState,tiles));
+        
+        
         
         if (checkChecker(payload,boardState,tiles)){
             let cc = checkChecker(payload,boardState,tiles);
-            payload  = {... handleSetCheckLevel(boardState,tileState,cc),allMoves}
+            payload  = {... handleSetCheckLevel(boardState,tileState,cc,allMoves)}
             setCheckLevel(payload);
         }        
 
     },[moveNotation])
 
     useEffect(()=>{
-    
+        
         if (boardState.isPieceToMove) {
-            if (Object.keys(setMoves(currentPosition,boardState,tileState)).length) {
+            
+            if (Object.keys(allMoves[currentPosition]).length) {                
                 payload.hasMoves = true;
                 setHasMoves(payload);
-                setPossibleMoveTiles(setMoves(currentPosition,boardState,tileState)); 
+                setPossibleMoveTiles(allMoves[currentPosition]); 
             }
             else {
                 payload.hasMoves = false;
@@ -263,27 +265,32 @@ const Board = () =>{
     },[currentPosition])
 
     useEffect(()=>{
+        
+        
         if(boardState.isPieceToMove){   
+            
             showPossibleMoves(possibleMoveTiles);
         }
-    },[possibleMoveTiles])
+    },[tileState])
 
     useEffect(()=>{
         
         
-        if (possibleMoveTiles[newPosition]) {
-            
+        if (possibleMoveTiles.path) {
+            if (possibleMoveTiles.path[newPosition]) {
+                
 
-            payload = {...handleSetTiles(boardState)};
-            setTiles(payload);
-            payload = {...handleSetNotations(boardState,tileState)};
-            setNotations(payload);
-            setTurn();
-        }
-        else{
-            console.log('not allowed');
-            
-        }
+                payload = {...handleSetTiles(boardState)};
+                setTiles(payload);
+                payload = {...handleSetNotations(boardState,tileState)};
+                setNotations(payload);
+                setTurn();
+            }
+            else{
+                console.log('not allowed');
+                
+            }            
+        }    
         
 
     },[newPosition])

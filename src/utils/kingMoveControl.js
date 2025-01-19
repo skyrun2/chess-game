@@ -107,12 +107,12 @@ function kingMoveControl(set,terms,bs) {
         }
     }
         
-    if ( currentPosition == startTile){
-        terms.set = set;
     
-      availableMoves =   {...safePath(availableMoves,bs,terms)};
+    terms.set = set;
+
+    availableMoves =   {...safePath(availableMoves,bs,terms)};
         
-    }
+    
     
     
     return availableMoves;

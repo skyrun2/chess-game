@@ -16,6 +16,7 @@ const useBoardState = create((set,get) => ({
     checkPieces:{},
     checkPiecesPath:{},
     checkingSet:'',
+    checkMate:false,
     countForMoves:{},
     currentPosition :[],
     currentTile:'',
@@ -200,14 +201,19 @@ const useBoardState = create((set,get) => ({
             }
             
             
+            
+            
+            
             set(()=>({
                 checkPieces: payload.checkPieces,
                 checkPiecesPath:checkPiecesPath,
                 checkingSet : payload.checkingSet,
+                checkMate: payload.checkMate,
                 countForMoves: payload.countForMoves,
                 isCheck : isCheck,
                 isDoubleCheck : isDoubleCheck,
                 totalMovesCount: payload.totalCount,
+                allMoves : payload.allMoves
                 
             }))
         }

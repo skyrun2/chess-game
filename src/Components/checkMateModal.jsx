@@ -1,11 +1,23 @@
+import useBoardState from "@/utils/boardState";
 import pieceData from "@/utils/pieceData";
+import { chai } from "globals";
+import { useEffect } from "react";
 
 
 const CheckMateModal = () =>{
+    const checkMate = useBoardState((state)=>state.checkMate);
 
+    // let display = 'open'
+    
+    useEffect(()=>{
+        // if(checkMate) display = 'red';
+        console.log({checkMate});
+        
+    }
+    ,[checkMate])
     return(
         <div 
-        id="none"
+        id={checkMate ? 'open' : 'none'}
         >
             <div
             className=" py-[.5rem] pb-[1rem] w-[13rem] h-[15rem] 

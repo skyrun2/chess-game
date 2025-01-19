@@ -62,8 +62,11 @@ function safePath (availableMoves,bs,terms) {
     
 
     function doNotGoHere(checkPiece,checkingTile) {
-        checkingTileX = checkingTile[0].charCodeAt(0);
-        checkingTileY = Number(checkingTile[1]);
+        console.log({checkingTile});
+        if (checkingTile) {
+            checkingTileX = checkingTile[0].charCodeAt(0);
+            checkingTileY = Number(checkingTile[1]);
+        }
         switch (checkPiece) {
             case 'rook' :
                 if(checkingTileY < kingY && checkingTileX == kingX) direction = 'top';
@@ -90,7 +93,7 @@ function safePath (availableMoves,bs,terms) {
                 else if (direction == 'bottomRight') badTile = String.fromCharCode(kingX+1)+(kingY-1)
                 else if (direction == 'bottomLeft') badTile = String.fromCharCode(kingX-1)+(kingY-1)
                 else if (direction == 'topLeft') badTile = String.fromCharCode(kingX-1)+(kingY+1)
-                    // console.log(badTile);
+                    
                     
                 delete kingPath[badTile];
 
