@@ -136,7 +136,7 @@ function checkPath(p,tile,targetKing) {
             if (direction == 'bottomLeft') distance = pieceY - kingY;
             if (direction == 'left') distance = pieceX - kingX;
             if (direction == 'topLeft') distance = pieceX - kingX;
-            console.log({direction,distance});
+            // console.log({direction,distance});
             
             for (let i = 1; i < distance; i++) {
                 switch (direction) {

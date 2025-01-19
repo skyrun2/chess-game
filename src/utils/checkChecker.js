@@ -60,7 +60,8 @@ function checkChecker (payload,bs,tiles) {
         let freeCheckPieces = false;
         let trappedKing = false;
         let outOfReachPieces  = true;
-        console.log({isCheck,isDoubleCheck});
+        
+        
         
         
         
@@ -74,9 +75,14 @@ function checkChecker (payload,bs,tiles) {
         copyBs.checkingSet = set;
         newMoves = handleAllMoves(copyBs,copyTs); 
         payload.allMoves = newMoves;
-        payload.tiles = tiles
-        newCountForMoves = cFM(payload);
-        trappedKing  = !!newMoves[targetKing];
+        payload.tiles = tiles;
+        
+        
+        newCountForMoves = cFM(payload).countForMoves;
+        
+        
+        trappedKing  = !Object.keys(newMoves[targetKing].path).length
+        
         for (const checkPiece in checkPieces) {
             if (!newCountForMoves[checkPiece]) freeCheckPieces = true; 
             if (newCountForMoves[checkPiece]) freeCheckPieces = false; 
@@ -84,19 +90,21 @@ function checkChecker (payload,bs,tiles) {
         for (const piece in newMoves) {
             if (pieceSet(newMoves[piece].piece)==oppSet) {
                 if (Object.keys(newMoves[piece].path).length) {
-                    console.log(piece);
+                    
                     
                     outOfReachPieces = false;    
                 }
                 
-                    checkMate = freeCheckPieces&&trappedKing&&newMoves&&outOfReachPieces            
                 
-                console.log({freeCheckPieces,trappedKing,newMoves,outOfReachPieces});
-                console.log({checkMate:checkMate});
                 
-                        
+                
             }
         }
+        console.log({newCountForMoves,isDoubleCheck,isCheck});
+        
+        checkMate = freeCheckPieces&&trappedKing&&newMoves&&outOfReachPieces            
+        // console.log({freeCheckPieces,trappedKing,newMoves,outOfReachPieces});
+        // console.log({checkMate:checkMate});
         
         
         

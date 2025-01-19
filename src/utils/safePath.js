@@ -3,8 +3,11 @@ import pieceSet from "./pieceSet";
 
 
 function safePath (availableMoves,bs,terms) {
+    
+    let allMoves = bs.allMoves;
     let badTile = 'o0';
     // let castlingPieces = bs.castlingPieces;
+    let blackKingPosition = bs.blackKingPosition;
     let checkPieceTile1 = '';
     let checkPieceTile2 = '';
     let checkPiece1 = '';
@@ -24,8 +27,14 @@ function safePath (availableMoves,bs,terms) {
     let kingX = terms.x; 
     let kingY = terms.y; 
     // let path = {};
+    let pieceToMove = bs.pieceToMove;
+    let attackingSet = pieceSet(pieceToMove);
     let set  = terms.set;
+    let startTile = terms.startTile;
     let tiles = terms.tiles;
+    let whiteKingPosition = bs.whiteKingPosition;
+
+    let targetKing = attackingSet == 'white' ? blackKingPosition : whiteKingPosition;
     let upLeft = 'o0';
     let upRight = 'o0';
     let upX = 'o';
@@ -38,31 +47,41 @@ function safePath (availableMoves,bs,terms) {
     
     
     
-    // console.log(kingPath);
-    // console.log(availableMoves);
+    
+    
+    
+    
     
     
     if (isCheck) {
-        if (countForMoves[currentPosition]) {
-            checkPieceTile1 = Object.keys(countForMoves[currentPosition].pieces)[0];
-            checkPiece1 = piece(tiles[checkPieceTile1]);
-            doNotGoHere(checkPiece1,checkPieceTile1);
+        if (startTile == targetKing) {                                            
+            if (countForMoves[targetKing]) {
+                checkPieceTile1 = Object.keys(countForMoves[targetKing].pieces)[0];
+                checkPiece1 = piece(tiles[checkPieceTile1]);
+                doNotGoHere(checkPiece1,checkPieceTile1);
+
+                
+            }
         }
     }
-    else if (isCheck||isDoubleCheck) {
-        if (countForMoves[currentPosition]) {
-            checkPieceTile1 = Object.keys(countForMoves[currentPosition].pieces)[0];
-            checkPieceTile2 = Object.keys(countForMoves[currentPosition].pieces)[1];
-            checkPiece1 = piece(tiles[checkPieceTile1]);
-            checkPiece2 = piece(tiles[checkPieceTile2]);
-            doNotGoHere(checkPiece1,checkPieceTile1);
-            doNotGoHere(checkPiece2,checkPieceTile2);
+    else if (isDoubleCheck) {
+        if (startTile == targetKing) {
+            if (countForMoves[targetKing]) {
+                checkPieceTile1 = Object.keys(countForMoves[targetKing].pieces)[0];
+                checkPieceTile2 = Object.keys(countForMoves[targetKing].pieces)[1];
+                checkPiece1 = piece(tiles[checkPieceTile1]);
+                checkPiece2 = piece(tiles[checkPieceTile2]);
+                doNotGoHere(checkPiece1,checkPieceTile1);
+                doNotGoHere(checkPiece2,checkPieceTile2);
+                console.log({checkPieceTile1,checkPieceTile2,ar:countForMoves[targetKing]});
+                
+            }            
         }
     }
     
 
     function doNotGoHere(checkPiece,checkingTile) {
-        console.log({checkingTile});
+        
         if (checkingTile) {
             checkingTileX = checkingTile[0].charCodeAt(0);
             checkingTileY = Number(checkingTile[1]);

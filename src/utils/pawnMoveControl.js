@@ -1,4 +1,5 @@
 
+import blockCheckPath from "./blockCheckPath";
 import isBlockingCheck from "./isBlockingCheck";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
@@ -90,28 +91,18 @@ function pawnMoveControl(set,terms,passant,bs){
     
         
         
-     
-    if (isCheck) {
-        if (set !== checkingSet) {            
-            if (checkPiecesPath) {                
-                for (const path in checkPiecesPath.path) {                    
-                    if (availableMoves[path]) {                        
-                        pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
-                        
-                    }
-                }
-                availableMoves = pathBlockers;
-
-                
-            }
-        
-        }
-        
+    let payload={};
+    payload = {
+        isCheck :isCheck,
+        set : set,
+        checkingSet:checkingSet,
+        checkPiecesPath:checkPiecesPath,
+        availableMoves:availableMoves,
+        isDoubleCheck:isDoubleCheck,
     }
-    else if ( isDoubleCheck){
-        if (set !== checkingSet) {
-            availableMoves = {}
-        }
+    if (isCheck||isDoubleCheck) {
+        availableMoves =  blockCheckPath(payload);
+        
     }
     
     if (!(isCheck && isDoubleCheck)){

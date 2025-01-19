@@ -13,7 +13,8 @@ function isBlockingCheck (capturingTile,bs,terms,availableMoves){
     let tiles  = terms.tiles;
     let set = terms.set;
     let whiteKingPosition = bs.whiteKingPosition;
-
+    
+    
     
     
     let setKing = set == 'white' ? whiteKingPosition : blackKingPosition ;
@@ -186,6 +187,8 @@ function isBlockingCheck (capturingTile,bs,terms,availableMoves){
 
                     case 'topLeft':
                         currTile = String.fromCharCode(capturingTileX-i) + (capturingTileY+i) ;
+
+                        
                         if ( availableMoves[currTile]) {
                             
                             if ( currTile == capturingTile) path[currTile] = {'tile':currTile,color:`red`};

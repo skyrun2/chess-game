@@ -109,8 +109,12 @@ function kingMoveControl(set,terms,bs) {
         
     
     terms.set = set;
-
     availableMoves =   {...safePath(availableMoves,bs,terms)};
+    if (isCheck||isDoubleCheck) {
+        availableMoves =   {...safePath(availableMoves,bs,terms)};
+        // console.log({cfm:bs.countForMoves,am:bs.allMoves,tiles});
+        
+    }
         
     
     

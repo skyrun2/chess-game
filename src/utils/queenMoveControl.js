@@ -3,6 +3,7 @@ import path from "path";
 import isBlockingCheck from "./isBlockingCheck";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
+import blockCheckPath from "./blockCheckPath";
 
 
 
@@ -31,6 +32,7 @@ function queenMoveControl(set,terms,bs) {
     
     let oppSet= set == 'white' ? 'black': 'white';
     let p = piece(pieceToMove);
+    let payload = {};
     const side = {
         top :8-y,
         topRight: terms.topRight,
@@ -84,33 +86,16 @@ function queenMoveControl(set,terms,bs) {
     });
 
 
-    
-    if (isCheck) {
-        if (set !== checkingSet) {            
-            if (checkPiecesPath) {                
-                for (const path in checkPiecesPath.path) {                    
-                    if (availableMoves[path]) {                        
-                        pathBlockers[path] =  {'tile':path,color:`#1211aa99`};
-                        
-                    }
-                }
-                availableMoves = pathBlockers;
-
-                
-            }
-        
-        }
-        
-        
-        
+    payload = {
+        isCheck :isCheck,
+        set : set,
+        checkingSet:checkingSet,
+        checkPiecesPath:checkPiecesPath,
+        availableMoves:availableMoves,
+        isDoubleCheck:isDoubleCheck,
     }
-    else if ( isDoubleCheck){
-        
-        
-        if (set !== checkingSet) {
-            availableMoves = {}
-        }
-        
+    if (isCheck||isDoubleCheck) {
+        availableMoves =  blockCheckPath(payload);
         
     }
     
