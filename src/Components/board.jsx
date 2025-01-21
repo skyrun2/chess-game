@@ -38,6 +38,7 @@ const Board = () =>{
     const boardState = useBoardState((state) => state);
     
     const castlingPieces =  useBoardState((state)=> state.castlingPieces);
+    const checkMate = useBoardState((state)=>state.checkMate);
     const checkPiecesPath =  useBoardState((state)=> state.checkPiecesPath);
     const countForMoves = useBoardState((state)=>state.countForMoves);
     const currentPosition = useBoardState((state) => state.currentPosition);
@@ -139,13 +140,15 @@ const Board = () =>{
 
 
             case !!tiles[id] && isPresentTiles:
-                // if (pieceSet(tiles[id]) == turn){
+                if(!checkMate){
+                    // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}
                     
                     
                     setCurrentPosition(payload);
-                // }
+                    // }
+                }
                 
                 break;
 
@@ -327,7 +330,7 @@ const Board = () =>{
 
     return(
         <div 
-        // id="blur"
+        id={checkMate ? 'blur' : ''}
         className=' relative w-[35rem] aspect-square border border-black grid grid-cols-8    '  onClick={e=>handleOnClick(e)}>
             
             <Boxes/>

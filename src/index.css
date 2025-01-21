@@ -5,6 +5,9 @@
 body{
     background-color: #302E2B;
 }
+button{ 
+    cursor: pointer;
+}
 #blur{
     filter: blur(5px);
 }

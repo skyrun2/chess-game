@@ -74,7 +74,7 @@ function knightMoveControl(set,terms,bs){
         isDoubleCheck:isDoubleCheck,
     }
     if (isCheck||isDoubleCheck) {
-        console.log({cfm:bs.countForMoves,am:bs.allMoves,tiles});
+        
         availableMoves =  blockCheckPath(payload);
         
     }

@@ -21,6 +21,8 @@ function handleSetCheckLevel(bs,ts,cc,allMoves) {
         payload.totalCount = cc.totalCount;
         payload.allMoves = cc.newMoves;
         payload.checkMate = cc.checkMate;
+        payload.allMoves = cc.allMoves;
+        payload.set = cc.set
         
         
         
@@ -30,6 +32,7 @@ function handleSetCheckLevel(bs,ts,cc,allMoves) {
         payload.countForMoves = cc.countForMoves;
         payload.totalCount = cc.totalCount;
         payload.allMoves = allMoves;
+        payload.set = cc.set ;
         
         
     }

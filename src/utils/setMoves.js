@@ -52,7 +52,7 @@ function setMoves(tile,bs,ts) {
             return queenMoveControl(pieceSet(tilePiece),terms,bs);
             
         case 'king':
-            return kingMoveControl(pieceSet(tilePiece),terms,bs);
+            return kingMoveControl(pieceSet(tilePiece),terms,bs,ts);
             
     
         default:

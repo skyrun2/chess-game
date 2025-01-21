@@ -39,7 +39,9 @@ const useBoardState = create((set,get) => ({
     pieceMoveNotation:[],
     totalMovesCount:0,
     turn:'white',
+    winningSet:'',
     whiteKingPosition:'e1',
+
 
 
     castlingPieces:{
@@ -213,7 +215,7 @@ const useBoardState = create((set,get) => ({
                 isCheck : isCheck,
                 isDoubleCheck : isDoubleCheck,
                 totalMovesCount: payload.totalCount,
-                allMoves : payload.allMoves
+                winningSet : payload.set,
                 
             }))
         }
@@ -223,6 +225,9 @@ const useBoardState = create((set,get) => ({
             set(()=>({
                 countForMoves: payload.countForMoves,
                 totalMovesCount: payload.totalCount,
+                allMoves : payload.allMoves,
+                
+
                 
             }))
         }

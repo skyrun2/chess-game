@@ -6,6 +6,7 @@ function showPossibleMoves(moves) {
 
 
     if (moves) {
+        
         for (const move in moves.path) {
             
             

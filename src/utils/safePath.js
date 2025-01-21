@@ -1,13 +1,17 @@
+
+import cFM from "./countForMoves";
+import handleAllMoves from "./handleAllMoves";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
 
 
-function safePath (availableMoves,bs,terms) {
+function safePath (availableMoves,bs,terms,ts) {
     
     let allMoves = bs.allMoves;
     let badTile = 'o0';
     // let castlingPieces = bs.castlingPieces;
     let blackKingPosition = bs.blackKingPosition;
+    let checkPieces = bs.checkPieces;
     let checkPieceTile1 = '';
     let checkPieceTile2 = '';
     let checkPiece1 = '';
@@ -24,6 +28,8 @@ function safePath (availableMoves,bs,terms) {
     let isCheck = bs.isCheck;
     let isDoubleCheck = bs.isDoubleCheck;
     let kingPath = {...availableMoves};
+    
+    
     let kingX = terms.x; 
     let kingY = terms.y; 
     // let path = {};
@@ -33,186 +39,38 @@ function safePath (availableMoves,bs,terms) {
     let startTile = terms.startTile;
     let tiles = terms.tiles;
     let whiteKingPosition = bs.whiteKingPosition;
-
     let targetKing = attackingSet == 'white' ? blackKingPosition : whiteKingPosition;
+
+    let oppSet = set == "white" ? "black" : 'white';
     let upLeft = 'o0';
     let upRight = 'o0';
     let upX = 'o';
     let upY = '0';
-    
+    let payload = {};
     let castlingTileKingSideTile = set == 'white' ?  'g1' : 'g8';
     let castlingTileQueenSideTile = set == 'white' ?  'c1' : 'c8';
     let beforeCastlingTileKingSideTile = set == 'white' ?  'f1' : 'f8';
     let beforeCastlingTileQueenSideTile = set == 'white' ?  'd1' : 'd8';
     
-    
-    
-    
-    
-    
-    
-    
-    
-    if (isCheck) {
-        if (startTile == targetKing) {                                            
-            if (countForMoves[targetKing]) {
-                checkPieceTile1 = Object.keys(countForMoves[targetKing].pieces)[0];
-                checkPiece1 = piece(tiles[checkPieceTile1]);
-                doNotGoHere(checkPiece1,checkPieceTile1);
-
-                
-            }
-        }
-    }
-    else if (isDoubleCheck) {
-        if (startTile == targetKing) {
-            if (countForMoves[targetKing]) {
-                checkPieceTile1 = Object.keys(countForMoves[targetKing].pieces)[0];
-                checkPieceTile2 = Object.keys(countForMoves[targetKing].pieces)[1];
-                checkPiece1 = piece(tiles[checkPieceTile1]);
-                checkPiece2 = piece(tiles[checkPieceTile2]);
-                doNotGoHere(checkPiece1,checkPieceTile1);
-                doNotGoHere(checkPiece2,checkPieceTile2);
-                console.log({checkPieceTile1,checkPieceTile2,ar:countForMoves[targetKing]});
-                
-            }            
-        }
-    }
-    
-
-    function doNotGoHere(checkPiece,checkingTile) {
-        
-        if (checkingTile) {
-            checkingTileX = checkingTile[0].charCodeAt(0);
-            checkingTileY = Number(checkingTile[1]);
-        }
-        switch (checkPiece) {
-            case 'rook' :
-                if(checkingTileY < kingY && checkingTileX == kingX) direction = 'top';
-                else if (checkingTileY == kingY && checkingTileX < kingX) direction = 'right';
-                else if(checkingTileY > kingY && checkingTileX == kingX) direction = 'bottom';
-                else if (checkingTileY == kingY && checkingTileX > kingX) direction = 'left';
-                
-                if (direction == 'top') badTile = String.fromCharCode(kingX)+(kingY+1);
-                else if (direction == 'right') badTile = String.fromCharCode(kingX+1)+kingY;
-                else if (direction == 'bottom') badTile = String.fromCharCode(kingX)+(kingY-1);
-                else if (direction == 'left') badTile = String.fromCharCode(kingX-1)+kingY;
-                delete kingPath[badTile];
-                
-                break;
-                
-            case 'bishop' :
-                if(checkingTileY < kingY && checkingTileX < kingX) direction = 'topRight';
-                else if (checkingTileY > kingY && checkingTileX < kingX) direction = 'bottomRight';
-                else if(checkingTileY > kingY && checkingTileX > kingX) direction = 'bottomLeft';
-                else if (checkingTileY < kingY && checkingTileX > kingX) direction = 'topLeft';
-                
-                
-                if (direction == 'topRight') badTile = String.fromCharCode(kingX+1)+(kingY+1)
-                else if (direction == 'bottomRight') badTile = String.fromCharCode(kingX+1)+(kingY-1)
-                else if (direction == 'bottomLeft') badTile = String.fromCharCode(kingX-1)+(kingY-1)
-                else if (direction == 'topLeft') badTile = String.fromCharCode(kingX-1)+(kingY+1)
-                    
-                    
-                delete kingPath[badTile];
-
-                break;
-                case 'queen': 
-                if(checkingTileY < kingY && checkingTileX == kingX) direction = 'top';
-                else if(checkingTileY < kingY && checkingTileX < kingX) direction = 'topRight';
-                else if (checkingTileY == kingY && checkingTileX < kingX) direction = 'right';
-                else if (checkingTileY > kingY && checkingTileX < kingX) direction = 'bottomRight';
-                else if(checkingTileY > kingY && checkingTileX == kingX) direction = 'bottom';
-                else if(checkingTileY > kingY && checkingTileX > kingX) direction = 'bottomLeft';
-                else if (checkingTileY == kingY && checkingTileX > kingX) direction = 'left';
-                else if (checkingTileY < kingY && checkingTileX > kingX) direction = 'topLeft';
-
-                if (direction == 'top') badTile = String.fromCharCode(kingX)+(kingY+1);
-                else if (direction == 'topRight') badTile = String.fromCharCode(kingX+1)+(kingY+1)
-                else if (direction == 'right') badTile = String.fromCharCode(kingX+1)+kingY;
-                else if (direction == 'bottomRight') badTile = String.fromCharCode(kingX+1)+(kingY-1)
-                else if (direction == 'bottom') badTile = String.fromCharCode(kingX)+(kingY-1);
-                else if (direction == 'bottomLeft') badTile = String.fromCharCode(kingX-1)+(kingY-1)
-                else if (direction == 'left') badTile = String.fromCharCode(kingX-1)+kingY;
-                else if (direction == 'topLeft') badTile = String.fromCharCode(kingX-1)+(kingY+1)
-
-                delete kingPath[badTile];
-                    break;
-
-            default:
-                break;
-        }
-    }
-    function removeCastlingTile(move) {
-        if (move == beforeCastlingTileKingSideTile) {
-            delete kingPath[castlingTileKingSideTile];
+    // console.log({availableMoves,startTile,allMoves});
+    if(availableMoves){
+        for (const move in availableMoves.path) {
             
+            dangerPath(move);
         }
-        if (move == beforeCastlingTileQueenSideTile) {
-            delete kingPath[castlingTileQueenSideTile];
+
+    }
+    // console.log({startTile,kingPath});
+    
+    function dangerPath(move) {
+        for (const piece in countForMoves[move].pieces) {
+            
+            if (pieceSet(countForMoves[move].pieces[piece]) == oppSet) delete kingPath.path[move];
             
         }
     }
-    if (availableMoves) {
-        // console.log(countForMoves);
-        
-        for (const move in availableMoves) {
-
-            if (set == 'white') {
-                
-                upX = move[0].charCodeAt(0);
-                upY = Number(move[1]);
-                upLeft = String.fromCharCode(upX-1) + (upY+1);
-                upRight =  String.fromCharCode(upX+1) + (upY+1);
-                if (piece(tiles[upLeft]) == 'pawn' && pieceSet(tiles[upLeft]) == 'black') {
-                    removeCastlingTile(move);
-                    
-                    delete kingPath[move];
-                }
-                else if (piece(tiles[upRight]) == 'pawn' && pieceSet(tiles[upRight]) == 'black'){
-
-                    removeCastlingTile(move);
-                    delete kingPath[move];                    
-                }
-            }
-            else if( set == 'black'){
-                downX = move[0].charCodeAt(0);
-                downY = Number(move[1]);
-                downLeft = String.fromCharCode(downX-1) + (downY-1);
-                downRight =  String.fromCharCode(downX+1 ) + (downY-1);
-                if (piece(tiles[downLeft]) == 'pawn' && pieceSet(tiles[downLeft]) == 'white') {
-                    removeCastlingTile(move);
-                    delete kingPath[move];
-                }
-                else if (piece(tiles[downRight]) == 'pawn' && pieceSet(tiles[downRight]) == 'white'){
-                    removeCastlingTile(move);
-                    delete kingPath[move];                    
-                }
-            }
-            
-            
-            if (countForMoves[move]){
-                
-                for (const targetingPiece in countForMoves[move].pieces) {
-                    if (pieceSet(tiles[targetingPiece]) !== set) {
-                        if (piece((tiles[targetingPiece])) !== 'pawn') {
-                            removeCastlingTile(move);
-                            
-                            delete kingPath[move];
-                        }
-                        
-                        // console.log(move);
-                        
-                        
-                        
-                        break;
-                    }
-                    
-                }        
-            }
-        }
-    }
-    // console.log(kingPath);
+    
+    
     
     return kingPath
     

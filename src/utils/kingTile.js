@@ -11,12 +11,12 @@ function kingTile(payload,bs,s) {
     let whiteKing = bs.whiteKingPosition;
     if (p == 'king') {
         if (set == 'white' && s == 'w') {
-            console.log('white');
+
             
             return newPosition
         }
         if (set == 'black' && s == 'b') {
-            console.log('black');
+            
             
             return newPosition
         }

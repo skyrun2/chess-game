@@ -1,23 +1,16 @@
 import useBoardState from "@/utils/boardState";
 import pieceData from "@/utils/pieceData";
-import { chai } from "globals";
 import { useEffect } from "react";
 
 
 const CheckMateModal = () =>{
     const checkMate = useBoardState((state)=>state.checkMate);
-
-    // let display = 'open'
+    const winningSet = useBoardState((state)=>state.winningSet);
     
-    useEffect(()=>{
-        // if(checkMate) display = 'red';
-        console.log({checkMate});
-        
-    }
-    ,[checkMate])
     return(
         <div 
         id={checkMate ? 'open' : 'none'}
+        // id={'none'}
         >
             <div
             className=" py-[.5rem] pb-[1rem] w-[13rem] h-[15rem] 
@@ -52,26 +45,28 @@ const CheckMateModal = () =>{
              >
                 <p
                 className="text-[1.3rem] "
-                >Black Won</p>
+                >{winningSet == 'white' ? 'White Won' : 'Black Won'}</p>
                 <p
                 className="text-[.8rem] "
                 >by checkmate</p>
             </div>
-            <div>
-                <img src={pieceData.b_pawn} alt="" />                
+            <div> 
+                <img src={winningSet == 'white' ? pieceData.pawn : pieceData.b_pawn} alt="" />                
             </div>
 
             <div
             className="w-[70%] grid grid-cols-1 gap-[.8rem]">
                 <button
-                className=" py-[.3rem] w-[100%] bg-[#81B64C]  text-[#fff] rounded border-[#45753C] border-b-[.3rem]  font-bold "
+                className=" py-[.3rem] w-[100%] relative
+                            bg-[#81B64C]  text-[#fff] rounded border-[#45753C] border-b-[.3rem]
+                            font-bold  z-40"
                 >
                     <p>Rematch</p>
                 </button>
                 <button
                 className=" py-[.3rem] w-[100%] bg-[#81B64C]  text-[#fff] rounded border-[#45753C] border-b-[.3rem]  font-bold "
                 >
-                    <p>Quit</p>
+                    <p>Review</p>
                 </button>
             </div>
             

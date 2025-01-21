@@ -1,3 +1,4 @@
+import pieceSet from "./pieceSet";
 
 function countForMoves(payload) {
     let allMoves = payload.allMoves;
@@ -12,13 +13,15 @@ function countForMoves(payload) {
     let count = 0
     let updatedCount = 0;
     let newTile = {};
-    
+    let blackSet = false;
+    let whiteSet = false;
     let updatedTile = {};
     
     
     
     for (const tilePiece in allMoves) {
-        
+        if (pieceSet[tilePiece] == 'white') whiteSet = true;
+        if (pieceSet[tilePiece] == 'black') blackSet = true;
         for (const tile in allMoves[tilePiece].path) {            
             if (!cFM[tile]) {                
                 cFM[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]}};   
@@ -31,10 +34,11 @@ function countForMoves(payload) {
             }           
         }   
         
+        
         count += Object.keys(allMoves[tilePiece].path).length;
         
     }
-    return {countForMoves:cFM,count};
+    return {countForMoves:cFM,count,blackSet,whiteSet};
 }
 
 export default countForMoves

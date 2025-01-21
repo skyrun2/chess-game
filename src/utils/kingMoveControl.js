@@ -2,7 +2,7 @@ import pieceSet from "./pieceSet";
 import safePath from "./safePath";
 
 
-function kingMoveControl(set,terms,bs) {
+function kingMoveControl(set,terms,bs,ts) {
     let availableMoves = {};
     let castlingPieces = bs.castlingPieces;  
     let canKingSideCastle = true;
@@ -107,17 +107,6 @@ function kingMoveControl(set,terms,bs) {
         }
     }
         
-    
-    terms.set = set;
-    availableMoves =   {...safePath(availableMoves,bs,terms)};
-    if (isCheck||isDoubleCheck) {
-        availableMoves =   {...safePath(availableMoves,bs,terms)};
-        // console.log({cfm:bs.countForMoves,am:bs.allMoves,tiles});
-        
-    }
-        
-    
-    
     
     return availableMoves;
 }
