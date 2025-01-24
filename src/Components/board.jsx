@@ -60,6 +60,7 @@ const Board = () =>{
     const passant =  useBoardState((state)=> state.passant);
     // const pieceToMoveClass = useBoardState((state)=> state.pieceToMoveClass);
     const possibleMoveTiles = useTiles((state)=>state.possibleMoveTiles);
+    const reviewMode = useBoardState((state)=>state.reviewMode);
     const setAllMoves =  useBoardState((state)=> state.setAllMoves);
     const setCheckLevel =  useBoardState((state)=> state.setCheckLevel);
     const setCurrentPosition = useBoardState((state) => state.setCurrentPosition);
@@ -140,7 +141,7 @@ const Board = () =>{
 
 
             case !!tiles[id] && isPresentTiles:
-                if(!checkMate){
+                if(!checkMate && !reviewMode){
                     // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}

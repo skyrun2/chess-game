@@ -20,6 +20,7 @@ const useBoardState = create((set,get) => ({
     countForMoves:{},
     currentPosition :[],
     currentTile:'',
+    gameEnd: false,
     hasMoves: false,
     id:'',
     isCapture: false,
@@ -37,6 +38,7 @@ const useBoardState = create((set,get) => ({
     pieceToMove:'',
     pieceToMoveClass:'w',
     pieceMoveNotation:[],
+    reviewMode:false,
     totalMovesCount:0,
     turn:'white',
     winningSet:'',
@@ -76,6 +78,60 @@ const useBoardState = create((set,get) => ({
         }))
         
 
+    },
+    resetAll:() =>{
+        set(prev =>{
+            let newPrev = {};
+            
+
+            console.log({newPrev});
+            
+            
+
+            return {
+                allMoves:{},
+                blackKingPosition:'e8',
+                castlingPieces : {
+                e1:{tile:'e1',piece:'king',set:'wite'},
+                e8:{tile:'e8',piece:'king',set:'black'},
+                a1:{tile:'a1',piece:'rook',set:'white'},
+                a8:{tile:'a8',piece:'rook',set:'black'},
+                h1:{tile:'h1',piece:'rook',set:'white'},
+                h8:{tile:'h8',piece:'rook',set:'black'},                
+                },
+                castlingRook :'',
+                checkPieces:{},
+                checkPiecesPath:{},
+                checkingSet:'',
+                checkMate:false,
+                countForMoves:{},
+                currentPosition : '',
+                hasMoves: false,
+                id:'',
+                isCapture: false,
+                isCheck:false,
+                isCheckMate:false,
+                isDoubleCheck:false,
+                isEnPassant:false,
+                isPieceToMove:false,
+                newPosition : '',
+                moveCount : 0,
+                moveNotation : [],
+                notationOrder : [],
+                passant  : [],
+                reviewMode:false,
+                turn : 'white',
+                whiteKingPosition :'e1',
+
+            }
+
+        })
+    },
+    setReviewMode: (payload) =>{
+        set(()=>({
+            reviewMode : true,
+            checkMate:false,
+        }))
     },
     setAllMoves: (payload) =>{
         set(()=>({
@@ -219,7 +275,7 @@ const useBoardState = create((set,get) => ({
                 
             }))
         }
-        else{
+        else{ 
 
             
             set(()=>({

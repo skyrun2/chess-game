@@ -129,6 +129,23 @@ const useTiles = create((set,get)=>({
             }
             
         })
+    },
+    resetTilesState: (payload)=>{
+        
+        set(prev=>{
+            
+            return{
+                possibleMoveTiles: {},
+                tiles:{...defaultSetup()},
+                tilesHistory:{}, 
+                isPresentTiles: true,
+                presentTiles: {},
+                presentView:'',
+                currentTiles: {},
+                currentView: '',
+            }
+            
+        })
     }
 
 }))

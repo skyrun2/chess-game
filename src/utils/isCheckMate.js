@@ -23,8 +23,7 @@ function isCheckMate(targetKing,bs,tiles) {
     for (const move in allMoves) {
         if (pieceSet(allMoves[move].piece)==targetKingSet) {
             if (Object.keys(allMoves[move].path).length) {
-                console.log({[move]:allMoves[move].piece,targetKingSet});
-                console.log({[move]:allMoves[move].path,targetKingSet});
+                
                 
                 piecesOutOfReach = false;
                 // break
@@ -33,7 +32,7 @@ function isCheckMate(targetKing,bs,tiles) {
     }
     
     
-    console.log({piecesOutOfReach,freeAttackingPieces});
+    
     
     return !!(piecesOutOfReach&&freeAttackingPieces);
     

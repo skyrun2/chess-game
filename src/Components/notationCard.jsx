@@ -17,7 +17,8 @@ const NotationCard = () =>{
     
     let orderCount = notationOrder.length;
     
-
+    console.log({notationOrder});
+    
     let backgroundColor = '';
     let buttonBG = '';
     let buttonBorder = '';
@@ -60,11 +61,13 @@ const NotationCard = () =>{
 
         <div
         className=" notation-card h-[80%] pt-[4.rem]  bg-[#262522] overflow-y-scroll">
-            {
+            {                    
                 moveCount ? 
                 <div
                 className=" notation-order grid  h-fit">
                     {
+                        
+                        
                         notationOrder.map((e,i) =>{
                             
                             if ((i+1)%3 == 1) {                                             
