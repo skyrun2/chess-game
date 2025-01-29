@@ -11,10 +11,14 @@ const NotationControlBar = () =>{
     const resetTiles = useTiles((state)=>state.resetTiles);
     const currentView = useTiles((state)=>state.currentView);
     const presentView = useTiles((state)=>state.presentView);
+    const reviewMode = useBoardState((state)=>state.reviewMode);
+    const turn = useBoardState((state)=> state.turn);
+    const setResign = useBoardState((state)=>state.setResign);
 
     let [leftDisabled,setLeftDisabled] =  useState(false);
     let [rightDisabled,setRightDisabled] =  useState(false);
-
+    
+    
     
     let payload = {};
     useEffect(()=>{
@@ -32,6 +36,7 @@ const NotationControlBar = () =>{
 
     },[currentView])
     
+    console.log({reviewMode});
     
     
     function handleOnClick(e) {
@@ -39,26 +44,29 @@ const NotationControlBar = () =>{
         let main = Number(currentView[0]);
         let mini = Number(currentView[2]);
         let newTile;
-
-        if (id == 'left') newTile = mini == 1 ?  main+'_'+(mini-1) : (main-1)+'_'+(mini+1);
-        if (id == 'right') {
-            
-            newTile = mini == 1 ?  (main+1)+'_'+(mini-1) : (main)+'_'+(mini+1);
-            payload.isPresentTiles = !!(newTile == presentView)
- 
+        if (id == 'left' || id == 'right') {
+            if (id == 'left') newTile = mini == 1 ?  main+'_'+(mini-1) : (main-1)+'_'+(mini+1);
+            if (id == 'right') {            
+                newTile = mini == 1 ?  (main+1)+'_'+(mini-1) : (main)+'_'+(mini+1);
+                payload.isPresentTiles = !!(newTile == presentView)
+            }        
+            payload.id = newTile;
+            resetTiles(payload);                    
         }
-        
-        payload.id = newTile;
-        resetTiles(payload);
-        // console.log({leftDisabled,rightDisabled});
-        
-       console.log({currentView,presentView,newTile});
-        console.log({newView:currentView[2]});
-        
-        
-        
+        else if (id == 'resign/end'){
+            if (reviewMode) {
+                
+                console.log({reviewMode});
+                
+                
+            }
+            else if ( !reviewMode){
+                setResign();
+            }
+        }
     }
-
+    
+    
     return(
         <div
         className="w-full h-[30%] grid grid-cols-1 place-items-center"
@@ -67,7 +75,7 @@ const NotationControlBar = () =>{
             className=" w-fit h-[80%] grid grid-cols-3 place-items-center gap-[.3rem]"
             >
                 <button
-                    id='resign'    
+                    id='resign/end'    
                     className="w-[100%]  py-[.4rem] px-[1rem]    bg-[#383734] grid place-items-center rounded-[.2rem]" 
                     onClick={(e)=>handleOnClick(e)}
                     >
@@ -75,7 +83,7 @@ const NotationControlBar = () =>{
                         className="w-[2rem] h-[100%]">
                             <img
                             className="w-[100%] h-[100%]"
-                            src={pieceData.resign} alt=""  />
+                            src={reviewMode? pieceData.end : pieceData.resign} alt=""  />
                         </div>
                 </button>
                 <button

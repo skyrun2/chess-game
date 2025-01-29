@@ -1,7 +1,7 @@
 import useBoardState from "@/utils/boardState";
 import pieceData from "@/utils/pieceData";
 import useTiles from "@/utils/useTiles";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 const CheckMateModal = () =>{
@@ -9,26 +9,30 @@ const CheckMateModal = () =>{
     const winningSet = useBoardState((state)=>state.winningSet);
     const resetAll = useBoardState((state)=>state.resetAll);
     const resetTilesState = useTiles((state)=>state.resetTilesState);
-    
+    const setReviewMode = useBoardState((state)=>state.setReviewMode);
+    const [localReview,setLocalReview] = useState(false);
     function handleOnclick(e) {
         let id = e.currentTarget.id
         switch (id) {
             case 'new_match':
-                console.log(id);
                 
                 resetAll();
                 resetTilesState();
                 break;
-        
+            case 'review':
+                setLocalReview(true)
+                setReviewMode();
+                break;
             default:
                 break;
         } 
         
     }
+
     return(
         <div 
-        id={checkMate ? 'open' : 'none'}
-        // id={''}
+        id={(checkMate && !localReview) ? 'open' : 'none'}
+        // id={'none'}
         >
             
             <div 
@@ -62,6 +66,8 @@ const CheckMateModal = () =>{
                     <p>New Match</p>
                 </button>
                 <button
+                id = 'review'
+                onClick={e=>handleOnclick(e)}
                 className=" py-[.3rem] w-[100%] bg-[#81B64C]  text-[#fff] rounded border-[#45753C] border-b-[.3rem]  font-bold "
                 >
                     <p>Review</p>

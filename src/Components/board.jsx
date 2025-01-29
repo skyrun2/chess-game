@@ -118,7 +118,7 @@ const Board = () =>{
                 setCurrentPosition(payload);
 
                 break;
-
+ 
             case isPieceToMove && !id:
                 console.log('moved to empty tile');
 
@@ -141,12 +141,10 @@ const Board = () =>{
 
 
             case !!tiles[id] && isPresentTiles:
-                if(!checkMate && !reviewMode){
+                if(!checkMate){
                     // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
-                    payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}
-                    
-                    
+                    payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}                    
                     setCurrentPosition(payload);
                     // }
                 }
@@ -331,7 +329,7 @@ const Board = () =>{
 
     return(
         <div 
-        id={checkMate ? 'blur' : ''}
+        id={(checkMate && !reviewMode) ? 'blur' : ''}
         className=' relative w-[35rem] aspect-square border border-black grid grid-cols-8    '  onClick={e=>handleOnClick(e)}>
             
             <Boxes/>

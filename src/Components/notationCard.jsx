@@ -17,7 +17,7 @@ const NotationCard = () =>{
     
     let orderCount = notationOrder.length;
     
-    console.log({notationOrder});
+    
     
     let backgroundColor = '';
     let buttonBG = '';
@@ -42,16 +42,7 @@ const NotationCard = () =>{
             payload.isPresentTiles = false;            
         }
         
-        
-        
         resetTiles(payload);
-        
-
-        
-
-        
-        
-        
         
     }
 

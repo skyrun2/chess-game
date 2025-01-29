@@ -28,6 +28,7 @@ import right_arrow from '../assets/right_arrow.svg'
 import resign from '../assets/resign.svg'
 import settings from '../assets/settings.svg'
 import cancel from '../assets/cancel.svg'
+import end from '../assets/end.svg'
 
 
 const pieceData={
@@ -57,6 +58,7 @@ const pieceData={
     resign :   resign,
     settings :   settings,
     cancel :   cancel,
+    end :   end,
 }
 
 export default pieceData;

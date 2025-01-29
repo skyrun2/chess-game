@@ -39,6 +39,7 @@ const useBoardState = create((set,get) => ({
     pieceToMoveClass:'w',
     pieceMoveNotation:[],
     reviewMode:false,
+    resigned: false,
     totalMovesCount:0,
     turn:'white',
     winningSet:'',
@@ -127,10 +128,17 @@ const useBoardState = create((set,get) => ({
 
         })
     },
-    setReviewMode: (payload) =>{
+    setResign: () =>{
+        
         set(()=>({
-            reviewMode : true,
-            checkMate:false,
+           resigned: true,
+           checkMate:true,
+
+        }))
+    },
+    setReviewMode: () =>{
+        set(()=>({
+            reviewMode:true
         }))
     },
     setAllMoves: (payload) =>{
