@@ -1,6 +1,8 @@
+import Blackout from "./blackout";
 import Board from "./board";
 import CheckMateModal from "./checkMateModal";
 import PlayerCard from "./playerCard";
+import ResignModal from "./resignModal";
 
 const BoardCard = () =>{
     
@@ -11,6 +13,8 @@ const BoardCard = () =>{
            <Board></Board> 
            <PlayerCard player={'player1'}/>
            <CheckMateModal/>
+           <ResignModal/>
+           
            </div>
     )
 }

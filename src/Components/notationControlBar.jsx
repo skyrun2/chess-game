@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 
 
+
 const NotationControlBar = () =>{
 
     const resetTiles = useTiles((state)=>state.resetTiles);
@@ -13,8 +14,10 @@ const NotationControlBar = () =>{
     const presentView = useTiles((state)=>state.presentView);
     const reviewMode = useBoardState((state)=>state.reviewMode);
     const turn = useBoardState((state)=> state.turn);
-    const setResign = useBoardState((state)=>state.setResign);
-
+    const resetAll = useBoardState((state)=>state.resetAll);
+    const resetTilesState = useTiles((state)=>state.resetTilesState);
+    const resignModal = useBoardState((state)=>state.resignModal);
+    const openResignModal = useBoardState((state)=>state.openResignModal);
     let [leftDisabled,setLeftDisabled] =  useState(false);
     let [rightDisabled,setRightDisabled] =  useState(false);
     
@@ -36,7 +39,7 @@ const NotationControlBar = () =>{
 
     },[currentView])
     
-    console.log({reviewMode});
+
     
     
     function handleOnClick(e) {
@@ -55,13 +58,11 @@ const NotationControlBar = () =>{
         }
         else if (id == 'resign/end'){
             if (reviewMode) {
-                
-                console.log({reviewMode});
-                
-                
+                resetAll();
+                resetTilesState();   
             }
-            else if ( !reviewMode){
-                setResign();
+            else if (!reviewMode){
+                openResignModal();
             }
         }
     }
@@ -72,7 +73,7 @@ const NotationControlBar = () =>{
         className="w-full h-[30%] grid grid-cols-1 place-items-center"
         >
             <div
-            className=" w-fit h-[80%] grid grid-cols-3 place-items-center gap-[.3rem]"
+            className=" relative w-fit h-[80%] grid grid-cols-3 place-items-center gap-[.3rem]"
             >
                 <button
                     id='resign/end'    
@@ -113,8 +114,7 @@ const NotationControlBar = () =>{
                             className="w-[100%] h-[100%]"
                             src={pieceData.right_arrow} alt=""  />
                         </div>
-                </button>
-
+                </button>                
             </div>
         </div>
     )

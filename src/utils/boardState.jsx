@@ -40,9 +40,11 @@ const useBoardState = create((set,get) => ({
     pieceMoveNotation:[],
     reviewMode:false,
     resigned: false,
+    resignModal: false,
     totalMovesCount:0,
     turn:'white',
     winningSet:'',
+    winningCondition: '',
     whiteKingPosition:'e1',
 
 
@@ -79,6 +81,20 @@ const useBoardState = create((set,get) => ({
         }))
         
 
+    },
+    closeResignModal: ()=>{
+        set(prev=>{
+            return{ 
+                resignModal:false,
+            }
+        })
+    },
+    openResignModal: ()=>{
+        set(prev=>{
+            return{ 
+                resignModal:true,
+            }
+        })
     },
     resetAll:() =>{
         set(prev =>{
@@ -123,6 +139,7 @@ const useBoardState = create((set,get) => ({
                 reviewMode:false,
                 turn : 'white',
                 whiteKingPosition :'e1',
+                
 
             }
 
@@ -133,7 +150,7 @@ const useBoardState = create((set,get) => ({
         set(()=>({
            resigned: true,
            checkMate:true,
-
+           winningCondition: 'resign'
         }))
     },
     setReviewMode: () =>{
