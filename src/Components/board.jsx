@@ -4,7 +4,7 @@ import BottomLetter from "./bottomLetter";
 import Boxes from "./boxes";
 import LeftNum from "./leftNums";
 import useBoardState from "../utils/boardState";
-import legalMoves from "../utils/legalMoves";
+
 import useTiles from "../utils/useTiles";
 
 import showPossibleMoves from "../utils/showPossibleTiles";
@@ -20,13 +20,11 @@ import handleSetTileHistory from "@/utils/handleSetTileHistory";
 import handleSetCheckLevel from "@/utils/handleSetCheckLevel";
 import handleSetNotations from "@/utils/handleSetNotations";
 import handleSetTiles from "@/utils/handleSetTiles";
-import castlingPiece from "@/utils/castlingPiece";
-import enPassantOpen from "@/utils/enPassantOpen";
 
-import CheckMateModal from "./checkMateModal";
-import allMoves from "@/utils/handleAllMoves";
+
+
 import handleAllMoves from "@/utils/handleAllMoves";
-import setMoves from "@/utils/setMoves";
+
 
 
 
@@ -36,28 +34,21 @@ const Board = () =>{
     const allMoves = useBoardState((state)=> state.allMoves);
     const blackKingPosition = useBoardState((state)=> state.blackKingPosition);
     const boardState = useBoardState((state) => state);
-    
-    const castlingPieces =  useBoardState((state)=> state.castlingPieces);
-    const checkMate = useBoardState((state)=>state.checkMate);
+        const checkMate = useBoardState((state)=>state.checkMate);
     const checkPiecesPath =  useBoardState((state)=> state.checkPiecesPath);
     const countForMoves = useBoardState((state)=>state.countForMoves);
-    const currentPosition = useBoardState((state) => state.currentPosition);
-    const currentTiles = useTiles((state) => state.currentTiles);
-    const currentView = useTiles((state) => state.currentView);
+    const currentPosition = useBoardState((state) => state.currentPosition);    
     const id = useBoardState((state)=>state.id);
 
     const isCheck = useBoardState((state)=>state.isCheck);
-    const isDoubleCheck = useBoardState((state)=>state.isDoubleCheck);
     const isPieceToMove = useBoardState((state) => state.isPieceToMove);
     const isPresentTiles = useTiles((state)=> state.isPresentTiles);
     const moveNotation = useBoardState((state) => state.moveNotation);
-    const moveCount = useBoardState((state) => state.moveCount);
     const newPosition = useBoardState((state) => state.newPosition);
     // const NewBoardPosition = useBoardState((state) => state.NewBoardPosition);
     const notationOrder = useBoardState((state)=> state.notationOrder);
     const pieceToMove = useBoardState((state) => state.pieceToMove);
     // const pieceMoveNotation = useBoardState((state) => state.pieceMoveNotation);
-    const passant =  useBoardState((state)=> state.passant);
     // const pieceToMoveClass = useBoardState((state)=> state.pieceToMoveClass);
     const possibleMoveTiles = useTiles((state)=>state.possibleMoveTiles);
     const reviewMode = useBoardState((state)=>state.reviewMode);
@@ -82,7 +73,7 @@ const Board = () =>{
     
 
     let payload = {  };
-    const carryOvers = {};
+    
     
     
     
@@ -96,18 +87,10 @@ const Board = () =>{
         //     boardRelativeY: Math.ceil(relativeY/64),
         // }
         
-        let box = e.target.parentElement;
+
         let emptyTile = e.target;
         let id = e.target.parentElement.id;
-        let piece = e.target.id;
-        
-        
-        
-
-
-        
-        
-
+            
         switch (true) {
             case e.target.id == 'notation':
                 break;
@@ -142,11 +125,11 @@ const Board = () =>{
 
             case !!tiles[id] && isPresentTiles:
                 if(!checkMate){
-                    // if (pieceSet(tiles[id]) == turn){
+                    if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}                    
                     setCurrentPosition(payload);
-                    // }
+                    }
                 }
                 
                 break;
@@ -158,9 +141,7 @@ const Board = () =>{
     }
     
     useEffect(()=>{
-        
-        
-        
+                    
         let cPNotNp = currentPosition != id;
         let psNotCs = tiles[id]  ? pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]) : false;
         let captureCondition = !!(pieceToMove && cPNotNp && psNotCs);
@@ -173,11 +154,7 @@ const Board = () =>{
 
             payload = {...handleAddCapturedPieces(boardState,tileState)};
             addCapturedPieces(payload);
-            
-            
-            
-            
-
+                                                
             if (isCheck) {
                 
                 if (pieceToMove.slice(-4) !== 'king') {
@@ -205,14 +182,7 @@ const Board = () =>{
             setNewPosition(payload);
 
             payload = {...handleAddCapturedPieces(boardState,tileState)};
-            addCapturedPieces(payload);
-            
-            
-            
-            
-            
-            
-
+            addCapturedPieces(payload);                        
             
             if (isCheck) {    
                 if (pieceToMove.slice(-4) !== 'king') {
@@ -231,17 +201,14 @@ const Board = () =>{
             }
                     
         }
-
-
         
     },[id])
+
     useEffect(()=>{
         payload.allMoves = handleAllMoves(boardState,tileState);
         let allMoves = payload.allMoves
         setAllMoves(payload.allMoves);
-        
-        
-        
+                        
         if (checkChecker(payload,boardState,tiles)){
             let cc = checkChecker(payload,boardState,tiles);
             payload  = {... handleSetCheckLevel(boardState,tileState,cc,allMoves)}
@@ -296,21 +263,6 @@ const Board = () =>{
         
 
     },[newPosition])
-
-    // useEffect(()=>{
-        
-        
-    //     payload.pieceToMove = pieceToMove;
-
-    //     if (checkChecker(payload,boardState,tiles)){
-    //         let cc = checkChecker(payload,boardState,tiles);
-    //         payload  = {... handleSetCheckLevel(boardState,tileState,cc)}
-    //         setCheckLevel(payload);
-    //     }        
-
-        
-    // },[moveNotation])
-
     
 
     useEffect(()=>{

@@ -1,7 +1,7 @@
 import useBoardState from "@/utils/boardState";
 import pieceData from "@/utils/pieceData";
 import useTiles from "@/utils/useTiles";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 
 const CheckMateModal = () =>{

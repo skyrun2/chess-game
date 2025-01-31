@@ -4,7 +4,7 @@ const Blackout = ()=>{
     const resignModal = useBoardState((state)=>state.resignModal);
     const closeResignModal = useBoardState((state)=>state.closeResignModal);
 
-    function handleOnClick(e) {
+    function handleOnClick() {
         closeResignModal()
         
     }
