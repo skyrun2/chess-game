@@ -26,8 +26,11 @@ const ResignModal = ()=>{
     return(
         <div
         id={resignModal ? '' : 'none'}
+        // id={''}
         className=" px-[.3rem] py-[.5rem] w-[60%] h-[15%]
+                    max-[999px]:w-[30%] max-[600px]:w-[40%] max-[500px]:w-[50%]  
                     absolute bottom-[50%] translate-y-[50%] left-[50%] translate-x-[50%]
+                    max-[999px]:left-[20%] max-[600px]:left-[10%] max-[500px]:left-[0%]
                     bg-[#262421] text-[#fff] text-[.8rem] text-center font-semibold rounded-[.5rem]
                     flex flex-col items-center justify-around z-40"              
         >

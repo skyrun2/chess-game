@@ -81,11 +81,6 @@ function knightMoveControl(set,terms,bs){
     
     if (!(isCheck && isDoubleCheck)){
         
-        
-        
-        
-        
-            
         if (countForMoves[currentPosition]) {
             for (const capturePiece in countForMoves[currentPosition].pieces) {
                 if (pieceSet(tiles[capturePiece]) !== set) {

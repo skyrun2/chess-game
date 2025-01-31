@@ -43,3 +43,14 @@ button{
     75%  {transform: rotateZ(-20deg);}
     100% {transform: rotateZ(20deg);}
 }
+
+@media (max-width: 700px) {
+    html{
+        font-size: 14px;
+    }
+}
+@media (max-width: 400px) {
+    html{
+        font-size: 12px;
+    }
+}

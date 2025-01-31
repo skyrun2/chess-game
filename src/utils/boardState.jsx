@@ -83,21 +83,21 @@ const useBoardState = create((set,get) => ({
 
     },
     closeResignModal: ()=>{
-        set(prev=>{
+        set(()=>{
             return{ 
                 resignModal:false,
             }
         })
     },
     openResignModal: ()=>{
-        set(prev=>{
+        set(()=>{
             return{ 
                 resignModal:true,
             }
         })
     },
     resetAll:() =>{
-        set(prev =>{
+        set(() =>{
             let newPrev = {};
             
 

@@ -8,7 +8,7 @@ const BoardCard = () =>{
     
     return (
         <div
-        className=" relative w-fit h-full flex flex-col gap-[1rem]">
+        className=" relative w-[60%] max-[999px]:w-[100%] h-full flex flex-col gap-[1rem] items-center">
             <PlayerCard player={'player2'}/>
            <Board></Board> 
            <PlayerCard player={'player1'}/>

@@ -330,7 +330,7 @@ const Board = () =>{
     return(
         <div 
         id={(checkMate && !reviewMode) ? 'blur' : ''}
-        className=' relative w-[35rem] aspect-square border border-black grid grid-cols-8    '  onClick={e=>handleOnClick(e)}>
+        className=' relative w-[80%] max-[999px]:w-[50%] max-[700px]:w-[70%]  max-[450px]:w-[80%]  aspect-square border border-black grid grid-cols-8 '  onClick={e=>handleOnClick(e)}>
             
             <Boxes/>
             <LeftNum/>

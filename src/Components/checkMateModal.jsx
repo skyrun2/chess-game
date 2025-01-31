@@ -32,7 +32,7 @@ const CheckMateModal = () =>{
     return(
         <div 
         id={(checkMate && !localReview) ? 'open' : 'none'}
-        // id={'none'}
+        // id={''}
         >
             
             <div 

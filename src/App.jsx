@@ -10,11 +10,14 @@ function App() {
 
   return (
     <>
-      <div 
-       className=' relative w-[100%] h-fit flex items-end justify-around '>
-          <BoardCard/>
-          <NotationBar/>
-          <Blackout/>
+      <div className="@container/main">
+        <div
+         className=' relative w-[100%] h-fit flex items-end justify-around
+                    max-[999px]:flex-col max-[999px]:items-center'>
+            <BoardCard/>
+            <NotationBar/>
+            <Blackout/>
+        </div>
       </div>
     </>
   )

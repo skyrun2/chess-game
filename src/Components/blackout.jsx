@@ -4,15 +4,16 @@ const Blackout = ()=>{
     const resignModal = useBoardState((state)=>state.resignModal);
     const closeResignModal = useBoardState((state)=>state.closeResignModal);
 
-    function handleClick(e) {
+    function handleOnClick(e) {
         closeResignModal()
         
     }
     return(
         <div
         id={resignModal ? '' : 'none'}
+        // id={''}
         className=" absolute w-[100%] h-[100%] bg-[#00000099]"
-        onClick={e=>handleClick(e)}
+        onClick={e=>handleOnClick(e)}
         >
         </div>
     )

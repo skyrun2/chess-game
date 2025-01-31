@@ -36,7 +36,7 @@ const NotationList = ({direction,area}) =>{
             isAscending = false;
             widthOrHeight = `h-[100%]`;
             flexDirection = 'flex-col';
-            position = `left-[0%] top-[50%] translate-y-[-50%]`;
+            position = `left-[-5%] top-[50%] translate-y-[-50%]`;
             break;
             case direction == 'right':
                 startingPointNum = 49;
@@ -57,13 +57,13 @@ const NotationList = ({direction,area}) =>{
                 isAscending = true;
                 widthOrHeight = `w-[100%] `;
                 flexDirection = '';
-                position = `bottom-[0] left-[50%] translate-x-[-50%] translate-y-[2%]`;
+                position = `bottom-[-5%] left-[50%] translate-x-[-50%] translate-y-[2%]`;
                 break;
             
         default:
             break;
     }
-    let classList = ` absolute  ${widthOrHeight} bg-[bla] ${position} flex ${flexDirection} justify-items-center items-center`;
+    let classList = ` absolute  ${widthOrHeight} bg-[bla] ${position} flex ${flexDirection} justify-items-center items-center text-[0.8rem] `;
     
     return(
         

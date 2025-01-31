@@ -37,7 +37,7 @@ function setMoves(tile,bs,ts) {
     
     switch (p) {
         case 'pawn':
-            return pawnMoveControl(pieceSet(tilePiece),terms,passant,bishopMoveControl);
+            return pawnMoveControl(pieceSet(tilePiece),terms,passant,bs);
             
         case 'rook':
             return rookMoveControl(pieceSet(tilePiece),terms,bs);
