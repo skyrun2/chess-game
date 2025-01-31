@@ -1,4 +1,4 @@
-import BoardCard from './Components/BoardCard';
+import BoardCard from './Components/boardCard';
 
 import './App.css';
 import NotationBar from './Components/notationBar';

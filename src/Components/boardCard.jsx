@@ -1,4 +1,4 @@
-import Blackout from "./blackout";
+
 import Board from "./board";
 import CheckMateModal from "./checkMateModal";
 import PlayerCard from "./playerCard";
