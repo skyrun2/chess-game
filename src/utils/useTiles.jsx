@@ -98,8 +98,7 @@ const useTiles = create((set,get)=>({
                 
                 updatedTilesHistory = { ...prev.tilesHistory};
                 updatedTilesHistory[history] = {...payload.tiles}; 
-            }
-            console.log({updatedTilesHistory});
+            }        
             
             return{
                 tilesHistory: updatedTilesHistory,
@@ -117,7 +116,7 @@ const useTiles = create((set,get)=>({
         set(prev=>{
             
             let newTiles = {...prev.tilesHistory[payload.id]}
-            console.log({isPresentTiles:payload.isPresentTiles});
+
 
             
             

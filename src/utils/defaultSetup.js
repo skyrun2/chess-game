@@ -18,7 +18,7 @@ function defaultSetup() {
             ds[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
         }
     }
-    
+    // ds.c7 = pieceIs(10,'b')
     return ds
 }
  export default defaultSetup;

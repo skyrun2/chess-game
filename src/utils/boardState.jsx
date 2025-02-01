@@ -180,6 +180,8 @@ const useBoardState = create((set,get) => ({
     },
     
     setId : (payload)=>{
+        console.log({iscap:payload.isCapture});
+        
         set(()=>({
             id :payload.id,
             isCapture: payload.isCapture,

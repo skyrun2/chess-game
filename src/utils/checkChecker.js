@@ -1,13 +1,6 @@
 import piece from "./piece";
 import pieceSet from "./pieceSet";
-import pawnMoveControl from "./pawnMoveControl";
-import rookMoveControl from "./rookMoveControl";
-import bishopMoveControl from "./bishopMoveControl";
-import knightMoveControl from "./knightMoveControl";
-import kingMoveControl from "./kingMoveControl";
 import checkPath from "./checkPath";
-import queenMoveControl from "./queenMoveControl";
-import setMoves from "./setMoves";
 import handleAllMoves from "./handleAllMoves";
 import cFM from "./countForMoves";
 import safePath from "./safePath";
@@ -18,12 +11,10 @@ function checkChecker (payload,bs,tiles) {
     let allMoves = payload.allMoves;
     let blackKingPosition = bs.blackKingPosition;
     let whiteKingPosition = bs.whiteKingPosition;
-    let passant = bs.passant;
     let pieceToMove = bs.pieceToMove;
     let currentPosition = bs.currentPosition;
     let p = piece(pieceToMove);
     let set = pieceSet(pieceToMove);
-    let oppSet = set == 'white' ? 'black' : 'white';
     let targetKing = set == 'white' ? blackKingPosition : whiteKingPosition;
     let checkPieces = {}
     
@@ -106,7 +97,7 @@ function checkChecker (payload,bs,tiles) {
     
     
     checkMate = isCheckMate(targetKing,copyBs,tiles);
-    console.log({checkMate});
+
         
     
     
@@ -120,6 +111,7 @@ function checkChecker (payload,bs,tiles) {
 
     
     
+    console.log({allMoves});
     
     if(isCheck||isDoubleCheck) return {'checkPieces':checkPieces,'countForMoves':countForMoves,'totalCount':count,newMoves,isCheck,isDoubleCheck,allMoves,checkMate,set};
     

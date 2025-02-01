@@ -90,7 +90,7 @@ const Board = () =>{
 
         let emptyTile = e.target;
         let id = e.target.parentElement.id;
-            
+        
         switch (true) {
             case e.target.id == 'notation':
                 break;
@@ -115,8 +115,9 @@ const Board = () =>{
             case isPieceToMove && (currentPosition != id) && pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]):
 
                 console.log('capture');
-
-                payload = {...handleSetId(id,false)};
+                console.log({id,capture:'capture',pieceToMove});
+                
+                payload = {...handleSetId(id,true)};
 
                 setId(payload);
 
@@ -125,11 +126,11 @@ const Board = () =>{
 
             case !!tiles[id] && isPresentTiles:
                 if(!checkMate){
-                    if (pieceSet(tiles[id]) == turn){
+                    // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}                    
                     setCurrentPosition(payload);
-                    }
+                    // }
                 }
                 
                 break;
@@ -139,12 +140,18 @@ const Board = () =>{
         }
 
     }
-    
+    // useEffect(()=>{
+    //     console.log({id,pieceToMove,currentPosition,newPosition});
+        
+    // },[boardState])
+
     useEffect(()=>{
                     
         let cPNotNp = currentPosition != id;
         let psNotCs = tiles[id]  ? pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]) : false;
         let captureCondition = !!(pieceToMove && cPNotNp && psNotCs);
+        console.log({boardState});
+        
         
         if (captureCondition) {
             
@@ -224,6 +231,8 @@ const Board = () =>{
             if (Object.keys(allMoves[currentPosition]).length) {                
                 payload.hasMoves = true;
                 setHasMoves(payload);
+
+                
                 setPossibleMoveTiles(allMoves[currentPosition]); 
             }
             else {

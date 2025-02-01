@@ -27,17 +27,18 @@ function pawnMoveControl(set,terms,passant,bs){
     let y = terms.y;
 
     let oppSet = set =='white' ? 'black':'white';
-    let p = piece(pieceToMove)
+    let p = piece(pieceToMove);
+    let payload = {};
     
     baseline = set == 'white' ? 2 : 7;
     
 
 
-    if (startTile[1] ==baseline) {
+    if (startTile[1] == baseline) {
         for (let i = 1; i <= 2; i++) {
             currTile = set == 'black' ?  startTile[0]+((startTile[1]*1)-i) : currTile = startTile[0]+((startTile[1]*1)+i);
             if(!tiles[currTile]){
-                availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`,isCapture:'false'};
+                availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
             }
             else break;
         }
@@ -46,29 +47,32 @@ function pawnMoveControl(set,terms,passant,bs){
         currTile = set == 'black' ?  startTile[0]+((startTile[1]*1)-1) : currTile = startTile[0]+((startTile[1]*1)+1);
         
         if (!tiles[currTile] ) {
-            availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`,isCapture:'false'};
+            availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
 
             
         }
 
         
     }
-    left = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
-    right = set =='black'? String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
-
-    tiles[left] && pieceSet(tiles[left])== oppSet ?availableMoves[left] ={'tile':left,color:`red`,isCapture:'true'}:null;
-    tiles[right] && pieceSet(tiles[right]) == oppSet ? availableMoves[right] ={'tile':right,color:`red`,isCapture:'true'}:null;
+    let underLeft = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
+    let underRight = set =='black'? String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
+    // console.log({left,right,time:"before"});
+    
+    // if(tiles[underLeft] && pieceSet(tiles[underLeft])== oppSet){
+    //     availableMoves[underLeft] ={'tile':underLeft,color:`red`};;
+    // } 
+    // if(tiles[underRight] && pieceSet(tiles[underRight]) == oppSet){
+    //     availableMoves[underRight] ={'tile':'b5',color:`red`};
+    // } 
+    
     
     left = String.fromCharCode(x-1)+(y);
     right = String.fromCharCode(x+1)+(y);
+    // console.log({left,right,time:"after"});
+    // console.log({isTrue:tiles.d6});
     
     
     // console.log(`${bs.isEnPassant} for possible passant`);
-
-    
-    
-    
-
     
     if (passant.length) {
         
@@ -78,20 +82,24 @@ function pawnMoveControl(set,terms,passant,bs){
             
             if(passant[0].tile == left){
                 left = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
-                availableMoves[left] ={'tile':left,color:`red`,isCapture:'false'};
+                availableMoves[left] ={'tile':left,color:`red`};
             }
             if(passant[0].tile == right){
                 right = set =='black'?  String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
-                availableMoves[right] ={'tile':right,color:`red`,isCapture:'false'};
+                availableMoves[right] ={'tile':right,color:`red`};
 
             }                        
         }                                
     }
-
+    if (tiles.e5) {
+        availableMoves.e5 = {'tile':'e5',color:`#1211aa99`};
+    }
+    if (tiles[underRight]) {
+        availableMoves[underRight] = {'tile':underRight,color:`red`}    
+    }
     
         
         
-    let payload={};
     payload = {
         isCheck :isCheck,
         set : set,
@@ -101,22 +109,23 @@ function pawnMoveControl(set,terms,passant,bs){
         isDoubleCheck:isDoubleCheck,
     }
     if (isCheck||isDoubleCheck) {
-        
         availableMoves =  blockCheckPath(payload);
         
     }
     
     if (!(isCheck && isDoubleCheck)){
-        
+                    
+            
+            
         if (countForMoves[currentPosition]) {
             for (const capturePiece in countForMoves[currentPosition].pieces) {
-                if (pieceSet(tiles[capturePiece]) !== set) {
-                    terms.set = set;
-                    
-
-                    
+                if (pieceSet(tiles[capturePiece]) !== pieceToMoveSet) {
+                    terms.set = pieceToMoveSet;
                     if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
-                        availableMoves = {};
+                        
+                        availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
+                        
+                        // availableMoves = {};
                     }                    
                 }
                 
@@ -124,6 +133,7 @@ function pawnMoveControl(set,terms,passant,bs){
             }
         }
     }
+    
     
     
     

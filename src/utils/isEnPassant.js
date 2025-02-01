@@ -16,8 +16,7 @@ function isEnPassant(bs,ts) {
     
     
     if (passant){        
-        if(passant.length){
-            console.log({passant:passant[0].tile});
+        if(passant.length){            
             
             
             if (passant[0].tile == capture) {

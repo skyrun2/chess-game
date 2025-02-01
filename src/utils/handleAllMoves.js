@@ -8,7 +8,7 @@ function handleAllMoves(bs,ts) {
     const allMoves = bs.allMoves
     const isCheck = bs.isCheck;
     const isDoubleCheck = bs.isDoubleCheck;
-    console.log({isCheck,isDoubleCheck,allMoves,tiles});
+    
     
     
     let moves = {}
