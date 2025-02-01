@@ -1,8 +1,9 @@
-import BoardCard from './Components/boardCard';
+
 
 import './App.css';
 import NotationBar from './Components/notationBar';
 import Blackout from './Components/blackout';
+import BoardCard from './Components/boardCard';
 
 
 function App() {
