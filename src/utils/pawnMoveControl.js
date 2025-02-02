@@ -5,101 +5,78 @@ import piece from "./piece";
 import pieceSet from "./pieceSet";
 
 
+
 function pawnMoveControl(set,terms,passant,bs){
     let availableMoves = {};
-    let baseline = 0;
     let checkPieces = bs.checkPieces;
     let checkPiecesPath = bs.checkPiecesPath;
     let checkingSet = bs.checkingSet;
-    let countForMoves = bs.countForMoves
+    let countForMoves = bs.countForMoves;
     let currentPosition = bs.currentPosition;
     let currTile = '';
+    let direction = ['top','right','bottom','left']
+    let eightPointX = terms.eightPointX;
     let isCheck = bs.isCheck;
     let isDoubleCheck = bs.isDoubleCheck;
-    let left = '';
     let pathBlockers = {};
     let pieceToMove = bs.pieceToMove;
     let pieceToMoveSet = pieceSet(pieceToMove);
-    let right = '';
     let startTile = terms.startTile;
     let tiles = terms.tiles;
     let x = terms.x;
     let y = terms.y;
 
-    let oppSet = set =='white' ? 'black':'white';
-    let p = piece(pieceToMove);
-    let payload = {};
-    
-    baseline = set == 'white' ? 2 : 7;
-    
+    let oppSet= set == 'white' ? 'black': 'white';
+    let p = piece(pieceToMove)
+    const side = {
+        top :8-y,
+        right : 8-eightPointX,
+        bottom : y-1,
+        left : eightPointX-1,
+    }
 
-
-    if (startTile[1] == baseline) {
-        for (let i = 1; i <= 2; i++) {
-            currTile = set == 'black' ?  startTile[0]+((startTile[1]*1)-i) : currTile = startTile[0]+((startTile[1]*1)+i);
-            if(!tiles[currTile]){
+    
+    
+    
+    direction.forEach(dir => {
+            
+        for (let i = 1; i <= side[dir]; i++){  
+            
+            
+            if (dir=='top') currTile = startTile[0]+(y+i);
+            else if (dir=='left') currTile = String.fromCharCode(x-i)+startTile[1];
+            else if (dir == 'bottom') currTile = startTile[0]+(y-i);
+            else if (dir == 'right') currTile = String.fromCharCode(x+i)+startTile[1];
+            
+            if (!tiles[currTile]) {
                 availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
+                // console.log(currTile);
+                
             }
-            else break;
-        }
-    }
-    else{
-        currTile = set == 'black' ?  startTile[0]+((startTile[1]*1)-1) : currTile = startTile[0]+((startTile[1]*1)+1);
-        
-        if (!tiles[currTile] ) {
-            availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
-
-            
-        }
-
-        
-    }
-    let underLeft = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
-    let underRight = set =='black'? String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
-    // console.log({left,right,time:"before"});
-    
-    // if(tiles[underLeft] && pieceSet(tiles[underLeft])== oppSet){
-    //     availableMoves[underLeft] ={'tile':underLeft,color:`red`};;
-    // } 
-    // if(tiles[underRight] && pieceSet(tiles[underRight]) == oppSet){
-    //     availableMoves[underRight] ={'tile':'b5',color:`red`};
-    // } 
-    
-    
-    left = String.fromCharCode(x-1)+(y);
-    right = String.fromCharCode(x+1)+(y);
-    // console.log({left,right,time:"after"});
-    // console.log({isTrue:tiles.d6});
-    
-    
-    // console.log(`${bs.isEnPassant} for possible passant`);
-    
-    if (passant.length) {
-        
-        if(passant[0].tile == left||passant[0].tile == right){
-            
-            
-            
-            if(passant[0].tile == left){
-                left = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
-                availableMoves[left] ={'tile':left,color:`red`};
+            else {
+                if (pieceSet(tiles[startTile])  == set) {
+                    if(pieceSet(tiles[currTile]) == oppSet){
+                        availableMoves[currTile] ={'tile':currTile,color:`red`};
+                        // possibleMoveTiles[currTile] = currTile;
+                        break;
+                    }
+                    else break;
+                }
+                else{
+                    if(pieceSet(tiles[currTile]) == set){
+                        availableMoves[currTile] ={'tile':currTile,color:`red`};
+                        // possibleMoveTiles[currTile] = currTile;
+                        break;
+                    }
+                    else break;
+                }
             }
-            if(passant[0].tile == right){
-                right = set =='black'?  String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
-                availableMoves[right] ={'tile':right,color:`red`};
+        }
+    });
 
-            }                        
-        }                                
-    }
-    if (tiles.e5) {
-        availableMoves.e5 = {'tile':'e5',color:`#1211aa99`};
-    }
-    if (tiles[underRight]) {
-        availableMoves[underRight] = {'tile':underRight,color:`red`}    
-    }
     
         
-        
+    let payload={};
     payload = {
         isCheck :isCheck,
         set : set,
@@ -112,15 +89,15 @@ function pawnMoveControl(set,terms,passant,bs){
         availableMoves =  blockCheckPath(payload);
         
     }
-    
+
     if (!(isCheck && isDoubleCheck)){
-                    
-            
+        
+        
             
         if (countForMoves[currentPosition]) {
             for (const capturePiece in countForMoves[currentPosition].pieces) {
-                if (pieceSet(tiles[capturePiece]) !== pieceToMoveSet) {
-                    terms.set = pieceToMoveSet;
+                if (pieceSet(tiles[capturePiece]) !== set) {
+                    terms.set = set;
                     if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
                         
                         availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
@@ -134,14 +111,12 @@ function pawnMoveControl(set,terms,passant,bs){
         }
     }
     
+        
+        
+        
     
-    
-    
-    
-    
+    // console.log(availableMoves);
     
     return availableMoves;
-
 }
-
 export default pawnMoveControl;
