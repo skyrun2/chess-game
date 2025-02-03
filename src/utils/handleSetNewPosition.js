@@ -49,6 +49,7 @@ function handleSetNewPosition(bs,ts) {
     
     
 
+    console.log({currentPosition,newPosition:payload.newPosition,pieceToMove,at:'handleSetNotation'});
     
     return payload;
 }

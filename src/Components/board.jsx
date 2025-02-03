@@ -102,35 +102,92 @@ const Board = () =>{
 
                 break;
  
-            case isPieceToMove && !id:
+            case isPieceToMove && !id:{
                 console.log('moved to empty tile');
+                let copyBs = boardState;
+                copyBs.id = emptyTile.id
+                console.log({currentPosition,newPosition:emptyTile.id,pieceToMove, at:'board'});
 
                 
-                payload = {...handleSetId(emptyTile.id,false)};
+                payload = {...handleSetNewPosition(copyBs,tileState)};
+                setNewPosition(payload);
+    
+                payload = {...handleAddCapturedPieces(boardState,tileState)};
+                addCapturedPieces(payload);                        
+                
+                if (isCheck) {    
+                    if (pieceToMove.slice(-4) !== 'king') {
+                        if (checkPiecesPath[id]) {
+                            unSetCheckLevel();
+                        }
+                    }
+                    else{
+                        if (!checkPiecesPath[id]) {
+                            unSetCheckLevel();
+                        }
+                    }
+                }
+                if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+                    unSetCheckLevel()
+                }
+                        
+    
+                
+                // payload = {...handleSetId(emptyTile.id,false)};
 
-                setId(payload);
+                // setId(payload);
 
                 break;
+            }
 
-            case isPieceToMove && (currentPosition != id) && pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]):
+            case isPieceToMove && (currentPosition != id) && pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]):{
 
                 console.log('capture');
-                console.log({id,capture:'capture',pieceToMove});
-                
-                payload = {...handleSetId(id,true)};
+                console.log({currentPosition,newPosition:id,pieceToMove,at:'board'});
+                let copyBs = boardState;
+                copyBs.id = id
 
-                setId(payload);
+                payload = {...handleSetNewPosition(copyBs,tileState)};
+            
+                setNewPosition(payload);
+
+                payload = {...handleAddCapturedPieces(boardState,tileState)};
+                addCapturedPieces(payload);
+                                                    
+                if (isCheck) {
+                    
+                    if (pieceToMove.slice(-4) !== 'king') {
+                        if (checkPiecesPath[id]) {
+                            unSetCheckLevel();
+                        }
+                    }
+                    else{
+                        if (!checkPiecesPath[id]) {
+                            
+                            unSetCheckLevel();
+                        }
+                    }
+                }
+                if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+                    unSetCheckLevel()
+                }
+                
+            
+                
+                // payload = {...handleSetId(id,true)};
+
+                // setId(payload);
 
                 break;
-
+            }
 
             case !!tiles[id] && isPresentTiles:
                 if(!checkMate){
-                    // if (pieceSet(tiles[id]) == turn){
+                    if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
                     payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}                    
                     setCurrentPosition(payload);
-                    // }
+                    }
                 }
                 
                 break;
@@ -145,71 +202,71 @@ const Board = () =>{
         
     // },[boardState])
 
-    useEffect(()=>{
+    // useEffect(()=>{
                     
-        let cPNotNp = currentPosition != id;
-        let psNotCs = tiles[id]  ? pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]) : false;
-        let captureCondition = !!(pieceToMove && cPNotNp && psNotCs);
-        console.log({boardState});
+    //     let cPNotNp = currentPosition != id;
+    //     let psNotCs = tiles[id]  ? pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]) : false;
+    //     let captureCondition = !!(pieceToMove && cPNotNp && psNotCs);
+    //     console.log({boardState});
         
         
-        if (captureCondition) {
+    //     if (captureCondition) {
             
-            payload = {...handleSetNewPosition(boardState,tileState)};
+    //         payload = {...handleSetNewPosition(boardState,tileState)};
             
-            setNewPosition(payload);
+    //         setNewPosition(payload);
 
-            payload = {...handleAddCapturedPieces(boardState,tileState)};
-            addCapturedPieces(payload);
+    //         payload = {...handleAddCapturedPieces(boardState,tileState)};
+    //         addCapturedPieces(payload);
                                                 
-            if (isCheck) {
+    //         if (isCheck) {
                 
-                if (pieceToMove.slice(-4) !== 'king') {
-                    if (checkPiecesPath[id]) {
-                        unSetCheckLevel();
-                    }
-                }
-                else{
-                    if (!checkPiecesPath[id]) {
+    //             if (pieceToMove.slice(-4) !== 'king') {
+    //                 if (checkPiecesPath[id]) {
+    //                     unSetCheckLevel();
+    //                 }
+    //             }
+    //             else{
+    //                 if (!checkPiecesPath[id]) {
                         
-                        unSetCheckLevel();
-                    }
-                }
-            }
-            if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
-                unSetCheckLevel()
-            }
+    //                     unSetCheckLevel();
+    //                 }
+    //             }
+    //         }
+    //         if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+    //             unSetCheckLevel()
+    //         }
             
             
-        }
-        else if (isPieceToMove && id) {
+    //     }
+    //     else if (isPieceToMove && id) {
             
 
-            payload = {...handleSetNewPosition(boardState,tileState)};
-            setNewPosition(payload);
+    //         payload = {...handleSetNewPosition(boardState,tileState)};
+    //         setNewPosition(payload);
 
-            payload = {...handleAddCapturedPieces(boardState,tileState)};
-            addCapturedPieces(payload);                        
+    //         payload = {...handleAddCapturedPieces(boardState,tileState)};
+    //         addCapturedPieces(payload);                        
             
-            if (isCheck) {    
-                if (pieceToMove.slice(-4) !== 'king') {
-                    if (checkPiecesPath[id]) {
-                        unSetCheckLevel();
-                    }
-                }
-                else{
-                    if (!checkPiecesPath[id]) {
-                        unSetCheckLevel();
-                    }
-                }
-            }
-            if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
-                unSetCheckLevel()
-            }
+    //         if (isCheck) {    
+    //             if (pieceToMove.slice(-4) !== 'king') {
+    //                 if (checkPiecesPath[id]) {
+    //                     unSetCheckLevel();
+    //                 }
+    //             }
+    //             else{
+    //                 if (!checkPiecesPath[id]) {
+    //                     unSetCheckLevel();
+    //                 }
+    //             }
+    //         }
+    //         if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+    //             unSetCheckLevel()
+    //         }
                     
-        }
+    //     }
         
-    },[id])
+    // },[id])
 
     useEffect(()=>{
         payload.allMoves = handleAllMoves(boardState,tileState);
@@ -254,6 +311,7 @@ const Board = () =>{
     useEffect(()=>{
         
         
+        console.log({currentPosition,newPosition:newPosition,pieceToMove,at:'newposition useEffect'});
         if (possibleMoveTiles.path) {
             if (possibleMoveTiles.path[newPosition]) {
                 

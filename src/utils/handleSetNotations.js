@@ -43,6 +43,8 @@ function handleSetNotations(bs,ts) {
     
     payload.possibleMoves = setMoves(newPosition,bs,ts);
     payload.moveNotation =  setNotation(payload,bs);
+    console.log({payload,np:payload.newPosition});
+    
     return payload;
 }
 export default handleSetNotations;

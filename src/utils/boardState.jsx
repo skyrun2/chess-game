@@ -35,6 +35,7 @@ const useBoardState = create((set,get) => ({
     newBoardPosition:'',
     newPosition : {},
     passant : [], 
+    pawnCapture:'',
     pieceToMove:'',
     pieceToMoveClass:'w',
     pieceMoveNotation:[],
@@ -195,6 +196,7 @@ const useBoardState = create((set,get) => ({
         
         
         
+        console.log({currentPosition:payload.currentPosition,newPosition:payload.newPosition,pieceToMove:payload.pieceToMove,at:'setNotation'});
         
         set((state)=>({
             newPosition : payload.newPosition,

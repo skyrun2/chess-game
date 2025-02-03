@@ -39,9 +39,7 @@ function bishopMoveControl(set,terms,bs) {
 
     
     
-    direction.forEach(dir => {
-
-        
+    direction.forEach(dir => {        
         for (let i = 1; i <= side[dir]; i++) {
             if( dir == 'topRight') currTile = String.fromCharCode(x+i)+(y+i);
             else if (dir == 'bottomRight') currTile = String.fromCharCode(x+i)+(y-i);
