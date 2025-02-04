@@ -1,6 +1,7 @@
     
 import { create } from "zustand"
 import piece from "./piece";
+import useTiles from "./useTiles";
 
 
 // import isEnPassant from "./isEnPassant"; 
@@ -160,24 +161,28 @@ const useBoardState = create((set,get) => ({
         }))
     },
     setAllMoves: (payload) =>{
+        console.log({payload});
         set(()=>({
             allMoves:payload
         }))
     },
-    setCurrentPosition :  (payload) => {
 
+    setCurrentPosition :  (position,isPieceToMove) => {
+        const tiles = useTiles.getState().tiles;
+        
+        
         
         // console.log(payload);
         
-        set((state)=>({
-            currentPosition:payload.currentPosition,
+        set({
+            currentPosition:position,
             // newPosition:'',
-            currentTile: payload.currentTile, 
-            isPieceToMove : payload.isPieceToMove,
-            pieceToMove: payload.pieceToMove,
+            // currentTile: payload.currentTile, 
+            isPieceToMove : isPieceToMove,
+            pieceToMove: isPieceToMove ? tiles[position] : '',
             
 
-        }))
+        })
     },
     
     setId : (payload)=>{

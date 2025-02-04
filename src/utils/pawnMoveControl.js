@@ -27,108 +27,119 @@ function pawnMoveControl(set,terms,passant,bs){
     let y = terms.y;
 
     let oppSet = set =='white' ? 'black':'white';
-    let direction = set == 'white' ? ['top','topRight','topLeft'] : ['bottom','bottomRight','bottomLeft'];
     let p = piece(pieceToMove);
     let payload = {};
     
     baseline = set == 'white' ? 2 : 7;
     
-    const side = {
-        topRight: terms.topRight,
-        bottomRight: terms.bottomRight,
-        bottomLeft: terms.bottomLeft,
-        topLeft : terms.topLeft,
+
+
+    if (startTile[1] == baseline) {
+        for (let i = 1; i <= 2; i++) {
+            currTile = set == 'black' ?  startTile[0]+((startTile[1]*1)-i) : currTile = startTile[0]+((startTile[1]*1)+i);
+            if(!tiles[currTile]){
+                availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
+            }
+            else break;
+        }
     }
-
-    direction.forEach(dir => {
+    else{
+        currTile = set == 'black' ?  startTile[0]+((startTile[1]*1)-1) : currTile = startTile[0]+((startTile[1]*1)+1);
         
-        if (set == 'white') {
-            switch (dir) {                
-                case 'top':{                    
-                    if (y == baseline) {
-                        let t1 = String.fromCharCode(x)+(y+1);
-                        let t2 = String.fromCharCode(x)+(y+2);
-                        if(!tiles[t1]) availableMoves[t1] = {'tile':t1,color:`#1211aa99`};
-                        if(!tiles[t2]) availableMoves[t2] = {'tile':t2,color:`#1211aa99`};
+        if (!tiles[currTile] ) {
+            availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
 
+            
+        }
+
+        
+    }
+    let underLeft = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
+    let underRight = set =='black'? String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
+    console.log({left,right,time:"before"});
+    
+    if(tiles[underLeft] && pieceSet(tiles[underLeft])== oppSet){
+        availableMoves[underLeft] ={'tile':underLeft,color:`red`};;
+    } 
+    if(tiles[underRight] && pieceSet(tiles[underRight]) == oppSet){
+        availableMoves[underRight] ={'tile':underRight,color:`red`};
+    } 
+    
+    
+    left = String.fromCharCode(x-1)+(y);
+    right = String.fromCharCode(x+1)+(y);
+    console.log({left,right,time:"after"});
+    console.log({isTrue:tiles.d6});
+    
+    
+    console.log(`${bs.isEnPassant} for possible passant`);
+    
+    if (passant.length) {
+        
+        if(passant[0].tile == left||passant[0].tile == right){
+            
+            
+            
+            if(passant[0].tile == left){
+                left = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
+                availableMoves[left] ={'tile':left,color:`red`};
+            }
+            if(passant[0].tile == right){
+                right = set =='black'?  String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
+                availableMoves[right] ={'tile':right,color:`red`};
+
+            }                        
+        }                                
+    }
+    if (tiles.e5) {
+        availableMoves.e5 = {'tile':'e5',color:`#1211aa99`};
+    }
+    if (tiles[underRight]) {
+        availableMoves[underRight] = {'tile':underRight,color:`red`}    
+    }
+    
+        
+        
+    payload = {
+        isCheck :isCheck,
+        set : set,
+        checkingSet:checkingSet,
+        checkPiecesPath:checkPiecesPath,
+        availableMoves:availableMoves,
+        isDoubleCheck:isDoubleCheck,
+    }
+    if (isCheck||isDoubleCheck) {
+        availableMoves =  blockCheckPath(payload);
+        
+    }
+    
+    if (!(isCheck && isDoubleCheck)){
+                    
+            
+            
+        if (countForMoves[currentPosition]) {
+            for (const capturePiece in countForMoves[currentPosition].pieces) {
+                if (pieceSet(tiles[capturePiece]) !== pieceToMoveSet) {
+                    terms.set = pieceToMoveSet;
+                    if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
                         
-                    }
-                    else if ( y > baseline ){
-                        let t1 = String.fromCharCode(x)+(y+1);
-                        if(!tiles[t1]) availableMoves[t1] = {'tile':t1,color:`#1211aa99`};
-                    }
-                    break;
+                        availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
+                        
+                        // availableMoves = {};
+                    }                    
                 }
-                case 'topRight':{
-                    currTile = String.fromCharCode(x+1)+(y+1);
-                    
-                    if (tiles[currTile]) {                                                
-                        if (pieceSet(tiles[currTile]) == oppSet) {
-                            availableMoves[currTile] = {tile:currTile,color:'red'};                            
-                        }   
-                    }
-                    break;
-                }
-                case 'topLeft':{
-                    currTile = String.fromCharCode(x-1)+(y+1);
-                    // console.log({startTile,currTile});
-                    
-                    if (tiles[currTile]) {                        
-                        if (pieceSet(tiles[currTile]) == oppSet) {
-                            availableMoves[currTile] = {tile:currTile,color:'red'};
-                        }   
-                    }
-                    break;
-                }
-                default:
-                    break;
+                
+                
             }
         }
-        else if ( set == 'black'){
-            switch (dir) {                
-                case 'bottom':{                    
-                    if (y == baseline) {
-                        let b1 = String.fromCharCode(x)+(y-1);
-                        let b2 = String.fromCharCode(x)+(y-2);
-                        if(!tiles[b1]) availableMoves[b1] = {'tile':b1,color:`#1211aa99`};
-                        if(!tiles[b2]) availableMoves[b2] = {'tile':b2,color:`#1211aa99`};
-
-                        
-                    }
-                    else if ( y < baseline ){
-                        let t1 = String.fromCharCode(x)+(y-1);
-                        if(!tiles[t1]) availableMoves[t1] = {'tile':t1,color:`#1211aa99`};
-                    }
-                    break;
-                }
-                case 'bottomRight':{
-                    currTile = String.fromCharCode(x+1)+(y-1);
-                    
-                    if (tiles[currTile]) {                                                
-                        if (pieceSet(tiles[currTile]) == oppSet) {
-                            availableMoves[currTile] = {tile:currTile,color:'red'};                            
-                        }   
-                    }
-                    break;
-                }
-                case 'bottomLeft':{
-                    currTile = String.fromCharCode(x-1)+(y-1);
-                    // console.log({startTile,currTile});
-                    
-                    if (tiles[currTile]) {                        
-                        if (pieceSet(tiles[currTile]) == oppSet) {
-                            availableMoves[currTile] = {tile:currTile,color:'red'};
-                        }   
-                    }
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
-    })   
-
-
+    }
+    
+    
+    
+    
+    
+    
+    
     return availableMoves;
 
 }

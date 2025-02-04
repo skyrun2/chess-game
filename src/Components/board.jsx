@@ -97,18 +97,14 @@ const Board = () =>{
 
             case isPieceToMove && (currentPosition == id) && isPresentTiles:                
                 console.log('piece did not move');
-                payload = {...handleSetCurrentPosition('',false,boardState,tileState)};
-                setCurrentPosition(payload);
+                setCurrentPosition('',false);
 
                 break;
  
             case isPieceToMove && !id:{
                 console.log('moved to empty tile');
                 let copyBs = boardState;
-                copyBs.id = emptyTile.id
-                console.log({currentPosition,newPosition:emptyTile.id,pieceToMove, at:'board'});
-
-                
+                copyBs.id = emptyTile.id                
                 payload = {...handleSetNewPosition(copyBs,tileState)};
                 setNewPosition(payload);
     
@@ -183,11 +179,18 @@ const Board = () =>{
 
             case !!tiles[id] && isPresentTiles:
                 if(!checkMate){
-                    if (pieceSet(tiles[id]) == turn){
-                    console.log('piece to move');
-                    payload = {...handleSetCurrentPosition(id,true,boardState,tileState)}                    
-                    setCurrentPosition(payload);
-                    }
+                    // if (pieceSet(tiles[id]) == turn){
+                    console.log('piece to move');                    
+                    setCurrentPosition(id,true);
+                    let copyBs = boardState;
+                    copyBs.currentPosition = id;
+                    copyBs.isPieceToMove = true;
+                    copyBs.pieceToMove = tiles[id];
+                    setAllMoves(handleAllMoves(copyBs,tileState))
+                    // console.log({pt:handleAllMoves(copyBs,tileState)});
+
+                    
+                    // }
                 }
                 
                 break;
@@ -272,6 +275,8 @@ const Board = () =>{
         payload.allMoves = handleAllMoves(boardState,tileState);
         let allMoves = payload.allMoves
         setAllMoves(payload.allMoves);
+        
+        
                         
         if (checkChecker(payload,boardState,tiles)){
             let cc = checkChecker(payload,boardState,tiles);
