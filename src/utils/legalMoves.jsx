@@ -1,10 +1,11 @@
+import setMoves from "./setMoves";
 
 
 
 
 
 function legalMoves(boardState,tileState) {
-    
+     
     // let direction = [];
     
     let startTile = boardState.currentPosition;
@@ -41,7 +42,9 @@ function legalMoves(boardState,tileState) {
         return piece[1]=='_' ?  piece.substring(2):piece;    
     }
     
-    return allMoves[startTile]
+
+        
+    return setMoves(startTile,boardState,tileState);
     
     
     

@@ -13,7 +13,7 @@ const useTiles = create((set,get)=>({
     possibleMoveTiles: {},
     tiles:{...defaultSetup()},
     tilesHistory:{}, 
-    isPresentTiles: true,
+    isPresentTiles: true, 
     presentTiles: {},
     presentView:'',
     currentTiles: {},
@@ -34,6 +34,7 @@ const useTiles = create((set,get)=>({
         let newQueenSideRookTile = pSet =='white' ? 'd1' : 'd8';
 
         let rook = pSet == 'white' ? 'rook' :'b_rook'
+        console.log({payload});
         
 
         
@@ -63,6 +64,7 @@ const useTiles = create((set,get)=>({
         
         
                 
+        console.log({updatedTiles});
         
 
         set(()=>({
@@ -70,7 +72,7 @@ const useTiles = create((set,get)=>({
         })
     )},
 
-    setPossibleMoveTiles: (payload)=>{
+    setPossibleMoveTiles: (payload)=>{                
         set(()=>({
             possibleMoveTiles: payload
         }))

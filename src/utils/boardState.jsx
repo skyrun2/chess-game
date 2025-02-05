@@ -148,7 +148,7 @@ const useBoardState = create((set,get) => ({
         })
     },
     setResign: () =>{
-        
+         
         set(()=>({
            resigned: true,
            checkMate:true,
@@ -202,8 +202,9 @@ const useBoardState = create((set,get) => ({
         
         
         console.log({currentPosition:payload.currentPosition,newPosition:payload.newPosition,pieceToMove:payload.pieceToMove,at:'setNotation'});
+        console.log({set:payload.set});
         
-        set((state)=>({
+        set((state)=>({            
             newPosition : payload.newPosition,
             newBoardPosition: payload.newBoardPosition,
             isPieceToMove : !state.isPieceToMove,

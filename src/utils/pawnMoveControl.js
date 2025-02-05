@@ -68,11 +68,11 @@ function pawnMoveControl(set,terms,passant,bs){
     
     left = String.fromCharCode(x-1)+(y);
     right = String.fromCharCode(x+1)+(y);
-    console.log({left,right,time:"after"});
-    console.log({isTrue:tiles.d6});
+    // console.log({left,right,time:"after"});
+    // console.log({isTrue:tiles.d6});
     
     
-    console.log(`${bs.isEnPassant} for possible passant`);
+    // console.log(`${bs.isEnPassant} for possible passant`);
     
     if (passant.length) {
         

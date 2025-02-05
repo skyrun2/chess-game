@@ -10,10 +10,10 @@ function handleAllMoves(bs,ts) {
     const isDoubleCheck = bs.isDoubleCheck;
     const isPieceToMove = bs.isPieceToMove;
     const currentPosition = bs.currentPosition;
-    console.log({isPieceToMove});
+    // console.log({isPieceToMove});
     
     let moves = {}
-    console.log({true:!Object.keys(allMoves).length,lt:Object.keys(allMoves).length});
+    // console.log({true:!Object.keys(allMoves).length,lt:Object.keys(allMoves).length});
     
     // if (!Object.keys(allMoves).length) {
     //     for (const tile in tiles) {

@@ -33,6 +33,7 @@ function handleSetNewPosition(bs,ts) {
     payload.passant = enPassantOpen(payload,bs.passant);
     payload.isEnPassant = !!enPassantOpen(payload,bs.passant);
     payload.castlingPiece = removeCastlingPiece(payload,bs);
+    payload.set = set;
     payload.blackKingPosition = blackKing;
     payload.whiteKingPosition = whiteKing;
     
