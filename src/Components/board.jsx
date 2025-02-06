@@ -1,5 +1,5 @@
 
-import { useEffect} from "react";
+import { useEffect } from "react";
 import BottomLetter from "./bottomLetter";
 import Boxes from "./boxes";
 import LeftNum from "./leftNums";
@@ -30,112 +30,112 @@ import legalMoves from "@/utils/legalMoves";
 
 
 
-const Board = () =>{
-    const addCapturedPieces = useBoardState((state)=> state.addCapturedPieces);
-    const allMoves = useBoardState((state)=> state.allMoves);
-    const blackKingPosition = useBoardState((state)=> state.blackKingPosition);
+const Board = () => {
+    const addCapturedPieces = useBoardState((state) => state.addCapturedPieces);
+    const allMoves = useBoardState((state) => state.allMoves);
+    const blackKingPosition = useBoardState((state) => state.blackKingPosition);
     const boardState = useBoardState((state) => state);
-        const checkMate = useBoardState((state)=>state.checkMate);
-    const checkPiecesPath =  useBoardState((state)=> state.checkPiecesPath);
-    const countForMoves = useBoardState((state)=>state.countForMoves);
-    const currentPosition = useBoardState((state) => state.currentPosition);    
-    const id = useBoardState((state)=>state.id);
+    const checkMate = useBoardState((state) => state.checkMate);
+    const checkPiecesPath = useBoardState((state) => state.checkPiecesPath);
+    const countForMoves = useBoardState((state) => state.countForMoves);
+    const currentPosition = useBoardState((state) => state.currentPosition);
+    const id = useBoardState((state) => state.id);
 
-    const isCheck = useBoardState((state)=>state.isCheck);
+    const isCheck = useBoardState((state) => state.isCheck);
     const isPieceToMove = useBoardState((state) => state.isPieceToMove);
-    const isPresentTiles = useTiles((state)=> state.isPresentTiles);
+    const isPresentTiles = useTiles((state) => state.isPresentTiles);
     const moveNotation = useBoardState((state) => state.moveNotation);
     const newPosition = useBoardState((state) => state.newPosition);
     // const NewBoardPosition = useBoardState((state) => state.NewBoardPosition);
-    const notationOrder = useBoardState((state)=> state.notationOrder);
+    const notationOrder = useBoardState((state) => state.notationOrder);
     const pieceToMove = useBoardState((state) => state.pieceToMove);
     // const pieceMoveNotation = useBoardState((state) => state.pieceMoveNotation);
     // const pieceToMoveClass = useBoardState((state)=> state.pieceToMoveClass);
-    const possibleMoveTiles = useTiles((state)=>state.possibleMoveTiles);
-    const reviewMode = useBoardState((state)=>state.reviewMode);
-    const setAllMoves =  useBoardState((state)=> state.setAllMoves);
-    const setCheckLevel =  useBoardState((state)=> state.setCheckLevel);
+    const possibleMoveTiles = useTiles((state) => state.possibleMoveTiles);
+    const reviewMode = useBoardState((state) => state.reviewMode);
+    const setAllMoves = useBoardState((state) => state.setAllMoves);
+    const setCheckLevel = useBoardState((state) => state.setCheckLevel);
     const setCurrentPosition = useBoardState((state) => state.setCurrentPosition);
-    const setId = useBoardState((state)=>state.setId);
-    const setHasMoves = useBoardState((state)=> state.setHasMoves);
+    const setId = useBoardState((state) => state.setId);
+    const setHasMoves = useBoardState((state) => state.setHasMoves);
     // const setIsPieceToMove = useBoardState((state) => state.setIsPieceToMove);
     const setNewPosition = useBoardState((state) => state.setNewPosition);
-    const setNotations = useBoardState((state)=> state.setNotations);
-    const setPossibleMoveTiles = useTiles((state)=>state.setPossibleMoveTiles);
-    const setTiles = useTiles((state)=>state.setTiles);
-    const setTilesHistory = useTiles((state)=>state.setTilesHistory);
-    const setCurrentView = useTiles((state)=>state.setCurrentView);
-    const setTurn =  useBoardState((state)=> state.setTurn);
-    const tiles = useTiles((state)=>state.tiles);
-    const tileState = useTiles((state)=>state);
-    const turn =  useBoardState((state)=> state.turn);
-    const whiteKingPosition = useBoardState((state)=> state.whiteKingPosition);
-    const unSetCheckLevel =  useBoardState((state)=> state.unSetCheckLevel);
-    
+    const setNotations = useBoardState((state) => state.setNotations);
+    const setPossibleMoveTiles = useTiles((state) => state.setPossibleMoveTiles);
+    const setTiles = useTiles((state) => state.setTiles);
+    const setTilesHistory = useTiles((state) => state.setTilesHistory);
+    const setCurrentView = useTiles((state) => state.setCurrentView);
+    const setTurn = useBoardState((state) => state.setTurn);
+    const tiles = useTiles((state) => state.tiles);
+    const tileState = useTiles((state) => state);
+    const turn = useBoardState((state) => state.turn);
+    const whiteKingPosition = useBoardState((state) => state.whiteKingPosition);
+    const unSetCheckLevel = useBoardState((state) => state.unSetCheckLevel);
 
-    let payload = {  };
-    
-    
-    
-    
-    
+
+    let payload = {};
+
+
+
+
+
     const handleOnClick = (e) => {
         // let relativeX = e.target.getBoundingClientRect().x - e.currentTarget.getBoundingClientRect().x; 
         // let relativeY = e.target.getBoundingClientRect().y - e.currentTarget.getBoundingClientRect().y;
-        
+
         // const position = {
         //     boardRelativeX:Math.ceil(relativeX/64),
         //     boardRelativeY: Math.ceil(relativeY/64),
         // }
-        
+
 
         let emptyTile = e.target;
         let id = e.target.parentElement.id;
-        
+
         switch (true) {
             case e.target.id == 'notation':
                 break;
 
-            case isPieceToMove && (currentPosition == id) && isPresentTiles:                
+            case isPieceToMove && (currentPosition == id) && isPresentTiles:
                 console.log('piece did not move');
-                setCurrentPosition('',false);
+                setCurrentPosition('', false);
 
                 break;
- 
-            case isPieceToMove && !id:{
+
+            case isPieceToMove && !id: {
                 console.log('moved to empty tile');
-                console.log({id:emptyTile.id});
-                
+                console.log({ id: emptyTile.id });
+
                 let copyBs = boardState;
                 copyBs.id = emptyTile.id
                 copyBs.id = emptyTile.id;
                 // copyBs.newPosition = emptyTile.id;
                 // payload = {...handleSetTiles(boardState)};
-                // setTiles(payload);                
-                payload = {...handleSetNewPosition(copyBs,tileState)};
+                // setTiles(payload);                   
+                payload = { ...handleSetNewPosition(copyBs, tileState) };
                 setNewPosition(payload);
-    
-                payload = {...handleAddCapturedPieces(boardState,tileState)};
-                addCapturedPieces(payload);                        
-                
-                if (isCheck) {    
+
+                payload = { ...handleAddCapturedPieces(boardState, tileState) };
+                addCapturedPieces(payload);
+
+                if (isCheck) {
                     if (pieceToMove.slice(-4) !== 'king') {
                         if (checkPiecesPath[id]) {
                             unSetCheckLevel();
                         }
                     }
-                    else{
+                    else {
                         if (!checkPiecesPath[id]) {
                             unSetCheckLevel();
                         }
                     }
                 }
-                if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+                if (!(countForMoves[whiteKingPosition] && countForMoves[blackKingPosition])) {
                     unSetCheckLevel()
                 }
-                        
-    
-                
+
+
+
                 // payload = {...handleSetId(emptyTile.id,false)};
 
                 // setId(payload);
@@ -143,10 +143,10 @@ const Board = () =>{
                 break;
             }
 
-            case isPieceToMove && (currentPosition != id) && pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]):{
+            case isPieceToMove && (currentPosition != id) && pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]): {
 
                 console.log('capture');
-                console.log({currentPosition,newPosition:id,pieceToMove,at:'board'});
+                console.log({ currentPosition, newPosition: id, pieceToMove, at: 'board' });
                 let copyBs = boardState;
                 copyBs.id = id;
                 // copyBs.newPosition = id;
@@ -154,32 +154,32 @@ const Board = () =>{
                 // setTiles(payload);
 
 
-                payload = {...handleSetNewPosition(copyBs,tileState)};
+                payload = { ...handleSetNewPosition(copyBs, tileState) };
                 setNewPosition(payload);
 
                 // payload = {...handleAddCapturedPieces(boardState,tileState)};
                 // addCapturedPieces(payload);
-                                                    
+
                 if (isCheck) {
-                    
+
                     if (pieceToMove.slice(-4) !== 'king') {
                         if (checkPiecesPath[id]) {
                             unSetCheckLevel();
                         }
                     }
-                    else{
+                    else {
                         if (!checkPiecesPath[id]) {
-                            
+
                             unSetCheckLevel();
                         }
                     }
                 }
-                if (!(countForMoves[whiteKingPosition]&&countForMoves[blackKingPosition])) {
+                if (!(countForMoves[whiteKingPosition] && countForMoves[blackKingPosition])) {
                     unSetCheckLevel()
                 }
-                
-            
-                
+
+
+
                 // payload = {...handleSetId(id,true)};
 
                 // setId(payload);
@@ -188,13 +188,13 @@ const Board = () =>{
             }
 
             case !!tiles[id] && isPresentTiles:
-                if(!checkMate){
+                if (!checkMate) {
                     // if (pieceSet(tiles[id]) == turn){
-                    console.log('piece to move');                    
-                    setCurrentPosition(id,true);                                        
+                    console.log('piece to move');
+                    setCurrentPosition(id, true);
                     // }
                 }
-                
+
                 break;
 
             default:
@@ -202,34 +202,34 @@ const Board = () =>{
         }
 
     }
-    useEffect(()=>{
-        console.log({newPosition});
-        
-    },[newPosition])
-    useEffect(()=>{
-        payload.allMoves = handleAllMoves(boardState,tileState);
+    useEffect(() => {
+        console.log({ newPosition });
+
+    }, [newPosition])
+    useEffect(() => {
+        payload.allMoves = handleAllMoves(boardState, tileState);
         let allMoves = payload.allMoves
         setAllMoves(payload.allMoves);
-        
-        
-                        
-        if (checkChecker(payload,boardState,tiles)){
-            let cc = checkChecker(payload,boardState,tiles);
-            payload  = {... handleSetCheckLevel(boardState,tileState,cc,allMoves)}
+
+
+
+        if (checkChecker(payload, boardState, tiles)) {
+            let cc = checkChecker(payload, boardState, tiles);
+            payload = { ...handleSetCheckLevel(boardState, tileState, cc, allMoves) }
             setCheckLevel(payload);
-        }        
+        }
 
-    },[moveNotation])
+    }, [moveNotation])
 
-    useEffect(()=>{
-        
+    useEffect(() => {
+
         if (boardState.isPieceToMove) {
-            let moves = legalMoves(boardState,tileState);
-                         
-            if (Object.keys(moves).length) {                                
+            let moves = legalMoves(boardState, tileState);
+
+            if (Object.keys(moves).length) {
                 payload.hasMoves = true;
-                setHasMoves(payload);                
-                setPossibleMoveTiles(moves); 
+                setHasMoves(payload);
+                setPossibleMoveTiles(moves);
             }
             else {
                 payload.hasMoves = false;
@@ -237,27 +237,27 @@ const Board = () =>{
             }
 
         }
-    },[currentPosition])
+    }, [currentPosition])
 
-    useEffect(()=>{
-        
-        
-        if(boardState.isPieceToMove){   
-            console.log({pieceToMove});
-            
+    useEffect(() => {
+
+
+        if (boardState.isPieceToMove) {
+            console.log({ pieceToMove });
+
             showPossibleMoves(possibleMoveTiles);
         }
-    },[tileState])
+    }, [tileState])
 
     // useEffect(()=>{
-        
-        
+
+
     //     console.log({currentPosition,newPosition:newPosition,pieceToMove,at:'newposition useEffect'});
     //     console.log({possibleMoveTiles});
     //     if (possibleMoveTiles) {
-            
+
     //         if (possibleMoveTiles[newPosition]) {
-                
+
 
     //             payload = {...handleSetTiles(boardState)};
     //             setTiles(payload);
@@ -267,37 +267,37 @@ const Board = () =>{
     //         }
     //         else{
     //             console.log('not allowed');
-                
+
     //         }            
     //     }    
-        
+
 
     // },[newPosition])
-    
 
-    useEffect(()=>{
 
-        payload = {...handleSetTileHistory(boardState,tileState)};
+    useEffect(() => {
 
-        
+        payload = { ...handleSetTileHistory(boardState, tileState) };
+
+
         setTilesHistory(payload);
         setCurrentView(payload);
-        
-    },[notationOrder])
+
+    }, [notationOrder])
 
 
-    
-    
 
-    return(
-        <div 
-        id={(checkMate && !reviewMode) ? 'blur' : ''}
-        className=' relative w-[80%] max-[999px]:w-[50%] max-[700px]:w-[70%]  max-[450px]:w-[80%]  aspect-square border border-black grid grid-cols-8 '  onClick={e=>handleOnClick(e)}>
-            
-            <Boxes/>
-            <LeftNum/>
-            <BottomLetter/>
-            
+
+
+    return (
+        <div
+            id={(checkMate && !reviewMode) ? 'blur' : ''}
+            className=' relative w-[80%] max-[999px]:w-[50%] max-[700px]:w-[70%]  max-[450px]:w-[80%]  aspect-square border border-black grid grid-cols-8 ' onClick={e => handleOnClick(e)}>
+
+            <Boxes />
+            <LeftNum /> 
+            <BottomLetter />
+
         </div>
     )
 }

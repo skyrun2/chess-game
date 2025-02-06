@@ -21,7 +21,7 @@ function setMoves(tile,bs,ts) {
     
     
     
-    console.log({set:pieceSet(tiles[tile])});
+
     
     const terms = {
         x :  Number(tile[0].charCodeAt()),
