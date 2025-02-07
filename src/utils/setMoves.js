@@ -32,11 +32,12 @@ function setMoves(tile,bs,ts) {
         bottomLeft: Math.min(eightPointX-1,y-1),
         topLeft :Math.min(eightPointX-1,8-y),
         startTile : tile,
-        tiles: tiles
+        tiles: tiles,
+        x1:1
     }
     
     
-    switch (p) {
+    switch (p) { 
         case 'pawn':
             return pawnMoveControl(pieceSet(tilePiece),terms,passant,bs);
             // return rookMoveControl(pieceSet(tilePiece),terms,bs);
