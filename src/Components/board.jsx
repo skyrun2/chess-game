@@ -288,7 +288,7 @@ const Board = () => {
 
 
 //I am on hiatus abeg
-
+    
     return (
         <div
             id={(checkMate && !reviewMode) ? 'blur' : ''}
