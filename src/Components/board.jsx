@@ -287,7 +287,7 @@ const Board = () => {
 
 
 
-//I am on hiatus abeg
+//I am o n hiatus abeg
     
     return (
         <div
