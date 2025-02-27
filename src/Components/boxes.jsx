@@ -79,17 +79,17 @@ const Boxes = () =>{
         
             
             
-           return( <li key={i}
-                className={`relative w-[100%] aspect-square ${bgColor} list-none `}
-                id={id}>
-                    {currentTiles[id]
-                    ?
-                        <img src={setSrs(id,currentTiles)}
-                        id={setId(id,currentTiles)}
-                        className={`${setClass(id,currentTiles)} absolute w-[65%] left-[15%]` }/>
-                     
-                    :null}
-                </li>)
+        return( <li key={i}
+            className={`relative w-[100%] aspect-square ${bgColor} list-none `}
+            id={id}>
+                {currentTiles[id]
+                ?
+                    <img src={setSrs(id,currentTiles)}
+                    id={setId(id,currentTiles)}
+                    className={`${setClass(id,currentTiles)} absolute w-[65%] left-[15%]` }/>
+                    
+                :null}
+            </li>)
         })
 
         

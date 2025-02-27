@@ -16,7 +16,7 @@ const useTiles = create((set,get)=>({
     isPresentTiles: true, 
     presentTiles: {},
     presentView:'',
-    currentTiles: {},
+    currentTiles: {...defaultSetup()},
     currentView: '',
 
     setTiles: (payload) => {
@@ -64,11 +64,11 @@ const useTiles = create((set,get)=>({
         
         
                 
-        console.log({updatedTiles});
+        
         
 
         set(()=>({
-            tiles:updatedTiles
+            currentTiles:updatedTiles
         })
     )},
 

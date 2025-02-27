@@ -56,7 +56,7 @@ function pawnMoveControl(set,terms,passant,bs){
     }
     let underLeft = set =='black'? String.fromCharCode(x-1)+(y-1) : String.fromCharCode(x-1)+(y+1);
     let underRight = set =='black'? String.fromCharCode(x+1)+(y-1) : String.fromCharCode(x+1)+(y+1);
-    console.log({left,right,time:"before"});
+    
     
     if(tiles[underLeft] && pieceSet(tiles[underLeft])== oppSet){
         availableMoves[underLeft] ={'tile':underLeft,color:`red`};;

@@ -7,16 +7,17 @@ import safePath from "./safePath";
 import isCheckMate from "./isCheckMate";
 
 
-function checkChecker (payload,bs,tiles) {
-    let allMoves = payload.allMoves;
+function checkChecker (bs,tiles) {
     let blackKingPosition = bs.blackKingPosition;
     let whiteKingPosition = bs.whiteKingPosition;
     let pieceToMove = bs.pieceToMove;
     let currentPosition = bs.currentPosition;
+    let allMoves = bs.allMoves;    
     let p = piece(pieceToMove);
     let set = pieceSet(pieceToMove);
     let targetKing = set == 'white' ? blackKingPosition : whiteKingPosition;
     let checkPieces = {}
+    
     
     // console.log({whiteKingPosition,blackKingPosition});
     
@@ -27,7 +28,7 @@ function checkChecker (payload,bs,tiles) {
     let countForMoves = {}
     let count = 0
     let copyBs  = bs;
-        let copyTs = {};        
+    let copyTs = {};        
     let updatedCount = 0;
     let newCountForMoves = {};
     let newTile = {};
@@ -36,14 +37,13 @@ function checkChecker (payload,bs,tiles) {
     let isCheck = false;
     let isDoubleCheck = false;
     let checkMate = false;
+    let payload
     
 
 
-
-    payload.allMoves = allMoves;
-    payload.tiles = tiles;
-
     if(Object.keys(allMoves).length){
+        payload.allMoves;
+        payload.tiles;
         countForMoves = cFM(payload).countForMoves;
         count = cFM(payload).count
         // console.log({countForMoves,allMoves});
@@ -65,9 +65,8 @@ function checkChecker (payload,bs,tiles) {
     copyBs.checkingSet = set;
     copyBs.checkPieces =checkPieces;
     newMoves = handleAllMoves(copyBs,copyTs); 
-    payload.allMoves = newMoves;
-    payload.tiles = tiles;
-    newCountForMoves = cFM(payload).countForMoves;
+    
+    // newCountForMoves = cFM(payload).countForMoves;
 
     let availableMoves ={};
 
@@ -96,7 +95,10 @@ function checkChecker (payload,bs,tiles) {
     }
     
     
-    checkMate = isCheckMate(targetKing,copyBs,tiles);
+    if (tiles) {
+        
+        checkMate = isCheckMate(targetKing,copyBs,tiles);
+    }
 
         
     
@@ -111,7 +113,7 @@ function checkChecker (payload,bs,tiles) {
 
     
     
-    console.log({allMoves});
+    
     
     if(isCheck||isDoubleCheck) return {'checkPieces':checkPieces,'countForMoves':countForMoves,'totalCount':count,newMoves,isCheck,isDoubleCheck,allMoves,checkMate,set};
     

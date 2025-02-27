@@ -172,7 +172,8 @@ const useBoardState = create((set,get) => ({
         
         
         
-        // console.log(payload);
+        
+        
         
         set({
             currentPosition:position,

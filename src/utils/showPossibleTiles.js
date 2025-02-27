@@ -1,22 +1,8 @@
 
 function showPossibleMoves(moves) {
-
-    
-    
-
-
-    if (moves) {
-        console.log({moves});
-        
-        for (const move in moves) {
-            
-            
-            
-            document.getElementById(moves[move].tile).style.backgroundColor = moves[move].color;
-            // if (moves.path[move]) {
-                
-                
-            // }
+    if (moves) {        
+        for (const move in moves) {        
+            document.getElementById(move).style.backgroundColor = moves[move].color;            
         }
     }
     
