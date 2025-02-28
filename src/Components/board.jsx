@@ -39,7 +39,7 @@ const Board = () => {
     const checkPiecesPath = useBoardState((state) => state.checkPiecesPath);
     const countForMoves = useBoardState((state) => state.countForMoves);
     const currentPosition = useBoardState((state) => state.currentPosition);
-    const currentTile = useTiles((state) => state.currentTile);
+    const currentTiles = useTiles((state) => state.currentTiles);
     const id = useBoardState((state) => state.id);
 
     const isCheck = useBoardState((state) => state.isCheck);
@@ -64,9 +64,11 @@ const Board = () => {
     const setNotations = useBoardState((state) => state.setNotations);
     const setPossibleMoveTiles = useTiles((state) => state.setPossibleMoveTiles);
     const setTiles = useTiles((state) => state.setTiles);
+    const setTileChangeIndicator = useBoardState((state)=>state.setTileChangeIndicator);
     const setTilesHistory = useTiles((state) => state.setTilesHistory);
     const setCurrentView = useTiles((state) => state.setCurrentView);
     const setTurn = useBoardState((state) => state.setTurn);
+    const tileChangeIndicator = useBoardState((state)=>state.tileChangeIndicator);
     const tiles = useTiles((state) => state.tiles);
     const tileState = useTiles((state) => state);
     const turn = useBoardState((state) => state.turn);
@@ -109,7 +111,7 @@ const Board = () => {
 
             case toEmptyTile: {
                 console.log('moved to empty tile');
-                console.log({ id: emptyTile.id });
+                
 
                 let copyBs = boardState;
                 copyBs.id = emptyTile.id
@@ -118,7 +120,7 @@ const Board = () => {
                 // payload = {...handleSetTiles(boardState)};
                 // setTiles(payload);                   
                 payload = { ...handleSetNewPosition(copyBs, tileState) };
-                console.log({payload});
+                
                 
                 setNewPosition(payload);
 
@@ -198,9 +200,7 @@ const Board = () => {
                 if (!checkMate) {
                     // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
-                    setCurrentPosition(id, true);
-                    console.log(id);
-                    
+                    setCurrentPosition(id, true);                    
                     // }
                 }
 
@@ -215,26 +215,27 @@ const Board = () => {
     useEffect(()=>{
         setAllMoves(handleAllMoves(boardState,tileState));                
     },[])
-    useEffect(()=>{     
-        if (allMoves[currentPosition]) {
-            console.log({move:allMoves[currentPosition]});
-            
+    useEffect(()=>{             
+        if (allMoves[currentPosition]) {            
             showPossibleMoves(allMoves[currentPosition].path);            
         }   
     },[currentPosition])
 
     useEffect(()=>{                
-        setTiles(handleSetTiles(boardState));                
+        setTiles(handleSetTiles(boardState));  
+        setTileChangeIndicator();
+        console.log({newPosition});
+        
     },[newPosition])
 
-    useEffect(()=>{
-        
-        setAllMoves(handleAllMoves(boardState,tileState));                
-        // console.log({check:checkChecker(boardState,currentTile)});
-        
-        
-        
-    },[currentTile])
+    useEffect(()=>{        
+        setAllMoves(handleAllMoves(boardState,tileState));  
+        console.log({tileChangeIndicator});
+                                 
+    },[tileChangeIndicator])
+    // useEffect(()=>{
+    //     checkChecker(boardState,currentTiles);
+    // },[allMoves])
     return (       
         <div
             id={(checkMate && !reviewMode) ? 'blur' : ''}

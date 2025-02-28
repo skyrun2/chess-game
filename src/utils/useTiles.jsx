@@ -34,7 +34,7 @@ const useTiles = create((set,get)=>({
         let newQueenSideRookTile = pSet =='white' ? 'd1' : 'd8';
 
         let rook = pSet == 'white' ? 'rook' :'b_rook'
-        console.log({payload});
+
         
 
         
@@ -60,13 +60,7 @@ const useTiles = create((set,get)=>({
             }
             
             
-        }
-        
-        
-                
-        
-        
-
+        }        
         set(()=>({
             currentTiles:updatedTiles
         })

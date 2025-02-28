@@ -17,9 +17,12 @@ function countForMoves(payload) {
     let whiteSet = false;
     let updatedTile = {};
     
+
+    console.log({allMoves});
     
     
     for (const tilePiece in allMoves) {
+        
         if (pieceSet[tilePiece] == 'white') whiteSet = true;
         if (pieceSet[tilePiece] == 'black') blackSet = true;
         for (const tile in allMoves[tilePiece].path) {            
@@ -35,10 +38,13 @@ function countForMoves(payload) {
         }   
         
         
-        count += Object.keys(allMoves[tilePiece].path).length;
+        // count += Object.keys(allMoves[tilePiece].path).length;
         
     }
+    
+    
     return {countForMoves:cFM,count,blackSet,whiteSet};
+    // return {1:1}
 }
 
 export default countForMoves

@@ -21,6 +21,7 @@ const useBoardState = create((set,get) => ({
     countForMoves:{},
     currentPosition :[],
     currentTile:'',
+    tileChangeIndicator:0,
     gameEnd: false,
     hasMoves: false,
     id:'',
@@ -102,11 +103,6 @@ const useBoardState = create((set,get) => ({
         set(() =>{
             let newPrev = {};
             
-
-            console.log({newPrev});
-            
-            
-
             return {
                 allMoves:{},
                 blackKingPosition:'e8',
@@ -161,7 +157,7 @@ const useBoardState = create((set,get) => ({
         }))
     },
     setAllMoves: (payload) =>{
-        console.log({payload});
+
         set(()=>({
             allMoves:payload
         }))
@@ -187,7 +183,7 @@ const useBoardState = create((set,get) => ({
     },
     
     setId : (payload)=>{
-        console.log({iscap:payload.isCapture});
+
         
         set(()=>({
             id :payload.id,
@@ -202,8 +198,7 @@ const useBoardState = create((set,get) => ({
         
         
         
-        console.log({currentPosition:payload.currentPosition,newPosition:payload.newPosition,pieceToMove:payload.pieceToMove,at:'setNotation'});
-        console.log({set:payload.set});
+        
         
         set((state)=>({            
             newPosition : payload.newPosition,
@@ -330,8 +325,16 @@ const useBoardState = create((set,get) => ({
             hasMoves: payload.hasMoves,
         }))
     },
+    setTileChangeIndicator:()=>{
+        set(prev =>{
+            let updatedTileChangeIndicator = Number(prev.tileIndicator) + 1;
+            return{
+               tileChangeIndicator:  updatedTileChangeIndicator
+            }
+        })
+    },
     unSetCheckLevel : () => {
-        console.log('i should work');
+
         
         set(()=>({
             checkPieces: {},

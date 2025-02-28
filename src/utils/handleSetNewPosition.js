@@ -16,7 +16,7 @@ function handleSetNewPosition(bs,ts) {
     const newPosition = bs.id;
     const tiles = ts.tiles;
     
-
+    
     const set = pieceSet(pieceToMove);
     const p = piece(pieceToMove);
     const targetKing = set == 'white' ? whiteKing : blackKing;
@@ -50,7 +50,7 @@ function handleSetNewPosition(bs,ts) {
     
     
 
-    console.log({currentPosition,newPosition:payload.newPosition,pieceToMove,at:'handleSetNotation'});
+
     
     return payload;
 }

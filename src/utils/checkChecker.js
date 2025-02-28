@@ -37,15 +37,25 @@ function checkChecker (bs,tiles) {
     let isCheck = false;
     let isDoubleCheck = false;
     let checkMate = false;
-    let payload
+    let payload = {};
     
 
-
+    
+    payload.allMoves = allMoves;
+    payload.tiles = tiles;
+    console.log(cFM(payload));
     if(Object.keys(allMoves).length){
-        payload.allMoves;
-        payload.tiles;
-        countForMoves = cFM(payload).countForMoves;
-        count = cFM(payload).count
+        
+        // if (cFM(payload).countForMoves) {
+        //     countForMoves = cFM(payload).countForMoves;            
+            
+        // }
+        // if (cFM(payload).count) {
+            
+        //     count = cFM(payload).count
+            
+        // }
+        
         // console.log({countForMoves,allMoves});
     }
 

@@ -22,7 +22,7 @@ function handleSetTiles(bs) {
     payload.moveCount = bs.moveCount;
     payload.castlingPieces = castlingPieces;
     
-    console.log({newPosition,currentPosition});
+    
     
 
     let castlingCondition = !!(p=='king' && castlingPieces[currentPosition]);
