@@ -115,6 +115,7 @@ const useBoardState = create((set,get) => ({
                 h8:{tile:'h8',piece:'rook',set:'black'},                
                 },
                 castlingRook :'',
+                cfm:{},
                 checkPieces:{},
                 checkPiecesPath:{},
                 checkingSet:'',
@@ -156,10 +157,10 @@ const useBoardState = create((set,get) => ({
             reviewMode:true
         }))
     },
-    setAllMoves: (payload) =>{
-
+    setAllMoves: (payload) =>{        
         set(()=>({
-            allMoves:payload
+            allMoves:payload.moves,
+            cfm:payload.cfm
         }))
     },
 
@@ -270,54 +271,16 @@ const useBoardState = create((set,get) => ({
     },
 
     setCheckLevel : (payload) => {
-        const isCheck = payload.isCheck ? true : false ;
-        const isDoubleCheck = payload.isDoubleCheck ? true : false ;
-        let checkPiecesPath = {};
+        const isCheck = payload.isCheck;
+        const isDoubleCheck = payload.isDoubleCheck;
+        let checkPieces = payload.checkPieces;
+            
+        set(()=>({
+            isCheck:isCheck,
+            isDoubleCheck:isDoubleCheck,
+            checkPieces: checkPieces,
+        }))
         
-        
-        
-
-        
-        
-        if (isCheck||isDoubleCheck) {
-            
-            for(let piece in payload.checkPieces) {
-                
-                if (payload.allMoves[piece].path) {
-                    checkPiecesPath = {...checkPiecesPath, ...payload.allMoves[piece].path }
-                }
-                else checkPiecesPath = null;
-            }
-            
-            
-            
-            
-            
-            set(()=>({
-                checkPieces: payload.checkPieces,
-                checkPiecesPath:checkPiecesPath,
-                checkingSet : payload.checkingSet,
-                checkMate: payload.checkMate,
-                countForMoves: payload.countForMoves,
-                isCheck : isCheck,
-                isDoubleCheck : isDoubleCheck,
-                totalMovesCount: payload.totalCount,
-                winningSet : payload.set,
-                
-            }))
-        }
-        else{ 
-
-            
-            set(()=>({
-                countForMoves: payload.countForMoves,
-                totalMovesCount: payload.totalCount,
-                allMoves : payload.allMoves,
-                
-
-                
-            }))
-        }
     },
     setHasMoves : (payload) => {
         
@@ -327,7 +290,7 @@ const useBoardState = create((set,get) => ({
     },
     setTileChangeIndicator:()=>{
         set(prev =>{
-            let updatedTileChangeIndicator = Number(prev.tileIndicator) + 1;
+            let updatedTileChangeIndicator = prev.tileChangeIndicator + 1;
             return{
                tileChangeIndicator:  updatedTileChangeIndicator
             }

@@ -112,36 +112,38 @@ const Board = () => {
             case toEmptyTile: {
                 console.log('moved to empty tile');
                 
+                let legalMove = allMoves[currentPosition].path[emptyTile.id];
+                if (legalMove) {
+                    let copyBs = boardState;
+                    copyBs.id = emptyTile.id
+                    
+                    
+                    payload = { ...handleSetNewPosition(copyBs, tileState) };
+                    
+                    setNewPosition(payload);
 
-                let copyBs = boardState;
-                copyBs.id = emptyTile.id
-                copyBs.id = emptyTile.id;
-                // copyBs.newPosition = emptyTile.id;
-                // payload = {...handleSetTiles(boardState)};
-                // setTiles(payload);                   
-                payload = { ...handleSetNewPosition(copyBs, tileState) };
-                
-                
-                setNewPosition(payload);
+                    payload = { ...handleAddCapturedPieces(boardState, tileState) };
+                    addCapturedPieces(payload);
 
-                payload = { ...handleAddCapturedPieces(boardState, tileState) };
-                addCapturedPieces(payload);
-
-                if (isCheck) {
-                    if (pieceToMove.slice(-4) !== 'king') {
-                        if (checkPiecesPath[id]) {
-                            unSetCheckLevel();
+                    if (isCheck) {
+                        if (pieceToMove.slice(-4) !== 'king') {
+                            if (checkPiecesPath[id]) {
+                                unSetCheckLevel();
+                            }
+                        }
+                        else {
+                            if (!checkPiecesPath[id]) {
+                                unSetCheckLevel();
+                            }
                         }
                     }
-                    else {
-                        if (!checkPiecesPath[id]) {
-                            unSetCheckLevel();
-                        }
-                    }
+                    if (!(countForMoves[whiteKingPosition] && countForMoves[blackKingPosition])) {
+                        unSetCheckLevel()
+                    }    
                 }
-                if (!(countForMoves[whiteKingPosition] && countForMoves[blackKingPosition])) {
-                    unSetCheckLevel()
-                }
+                else console.log("Move not allowed");
+                
+                
 
 
 
@@ -154,44 +156,42 @@ const Board = () => {
 
             case toCapture: {
 
-                console.log('capture');
-                console.log({ currentPosition, newPosition: id, pieceToMove, at: 'board' });
-                let copyBs = boardState;
-                copyBs.id = id;
-                // copyBs.newPosition = id;
-                // payload = {...handleSetTiles(boardState)};
-                // setTiles(payload);
+                console.log('capture'); 
+                let legalMove = allMoves[currentPosition].path[id];               
+                if (legalMove) {
+                    let copyBs = boardState;
+                    copyBs.id = id;
+                    
 
+                    payload = { ...handleSetNewPosition(copyBs, tileState) };
+                    setNewPosition(payload);
 
-                payload = { ...handleSetNewPosition(copyBs, tileState) };
-                setNewPosition(payload);
+                    // payload = {...handleAddCapturedPieces(boardState,tileState)};
+                    // addCapturedPieces(payload);
 
-                // payload = {...handleAddCapturedPieces(boardState,tileState)};
-                // addCapturedPieces(payload);
+                    if (isCheck) {
 
-                if (isCheck) {
+                        if (pieceToMove.slice(-4) !== 'king') {
+                            if (checkPiecesPath[id]) {
+                                unSetCheckLevel();
+                            }
+                        }
+                        else {
+                            if (!checkPiecesPath[id]) {
 
-                    if (pieceToMove.slice(-4) !== 'king') {
-                        if (checkPiecesPath[id]) {
-                            unSetCheckLevel();
+                                unSetCheckLevel();
+                            }
                         }
                     }
-                    else {
-                        if (!checkPiecesPath[id]) {
-
-                            unSetCheckLevel();
-                        }
+                    if (!(countForMoves[whiteKingPosition] && countForMoves[blackKingPosition])) {
+                        unSetCheckLevel()
                     }
+
                 }
-                if (!(countForMoves[whiteKingPosition] && countForMoves[blackKingPosition])) {
-                    unSetCheckLevel()
-                }
+                else console.log("Capture not allowed");
+                
+                
 
-
-
-                // payload = {...handleSetId(id,true)};
-
-                // setId(payload);
 
                 break;
             }
@@ -221,21 +221,21 @@ const Board = () => {
         }   
     },[currentPosition])
 
-    useEffect(()=>{                
+    useEffect(()=>{   
+
         setTiles(handleSetTiles(boardState));  
         setTileChangeIndicator();
         console.log({newPosition});
         
     },[newPosition])
 
-    useEffect(()=>{        
-        setAllMoves(handleAllMoves(boardState,tileState));  
-        console.log({tileChangeIndicator});
-                                 
+    useEffect(()=>{                
+        setAllMoves(handleAllMoves(boardState,tileState));                                              
     },[tileChangeIndicator])
-    // useEffect(()=>{
-    //     checkChecker(boardState,currentTiles);
-    // },[allMoves])
+    useEffect(()=>{
+        console.log(checkChecker(boardState,currentTiles));
+        
+    },[allMoves])
     return (       
         <div
             id={(checkMate && !reviewMode) ? 'blur' : ''}

@@ -43,7 +43,7 @@ function countForMoves(payload) {
     }
     
     
-    return {countForMoves:cFM,count,blackSet,whiteSet};
+    return {cFM,count,blackSet,whiteSet};
     // return {1:1}
 }
 

@@ -22,11 +22,11 @@ function handleAllMoves(bs,ts) {
     payload.allMoves = moves;
     payload.tiles = currentTiles;
     let cfm = countForMoves(payload)
-    console.log({cfm});
+    
     
 
     
-    return moves;    
+    return {moves,cfm};    
 
     
 }
