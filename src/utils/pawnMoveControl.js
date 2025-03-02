@@ -100,43 +100,6 @@ function pawnMoveControl(set,terms,passant,bs){
     
         
         
-    payload = {
-        isCheck :isCheck,
-        set : set,
-        checkingSet:checkingSet,
-        checkPiecesPath:checkPiecesPath,
-        availableMoves:availableMoves,
-        isDoubleCheck:isDoubleCheck,
-    }
-    if (isCheck||isDoubleCheck) {
-        availableMoves =  blockCheckPath(payload);
-        
-    }
-    
-    if (!(isCheck && isDoubleCheck)){
-                    
-            
-            
-        if (countForMoves[currentPosition]) {
-            for (const capturePiece in countForMoves[currentPosition].pieces) {
-                if (pieceSet(tiles[capturePiece]) !== pieceToMoveSet) {
-                    terms.set = pieceToMoveSet;
-                    if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
-                        
-                        availableMoves = isBlockingCheck(capturePiece,bs,terms,availableMoves);
-                        
-                        // availableMoves = {};
-                    }                    
-                }
-                
-                
-            }
-        }
-    }
-    
-    
-    
-    
     
     
     

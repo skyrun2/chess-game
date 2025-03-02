@@ -25,6 +25,8 @@ import handleSetTiles from "@/utils/handleSetTiles";
 
 import handleAllMoves from "@/utils/handleAllMoves";
 import legalMoves from "@/utils/legalMoves";
+import checkEffects from "@/utils/checkEffects";
+import cleanAllMoves from "@/utils/cleanAllMoves";
 
 
 
@@ -37,25 +39,28 @@ const Board = () => {
     const boardState = useBoardState((state) => state);
     const checkMate = useBoardState((state) => state.checkMate);
     const checkPiecesPath = useBoardState((state) => state.checkPiecesPath);
+    const count = useBoardState((state) => state.count);
     const countForMoves = useBoardState((state) => state.countForMoves);
     const currentPosition = useBoardState((state) => state.currentPosition);
     const currentTiles = useTiles((state) => state.currentTiles);
     const id = useBoardState((state) => state.id);
 
     const isCheck = useBoardState((state) => state.isCheck);
+    const isDoubleCheck = useBoardState((state) => state.isDoubleCheck);
     const isPieceToMove = useBoardState((state) => state.isPieceToMove);
     const isPresentTiles = useTiles((state) => state.isPresentTiles);
     const moveNotation = useBoardState((state) => state.moveNotation);
     const newPosition = useBoardState((state) => state.newPosition);
     // const NewBoardPosition = useBoardState((state) => state.NewBoardPosition);
+    const notCheck = useBoardState((state)=>state.notCheck);
     const notationOrder = useBoardState((state) => state.notationOrder);
     const pieceToMove = useBoardState((state) => state.pieceToMove);
     // const pieceMoveNotation = useBoardState((state) => state.pieceMoveNotation);
     // const pieceToMoveClass = useBoardState((state)=> state.pieceToMoveClass);
     const possibleMoveTiles = useTiles((state) => state.possibleMoveTiles);
     const reviewMode = useBoardState((state) => state.reviewMode);
-    const setAllMoves = useBoardState((state) => state.setAllMoves);
     const setCheckLevel = useBoardState((state) => state.setCheckLevel);
+    const setAllMoves = useBoardState((state) => state.setAllMoves);
     const setCurrentPosition = useBoardState((state) => state.setCurrentPosition);
     const setId = useBoardState((state) => state.setId);
     const setHasMoves = useBoardState((state) => state.setHasMoves);
@@ -221,21 +226,34 @@ const Board = () => {
         }   
     },[currentPosition])
 
-    useEffect(()=>{   
-
+    useEffect(()=>{           
         setTiles(handleSetTiles(boardState));  
         setTileChangeIndicator();
-        console.log({newPosition});
-        
+    
     },[newPosition])
 
-    useEffect(()=>{                
-        setAllMoves(handleAllMoves(boardState,tileState));                                              
+    useEffect(()=>{                        
+        setAllMoves(handleAllMoves(boardState,tileState));
     },[tileChangeIndicator])
-    useEffect(()=>{
-        console.log(checkChecker(boardState,currentTiles));
-        
+
+
+    useEffect(()=>{         
+        console.log({boardState,tileState});
+       let payload =  handleSetCheckLevel(checkChecker(boardState,currentTiles));
+       setCheckLevel(payload);
     },[allMoves])
+
+    useEffect(()=>{
+
+        
+        
+        if (isCheck||isDoubleCheck) {
+            checkEffects(boardState,tileState);     
+        } 
+        cleanAllMoves(boardState,tileState)             
+        
+        // setAllMoves(cleanAllMoves(boardState,tileState)); 
+    },[count])
     return (       
         <div
             id={(checkMate && !reviewMode) ? 'blur' : ''}
@@ -250,3 +268,4 @@ const Board = () => {
 }
 
 export default Board;    
+

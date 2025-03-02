@@ -11,7 +11,7 @@ function handleAddCapturedPieces(bs,ts) {
     payload.whiteKingPosition = kingTile(payload,boardState,'w');
     payload.blackKingPosition = kingTile(payload,boardState,'b');
     payload.piece = pieceIs(tiles[payload.newPosition]);
-
+ 
     if (pieceSet(tiles[payload.newPosition]) == 'white'){
         payload.set = 'white';
         if (capturedPieces.whiteSet[pieceIs(tiles[payload.newPosition])]) {

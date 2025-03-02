@@ -64,40 +64,6 @@ function knightMoveControl(set,terms,bs){
     
     
     
-    let payload={};
-    payload = {
-        isCheck :isCheck,
-        set : set,
-        checkingSet:checkingSet,
-        checkPiecesPath:checkPiecesPath,
-        availableMoves:availableMoves,
-        isDoubleCheck:isDoubleCheck,
-    }
-    if (isCheck||isDoubleCheck) {
-        
-        availableMoves =  blockCheckPath(payload);
-        
-    }
-    
-    if (!(isCheck && isDoubleCheck)){
-        
-        if (countForMoves[currentPosition]) {
-            for (const capturePiece in countForMoves[currentPosition].pieces) {
-                if (pieceSet(tiles[capturePiece]) !== set) {
-                    terms.set = set;
-                    
-
-                    
-                    if (isBlockingCheck(capturePiece,bs,terms,availableMoves)) {
-                        availableMoves = {};
-                    }                    
-                }
-                
-                
-            }
-        }
-    }
-    
 
     
     return availableMoves;

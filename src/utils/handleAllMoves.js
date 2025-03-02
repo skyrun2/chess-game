@@ -6,6 +6,8 @@ import setMoves from "./setMoves";
 
 function handleAllMoves(bs,ts) {
     const currentTiles = ts.currentTiles;
+    console.log({currentTiles});
+    
     const allMoves = bs.allMoves
     const isCheck = bs.isCheck;
     const isDoubleCheck = bs.isDoubleCheck;

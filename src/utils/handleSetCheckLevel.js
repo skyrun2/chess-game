@@ -2,40 +2,16 @@ import pieceSet from "./pieceSet";
 
   
 
-function handleSetCheckLevel(bs,ts,cc,allMoves) {
+function handleSetCheckLevel(checkChecker) {
     const payload = {};
+    payload.isCheck = checkChecker.isCheck;
+    payload.isDoubleCheck = checkChecker.isDoubleCheck;
+    payload.checkPieces = checkChecker.checkPieces;
+    payload.checkPiecePath = checkChecker.checkPiecePath;
+    payload.notCheck = checkChecker.notCheck;
+    payload.targetKing = checkChecker.targetKing;
     
-    const tiles = ts.tiles;
     
-    let LocalCheckPieces = cc.checkPieces
-    
-    
-    
-    if (LocalCheckPieces) {                
-        let checkingSet = pieceSet(tiles[(Object.keys(LocalCheckPieces)[0])]);
-        if (Object.keys(LocalCheckPieces).length == 2) payload.isDoubleCheck = true;
-        if (Object.keys(LocalCheckPieces).length == 1) payload.isCheck = true;
-        payload.checkPieces = LocalCheckPieces;
-        payload.checkingSet = checkingSet;
-        payload.countForMoves = cc.countForMoves;
-        payload.totalCount = cc.totalCount;
-        payload.allMoves = cc.newMoves;
-        payload.checkMate = cc.checkMate;
-        payload.allMoves = cc.allMoves;
-        payload.set = cc.set
-        
-        
-        
-                
-    }
-    else{
-        payload.countForMoves = cc.countForMoves;
-        payload.totalCount = cc.totalCount;
-        payload.allMoves = allMoves;
-        payload.set = cc.set ;
-        
-        
-    }
     
     
     return payload

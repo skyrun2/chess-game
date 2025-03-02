@@ -12,12 +12,13 @@ const useBoardState = create((set,get) => ({
     capturedPieces : {
         blackSet:{},
         whiteSet:{},
-    },
+    },    
     castlingRook :'',
     checkPieces:{},
     checkPiecesPath:{},
     checkingSet:'',
     checkMate:false,
+    count:0,
     countForMoves:{},
     currentPosition :[],
     currentTile:'',
@@ -33,6 +34,7 @@ const useBoardState = create((set,get) => ({
     isPieceToMove:false,
     moveCount:0,
     moveNotation:[],
+    notCheck:true,
     notationOrder:[],
     newBoardPosition:'',
     newPosition : {},
@@ -44,6 +46,7 @@ const useBoardState = create((set,get) => ({
     reviewMode:false,
     resigned: false,
     resignModal: false,
+    targetKing:"",
     totalMovesCount:0,
     turn:'white',
     winningSet:'',
@@ -117,7 +120,7 @@ const useBoardState = create((set,get) => ({
                 castlingRook :'',
                 cfm:{},
                 checkPieces:{},
-                checkPiecesPath:{},
+                checkPiecePath:{},
                 checkingSet:'',
                 checkMate:false,
                 countForMoves:{},
@@ -133,7 +136,8 @@ const useBoardState = create((set,get) => ({
                 newPosition : '',
                 moveCount : 0,
                 moveNotation : [],
-                notationOrder : [],
+                notCheck:true,
+                notationOrder : [],                
                 passant  : [],
                 reviewMode:false,
                 turn : 'white',
@@ -273,12 +277,20 @@ const useBoardState = create((set,get) => ({
     setCheckLevel : (payload) => {
         const isCheck = payload.isCheck;
         const isDoubleCheck = payload.isDoubleCheck;
-        let checkPieces = payload.checkPieces;
-            
+        const checkPieces = payload.checkPieces;
+        const checkPiecePath = payload.checkPiecePath;
+        const notCheck = payload.notCheck;
+        const targetKing = payload.targetKing;
+        let count = get().count + 1;
+        
         set(()=>({
             isCheck:isCheck,
             isDoubleCheck:isDoubleCheck,
             checkPieces: checkPieces,
+            checkPiecePath: checkPiecePath,
+            notCheck:  notCheck,
+            targetKing: targetKing,
+            count,
         }))
         
     },
