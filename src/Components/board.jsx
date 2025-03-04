@@ -1,5 +1,5 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import BottomLetter from "./bottomLetter";
 import Boxes from "./boxes";
 import LeftNum from "./leftNums";
@@ -27,6 +27,7 @@ import handleAllMoves from "@/utils/handleAllMoves";
 import legalMoves from "@/utils/legalMoves";
 import checkEffects from "@/utils/checkEffects";
 import cleanAllMoves from "@/utils/cleanAllMoves";
+import countForMoves from "@/utils/countForMoves";
 
 
 
@@ -40,16 +41,16 @@ const Board = () => {
     const checkMate = useBoardState((state) => state.checkMate);
     const checkPiecesPath = useBoardState((state) => state.checkPiecesPath);
     const count = useBoardState((state) => state.count);
-    const countForMoves = useBoardState((state) => state.countForMoves);
     const currentPosition = useBoardState((state) => state.currentPosition);
-    const currentTiles = useTiles((state) => state.currentTiles);
+    const currentTiles = useBoardState((state) => state.currentTiles);
     const id = useBoardState((state) => state.id);
 
     const isCheck = useBoardState((state) => state.isCheck);
     const isDoubleCheck = useBoardState((state) => state.isDoubleCheck);
     const isPieceToMove = useBoardState((state) => state.isPieceToMove);
-    const isPresentTiles = useTiles((state) => state.isPresentTiles);
+    const isPresentTiles = useBoardState((state) => state.isPresentTiles);
     const moveNotation = useBoardState((state) => state.moveNotation);
+    const newCount = useBoardState((state) => state.newCount);
     const newPosition = useBoardState((state) => state.newPosition);
     // const NewBoardPosition = useBoardState((state) => state.NewBoardPosition);
     const notCheck = useBoardState((state)=>state.notCheck);
@@ -57,25 +58,28 @@ const Board = () => {
     const pieceToMove = useBoardState((state) => state.pieceToMove);
     // const pieceMoveNotation = useBoardState((state) => state.pieceMoveNotation);
     // const pieceToMoveClass = useBoardState((state)=> state.pieceToMoveClass);
-    const possibleMoveTiles = useTiles((state) => state.possibleMoveTiles);
+    const possibleMoveTiles = useBoardState((state) => state.possibleMoveTiles);
     const reviewMode = useBoardState((state) => state.reviewMode);
     const setCheckLevel = useBoardState((state) => state.setCheckLevel);
     const setAllMoves = useBoardState((state) => state.setAllMoves);
+    const setAllMovesCount1 = useBoardState((state) => state.setAllMovesCount1);
+    const setCleanAllMoves = useBoardState((state) => state.setAllMoves);
+    const setCleanAllMovesCount = useBoardState((state) => state.setCleanAllMovesCount);
     const setCurrentPosition = useBoardState((state) => state.setCurrentPosition);
     const setId = useBoardState((state) => state.setId);
+    const setInitialMoves = useBoardState((state) => state.setInitialMoves);
     const setHasMoves = useBoardState((state) => state.setHasMoves);
     // const setIsPieceToMove = useBoardState((state) => state.setIsPieceToMove);
     const setNewPosition = useBoardState((state) => state.setNewPosition);
     const setNotations = useBoardState((state) => state.setNotations);
-    const setPossibleMoveTiles = useTiles((state) => state.setPossibleMoveTiles);
-    const setTiles = useTiles((state) => state.setTiles);
+    const setPossibleMoveTiles = useBoardState((state) => state.setPossibleMoveTiles);
+    const setTiles = useBoardState((state) => state.setTiles);
     const setTileChangeIndicator = useBoardState((state)=>state.setTileChangeIndicator);
-    const setTilesHistory = useTiles((state) => state.setTilesHistory);
-    const setCurrentView = useTiles((state) => state.setCurrentView);
+    const setTilesHistory = useBoardState((state) => state.setTilesHistory);
+    const setCurrentView = useBoardState((state) => state.setCurrentView);
     const setTurn = useBoardState((state) => state.setTurn);
     const tileChangeIndicator = useBoardState((state)=>state.tileChangeIndicator);
-    const tiles = useTiles((state) => state.tiles);
-    const tileState = useTiles((state) => state);
+    const tiles = useBoardState((state) => state.tiles);
     const turn = useBoardState((state) => state.turn);
     const whiteKingPosition = useBoardState((state) => state.whiteKingPosition);
     const unSetCheckLevel = useBoardState((state) => state.unSetCheckLevel);
@@ -84,33 +88,33 @@ const Board = () => {
     let payload = {};
 
 
-
+    const [prevCurrentPosition,setPrevCurrentPosition] = useState(null);
+    
 
 
     const handleOnClick = (e) => {
-        // let relativeX = e.target.getBoundingClientRect().x - e.currentTarget.getBoundingClientRect().x; 
-        // let relativeY = e.target.getBoundingClientRect().y - e.currentTarget.getBoundingClientRect().y;
-
-        // const position = {
-        //     boardRelativeX:Math.ceil(relativeX/64),
-        //     boardRelativeY: Math.ceil(relativeY/64),
-        // }
-
-
+        
+        
         let emptyTile = e.target;
         let id = e.target.parentElement.id;
-        let pieceToMoveDoubleTAp = isPieceToMove && (currentPosition == id) && isPresentTiles;
-        let toEmptyTile = isPieceToMove && !id;
-        let toCapture = isPieceToMove && (currentPosition != id) && pieceSet(tiles[id]) !== pieceSet(tiles[currentPosition]);
-        let activatePieceToMove = !!tiles[id] && isPresentTiles;
+        
+        
 
+        let pieceToMoveDoubleTap =  (currentPosition == id) && isPresentTiles;
+        let toEmptyTile =  !!prevCurrentPosition && (id.length == 0);
+        let toCapture = !!prevCurrentPosition &&  (id.length > 0) ;        
+        let activatePieceToMove = !!currentTiles[id] && isPresentTiles;
+        if (activatePieceToMove) setPrevCurrentPosition(id);
+        if(toEmptyTile||toCapture) setPrevCurrentPosition(null);
+
+        
         switch (true) {
             case e.target.id == 'notation':
                 break;
 
-            case pieceToMoveDoubleTAp:
+            case pieceToMoveDoubleTap:
                 console.log('piece did not move');
-                setCurrentPosition('', false);
+                setCurrentPosition('', false);                
 
                 break;
 
@@ -123,11 +127,11 @@ const Board = () => {
                     copyBs.id = emptyTile.id
                     
                     
-                    payload = { ...handleSetNewPosition(copyBs, tileState) };
+                    payload = { ...handleSetNewPosition(copyBs) };
                     
                     setNewPosition(payload);
 
-                    payload = { ...handleAddCapturedPieces(boardState, tileState) };
+                    payload = { ...handleAddCapturedPieces(boardState) };
                     addCapturedPieces(payload);
 
                     if (isCheck) {
@@ -167,12 +171,14 @@ const Board = () => {
                     let copyBs = boardState;
                     copyBs.id = id;
                     
-
-                    payload = { ...handleSetNewPosition(copyBs, tileState) };
+                    console.log({id:copyBs.id,currentPosition});
+                    
+                    payload = { ...handleSetNewPosition(copyBs) };
+                    console.log(payload);
+                    
                     setNewPosition(payload);
 
-                    // payload = {...handleAddCapturedPieces(boardState,tileState)};
-                    // addCapturedPieces(payload);
+
 
                     if (isCheck) {
 
@@ -203,9 +209,12 @@ const Board = () => {
 
             case activatePieceToMove:
                 if (!checkMate) {
+                    // console.log({id,et:emptyTile.id});
                     // if (pieceSet(tiles[id]) == turn){
                     console.log('piece to move');
+                    
                     setCurrentPosition(id, true);                    
+                    
                     // }
                 }
 
@@ -218,42 +227,70 @@ const Board = () => {
     }
 
     useEffect(()=>{
-        setAllMoves(handleAllMoves(boardState,tileState));                
+        console.log({initial:"set Initial"});
+        
+        setInitialMoves(handleAllMoves(boardState));                
     },[])
-    useEffect(()=>{             
-        if (allMoves[currentPosition]) {            
-            showPossibleMoves(allMoves[currentPosition].path);            
-        }   
+
+    useEffect(()=>{     
+
+        
+        if (isPieceToMove) {
+            if (currentPosition) {
+                console.log({show:"show moves"});
+                if (allMoves) {
+                    if (allMoves[currentPosition]) {            
+                        showPossibleMoves(allMoves[currentPosition].path);            
+                    }               
+                }                    
+            }            
+        }
     },[currentPosition])
 
-    useEffect(()=>{           
-        setTiles(handleSetTiles(boardState));  
-        setTileChangeIndicator();
+    useEffect(()=>{               
+        if (newPosition) {
+            
+            console.log({setTiles:"set tiles"});
+            setTiles(handleSetTiles(boardState));  
+            setTileChangeIndicator();            
+        
+        }    
     
-    },[newPosition])
+    },[newCount])
 
-    useEffect(()=>{                        
-        setAllMoves(handleAllMoves(boardState,tileState));
+    useEffect(()=>{      
+        if (tileChangeIndicator > 0) {
+            console.log({moves:"set moves",tileChangeIndicator});           
+            setAllMoves(handleAllMoves(boardState));            
+        }
     },[tileChangeIndicator])
 
 
     useEffect(()=>{         
-        console.log({boardState,tileState});
-       let payload =  handleSetCheckLevel(checkChecker(boardState,currentTiles));
-       setCheckLevel(payload);
-    },[allMoves])
+        if (setAllMovesCount1 > 0) {
+            console.log({checkLevel:"check level",count,setAllMovesCount1});            
+            let payload =  handleSetCheckLevel(checkChecker(boardState,currentTiles));
+            payload.count = count+1;
+            setCheckLevel(payload);
+            
+        }
+    },[setAllMovesCount1])
 
     useEffect(()=>{
-
         
         
-        if (isCheck||isDoubleCheck) {
-            checkEffects(boardState,tileState);     
-        } 
-        cleanAllMoves(boardState,tileState)             
+        if(count > 0){
+            console.log({clean:"clean moves"});        
+            if (isCheck||isDoubleCheck) {
+                checkEffects(boardState);     
+            } 
+            console.log({...handleSetNotations(boardState)});
+            
+            setNotations(handleSetNotations(boardState))
+        }
         
-        // setAllMoves(cleanAllMoves(boardState,tileState)); 
     },[count])
+
     return (       
         <div
             id={(checkMate && !reviewMode) ? 'blur' : ''}

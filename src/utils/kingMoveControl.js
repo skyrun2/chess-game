@@ -2,7 +2,7 @@ import pieceSet from "./pieceSet";
 import safePath from "./safePath";
 
 
-function kingMoveControl(set,terms,bs,ts) {
+function kingMoveControl(set,terms,bs) {
     let availableMoves = {};
     let castlingPieces = bs.castlingPieces;  
     let canKingSideCastle = true;
@@ -72,41 +72,6 @@ function kingMoveControl(set,terms,bs,ts) {
     
     
 
-    if (!(isCheck||isDoubleCheck)) {
-        if (castlingPieces[startTile]) {
-            if (castlingPieces[queenSide]&&!tiles[castlingTileQueenSide]) {
-                for (let i = 1; i <= 3; i++) {
-                    currTile = String.fromCharCode(x-i) + y;
-                    if (tiles[currTile]) {
-                        // console.log(currTile,countForMoves[currTile]);
-                        
-                        canQueenSideCastle = false;
-                        break;
-                    }    
-                }                
-                if ( canQueenSideCastle) availableMoves[castlingTileQueenSide] = {tile:castlingTileQueenSide,color:`#1211aa99`};                
-            }
-
-
-            
-            if (castlingPieces[kingSide]&&!tiles[castlingTileKingSide]) {
-                for (let i = 1; i <= 2; i++) {
-                    currTile = String.fromCharCode(x+i) + y;
-                    if (tiles[currTile]) {
-                        canKingSideCastle = false;
-                        break;
-                    }    
-                }
-                
-                
-                
-                if ( canKingSideCastle) availableMoves[castlingTileKingSide] = {tile:castlingTileKingSide,color:`#1211aa99`};
-
-                
-            }
-        }
-    }
-        
     
     return availableMoves;
 }

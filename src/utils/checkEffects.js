@@ -1,11 +1,11 @@
 // import piece from "./piece";
 import pieceSet from "./pieceSet";
 
-function checkEffects(bs,ts) {
+function checkEffects(bs) {
     let checkPieces = bs.checkPieces;
     let whiteKing = bs.whiteKingPosition;
     let blackKing = bs.blackKingPosition;
-    let tiles = ts.currentTiles;
+    let tiles = bs.currentTiles;
 
     let targetKing = '';
     let set = '';

@@ -1,8 +1,10 @@
     
 import { create } from "zustand"
 import piece from "./piece";
-import useTiles from "./useTiles";
 
+
+import pieceSet from "./pieceSet";
+import defaultSetup from "./defaultSetup";
 
 // import isEnPassant from "./isEnPassant"; 
 const useBoardState = create((set,get) => ({
@@ -17,11 +19,13 @@ const useBoardState = create((set,get) => ({
     checkPieces:{},
     checkPiecesPath:{},
     checkingSet:'',
-    checkMate:false,
+    checkMate:false,    
     count:0,
     countForMoves:{},
-    currentPosition :[],
+    currentPosition :null,
     currentTile:'',
+    currentTiles: {...defaultSetup()},
+    currentView: '',
     tileChangeIndicator:0,
     gameEnd: false,
     hasMoves: false,
@@ -32,28 +36,35 @@ const useBoardState = create((set,get) => ({
     isDoubleCheck:false,
     isEnPassant:false,
     isPieceToMove:false,
+    isPresentTiles: true, 
     moveCount:0,
     moveNotation:[],
     notCheck:true,
     notationOrder:[],
     newBoardPosition:'',
-    newPosition : {},
+    newCount:0,
+    newPosition : null,
     passant : [], 
     pawnCapture:'',
     pieceToMove:'',
     pieceToMoveClass:'w',
     pieceMoveNotation:[],
+    possibleMoveTiles: {},
+    presentTiles: {},
+    presentView:'',
     reviewMode:false,
     resigned: false,
     resignModal: false,
     targetKing:"",
     totalMovesCount:0,
+    tiles:{...defaultSetup()},
+    tilesHistory:{}, 
     turn:'white',
+    setAllMovesCount1:0,    
+    setCleanAllMovesCount:0,
     winningSet:'',
     winningCondition: '',
     whiteKingPosition:'e1',
-
-
 
     castlingPieces:{
         e1:{tile:'e1',piece:'king',set:'wite'},
@@ -64,6 +75,136 @@ const useBoardState = create((set,get) => ({
         h8:{tile:'h8',piece:'rook',set:'black'},
         
     },
+
+
+
+    setTiles: (payload) => {
+        // payload.bs = get();
+        const pieceToMove = payload.pieceToMove;
+        const p = piece(pieceToMove)
+        const pSet = pieceSet(pieceToMove);
+        const currentPosition = payload.currentPosition;
+        const newPosition = payload.newPosition;
+        
+        
+        // const castlingPieces = payload.castlingPieces;
+        
+        const passant = payload.passant;
+        const updatedTiles = get().currentTiles;
+        const capture = pSet == 'white' ? newPosition[0]+(newPosition[1]*1-1) : newPosition[0]+(newPosition[1]*1+1);
+        let newKingSideRookTile= pSet =='white' ? 'f1' : 'f8';
+        let newQueenSideRookTile = pSet =='white' ? 'd1' : 'd8';
+
+        let rook = pSet == 'white' ? 'rook' :'b_rook'
+
+        
+
+        
+        delete updatedTiles[currentPosition];
+        updatedTiles[newPosition] = payload.pieceToMove;
+            
+        if (passant.length){        
+            if (passant[0].tile == capture) {
+                
+                delete updatedTiles[capture];
+            }
+        }
+        
+        if(payload.castlingRook){    
+            const currRookPosition = payload.castlingRook.rookTile;
+            const castlingSide = payload.castlingRook.side;
+            delete updatedTiles[currRookPosition];
+            if (castlingSide == 'kingSide') {
+                updatedTiles[newKingSideRookTile] = rook;
+            }
+            if(castlingSide == 'queenSide'){
+                updatedTiles[newQueenSideRookTile]= rook;   
+            }
+            
+            
+        }        
+        set(()=>({
+            currentTiles:updatedTiles
+        })
+    )},
+
+    setPossibleMoveTiles: (payload)=>{                
+        set(()=>({
+            possibleMoveTiles: payload
+        }))
+    },
+
+
+    setCurrentView : (payload) => {
+        set(prev =>{
+            let total = payload.notationOrder.length - payload.moveCount;
+            let history = Math.ceil(total/2) +'_'+ (total-1)%2;
+            return{
+                currentView : history,
+            }
+        })
+    },
+
+    setTilesHistory : (payload) =>{        
+        set(prev=>{
+            let updatedTilesHistory = ''
+            let history;
+            if (payload.moveCount) {
+                
+                let total = payload.notationOrder.length - payload.moveCount;
+                history = Math.ceil(total/2) +'_'+ (total-1)%2;
+                
+                updatedTilesHistory = { ...prev.tilesHistory};
+                updatedTilesHistory[history] = {...payload.tiles}; 
+            }        
+            
+            return{
+                tilesHistory: updatedTilesHistory,
+                currentTiles:{...payload.tiles},
+                presentTiles: {...payload.tiles},
+                presentView:history,
+                
+            }
+
+        })
+    },
+
+    resetTiles: (payload)=>{
+        
+        set(prev=>{
+            
+            let newTiles = {...prev.tilesHistory[payload.id]}
+
+
+            
+            
+            return{
+                tiles : newTiles,
+                currentTiles : newTiles,                
+                isPresentTiles : payload.isPresentTiles,
+                currentView: payload.id,
+            }
+            
+        })
+    },
+    resetTilesState: (payload)=>{
+        
+        set(prev=>{
+            
+            return{
+                possibleMoveTiles: {},
+                tiles:{...defaultSetup()},
+                tilesHistory:{}, 
+                isPresentTiles: true,
+                presentTiles: {},
+                presentView:'',
+                currentTiles: {},
+                currentView: '',
+            }
+            
+        })
+    },
+
 
 
     addCapturedPieces : (payload) =>{
@@ -148,34 +289,52 @@ const useBoardState = create((set,get) => ({
 
         })
     },
-    setResign: () =>{
-         
-        set(()=>({
-           resigned: true,
-           checkMate:true,
-           winningCondition: 'resign'
-        }))
-    },
-    setReviewMode: () =>{
-        set(()=>({
-            reviewMode:true
-        }))
-    },
+
     setAllMoves: (payload) =>{        
+        let updatedSetAllMovesCount1 = get().setAllMovesCount1 +1;
         set(()=>({
             allMoves:payload.moves,
-            cfm:payload.cfm
+            cfm:payload.cfm,
+            setAllMovesCount1: updatedSetAllMovesCount1,
+        }))
+    },
+
+    setCheckLevel : (payload) => {
+        const isCheck = payload.isCheck;
+        const isDoubleCheck = payload.isDoubleCheck;
+        const checkPieces = payload.checkPieces;
+        const checkPiecePath = payload.checkPiecePath;
+        const notCheck = payload.notCheck;
+        const targetKing = payload.targetKing;
+        const allMoves = payload.allMoves;
+        const cfm = payload.cfm;
+        // let count = get().count + 1;
+        
+        set(()=>({
+            allMoves:allMoves,
+            cfm:cfm,
+            count:payload.count,
+            isCheck:isCheck,
+            isDoubleCheck:isDoubleCheck,
+            checkPieces: checkPieces,
+            checkPiecePath: checkPiecePath,
+            notCheck:  notCheck,
+            targetKing: targetKing,
+        }))
+        
+    },
+    setCleanAllMoves: (payload) =>{        
+        let updatedSetCleanAllMovesCount = get().setCleanAllMovesCount +1;
+        
+        set(()=>({
+            allMoves:payload.moves,
+            cfm:payload.cfm,
+            setCleanAllMovesCount: updatedSetCleanAllMovesCount,
         }))
     },
 
     setCurrentPosition :  (position,isPieceToMove) => {
-        const tiles = useTiles.getState().tiles;
-        
-        
-        
-        
-        
-        
+        const tiles = get().currentTiles;        
         set({
             currentPosition:position,
             // newPosition:'',
@@ -183,8 +342,15 @@ const useBoardState = create((set,get) => ({
             isPieceToMove : isPieceToMove,
             pieceToMove: isPieceToMove ? tiles[position] : '',
             
-
+            
         })
+    },
+
+    setHasMoves : (payload) => {
+        
+        set(()=>({
+            hasMoves: payload.hasMoves,
+        }))
     },
     
     setId : (payload)=>{
@@ -196,10 +362,22 @@ const useBoardState = create((set,get) => ({
         }))
     },
 
+    setInitialMoves: (payload)=>{        
+        set(()=>({
+            allMoves:payload.moves,
+            cfm:payload.cfm,
+        }))
+    },
+
+    setIsPieceToMove : () => set((state)=>({
+        isPieceToMove:!state.isPieceToMove
+    })),
+    
     setNewPosition:  (payload) => {
         const count = get().turn == 'white' ? get().moveCount +1 : get().moveCount;
         const newTile = payload.newPosition;
         const currentTile = payload.currentPosition;
+        const newCount = get().newCount+1;
         
         
         
@@ -207,6 +385,7 @@ const useBoardState = create((set,get) => ({
         
         set((state)=>({            
             newPosition : payload.newPosition,
+            newCount: newCount,
             newBoardPosition: payload.newBoardPosition,
             isPieceToMove : !state.isPieceToMove,
             isCapture : payload.isCapture,
@@ -217,16 +396,7 @@ const useBoardState = create((set,get) => ({
         }))
     },
     
-    setIsPieceToMove : () => set((state)=>({
-        isPieceToMove:!state.isPieceToMove
-    })),
-
-    setTurn : () => {
-        let updatedTurn = get().turn == 'white' ? 'black' : 'white';
-        set(()=>({
-            turn : updatedTurn,
-    }))},
-
+    
     setNotations : (payload) => {
         set(prev => {
             
@@ -273,31 +443,18 @@ const useBoardState = create((set,get) => ({
             };
         });
     },
-
-    setCheckLevel : (payload) => {
-        const isCheck = payload.isCheck;
-        const isDoubleCheck = payload.isDoubleCheck;
-        const checkPieces = payload.checkPieces;
-        const checkPiecePath = payload.checkPiecePath;
-        const notCheck = payload.notCheck;
-        const targetKing = payload.targetKing;
-        let count = get().count + 1;
+    
+    setResign: () =>{
         
         set(()=>({
-            isCheck:isCheck,
-            isDoubleCheck:isDoubleCheck,
-            checkPieces: checkPieces,
-            checkPiecePath: checkPiecePath,
-            notCheck:  notCheck,
-            targetKing: targetKing,
-            count,
+           resigned: true,
+           checkMate:true,
+           winningCondition: 'resign'
         }))
-        
     },
-    setHasMoves : (payload) => {
-        
+    setReviewMode: () =>{
         set(()=>({
-            hasMoves: payload.hasMoves,
+            reviewMode:true
         }))
     },
     setTileChangeIndicator:()=>{
@@ -308,6 +465,13 @@ const useBoardState = create((set,get) => ({
             }
         })
     },
+
+    setTurn : () => {
+        let updatedTurn = get().turn == 'white' ? 'black' : 'white';
+        set(()=>({
+            turn : updatedTurn,
+    }))},
+
     unSetCheckLevel : () => {
 
         

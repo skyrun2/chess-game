@@ -9,41 +9,51 @@ function countForMoves(payload) {
     
     
     
-    let cFM = {}
-    let count = 0
+    
+    
+    let cFM = {};
+    let count = 0;
+    let totalCount = 0;
     let updatedCount = 0;
     let newTile = {};
-    let blackSet = false;
-    let whiteSet = false;
+    
     let updatedTile = {};
     
 
-    console.log({allMoves});
+
     
     
     for (const tilePiece in allMoves) {
         
-        if (pieceSet[tilePiece] == 'white') whiteSet = true;
-        if (pieceSet[tilePiece] == 'black') blackSet = true;
+        
+        
         for (const tile in allMoves[tilePiece].path) {            
-            if (!cFM[tile]) {                
-                cFM[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]}};   
+            let blackSet = false;
+            let whiteSet = false;
+            if(!blackSet) blackSet = pieceSet(allMoves[tilePiece].piece) == "black";
+            if(!whiteSet) whiteSet = pieceSet(allMoves[tilePiece].piece) == "white";
+            if (!cFM[tile]) {       
+                if (tiles) {
+                    cFM[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]},blackSet,whiteSet};                       
+                }         
             }
-            else if (cFM[tile]) {  
+            else if (cFM[tile]) {               
                 updatedCount = cFM[tile].count + 1;
                 newTile = {[tilePiece]:tiles[tilePiece]};
                 updatedTile = {...cFM[tile].pieces,...newTile}
-                cFM[tile] = { count:updatedCount,pieces:updatedTile}                
+                cFM[tile] = { count:updatedCount,pieces:updatedTile,blackSet,whiteSet}                
             }           
         }   
         
         
-        // count += Object.keys(allMoves[tilePiece].path).length;
+        
+        totalCount += updatedCount;
         
     }
+    // console.log(totalCount);
     
     
-    return {cFM,count,blackSet,whiteSet};
+    return {cFM,count:totalCount};
     // return {1:1}
 }
 

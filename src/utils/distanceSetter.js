@@ -34,4 +34,4 @@ function distanceSetter(king,piece,direction) {
     return distance
     
 }
-export default distanceSetter;
+export default distanceSetter; 

@@ -7,14 +7,14 @@ import pieceSet from "./pieceSet";
 import removeCastlingPiece from "./removeCastlingPiece";
 
 
-function handleSetNewPosition(bs,ts) {
+function handleSetNewPosition(bs) {
     const payload= {}
     const whiteKing = bs.whiteKingPosition;
     const blackKing = bs.blackKingPosition;
     const pieceToMove = bs.pieceToMove;
     const currentPosition = bs.currentPosition;
     const newPosition = bs.id;
-    const tiles = ts.tiles;
+    const currentTiles =bs.currentTiles;
     
     
     const set = pieceSet(pieceToMove);
@@ -29,7 +29,7 @@ function handleSetNewPosition(bs,ts) {
     payload.newPosition = bs.id;
     payload.isPieceToMove = false ;          
     payload.pieceToMove = pieceToMove;
-    payload.isCapture = !!tiles[newPosition];
+    payload.isCapture = !!currentTiles[newPosition];
     payload.passant = enPassantOpen(payload,bs.passant);
     payload.isEnPassant = !!enPassantOpen(payload,bs.passant);
     payload.castlingPiece = removeCastlingPiece(payload,bs);

@@ -1,7 +1,7 @@
 // import piece from "./piece";
 import pieceSet from "./pieceSet";
 
-function isEnPassant(bs,ts) {
+function isEnPassant(bs) {
     let pieceToMove = bs.pieceToMove;
     let set = pieceSet(pieceToMove);
     let passant = bs.passant;

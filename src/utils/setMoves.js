@@ -8,9 +8,9 @@ import queenMoveControl from "./queenMoveControl";
 import rookMoveControl from "./rookMoveControl";
 
 
-function setMoves(tile, bs, ts) {
+function setMoves(tile, bs ) {
     const allMoves = bs.allMoves;
-    const tiles = ts.tiles;
+    const tiles = bs.currentTiles;
     const tilePiece = tiles[tile];
     const passant = bs.passant;
 
@@ -54,7 +54,7 @@ function setMoves(tile, bs, ts) {
             return queenMoveControl(pieceSet(tilePiece), terms, bs);
 
         case 'king':
-            return kingMoveControl(pieceSet(tilePiece), terms, bs, ts);
+            return kingMoveControl(pieceSet(tilePiece), terms, bs );
 
 
         default:

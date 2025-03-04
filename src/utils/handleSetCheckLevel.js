@@ -10,7 +10,8 @@ function handleSetCheckLevel(checkChecker) {
     payload.checkPiecePath = checkChecker.checkPiecePath;
     payload.notCheck = checkChecker.notCheck;
     payload.targetKing = checkChecker.targetKing;
-    
+    payload.allMoves = checkChecker.allMoves;
+    payload.cfm = checkChecker.cfm;
     
     
     

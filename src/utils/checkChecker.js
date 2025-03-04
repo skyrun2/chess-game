@@ -1,6 +1,7 @@
 import piece from "./piece";
 import pieceSet from "./pieceSet";
 import checkPiecePathSetter from "./checkPiecePathSetter";
+import cleanAllMoves from "./cleanAllMoves";
 
 
 function checkChecker (bs) {
@@ -15,7 +16,8 @@ function checkChecker (bs) {
     let isCheck = false;
     let isDoubleCheck = false;
     let notCheck = false;
-    let checkPiecePath = {}
+    let checkPiecePath = {};
+    let copyBs = {...bs};
     
     if (countForMoves) {        
         if (countForMoves.cFM[targetKing]) {
@@ -31,9 +33,19 @@ function checkChecker (bs) {
         }
         else notCheck = true;
     }
+    copyBs.notCheck = notCheck;
+    copyBs.isCheck = isCheck;
+    copyBs.isDoubleCheck = isDoubleCheck;
+    copyBs.checkPiecePath = checkPiecePath;
+    copyBs.checkPieces = checkPieces;
+    copyBs.targetKing = targetKing;
+    // console.log({notCheck,isCheck,isDoubleCheck,countForMoves,targetKing});
+    let cleanMoves = cleanAllMoves(copyBs);
+    console.log({moves:cleanAllMoves(copyBs)});
     
     
-    return{notCheck,isCheck,isDoubleCheck,checkPieces,checkPiecePath,targetKing}
+    
+    return{notCheck,isCheck,isDoubleCheck,checkPieces,checkPiecePath,targetKing,allMoves:cleanMoves.moves ,cfm:cleanMoves.cfm}
     
     
     

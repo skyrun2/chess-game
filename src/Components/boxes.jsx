@@ -17,9 +17,9 @@ const Boxes = () =>{
     const isCheck = useBoardState((state)=> state.isCheck);
     const isDoubleCheck = useBoardState((state)=> state.isDoubleCheck);
     const pieceToMove =  useBoardState((state)=>state.pieceToMove);
-    const tileState = useTiles((state)=>state);
-    const tiles = useTiles((state)=>state.tiles);
-    const currentTiles = useTiles((state)=>state.currentTiles);
+    const tileState = useBoardState((state)=>state);
+    const tiles = useBoardState((state)=>state.tiles);
+    const currentTiles = useBoardState((state)=>state.currentTiles);
     const BoxArrangement = ()=>{
         
         

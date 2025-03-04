@@ -8,4 +8,4 @@ function directionSetter(king,piece){
     if(king.x - piece.x < 0) direction += "left";
     return direction
 }
-export default directionSetter;
+export default directionSetter; 

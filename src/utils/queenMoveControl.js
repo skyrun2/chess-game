@@ -1,6 +1,6 @@
 
 import path from "path";
-import isBlockingCheck from "./isBlockingCheck";
+import isBlockingCheck from "./isCheckThreat";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
 import blockCheckPath from "./blockCheckPath";

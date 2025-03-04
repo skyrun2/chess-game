@@ -1,7 +1,7 @@
 
-function blockCheckPath(bs,ts,targetKingSetPiece) {
+function blockCheckPath(bs,targetKingSetPiece) {
     const checkPiecePath = bs.checkPiecePath;
-    const currentTiles = ts.currentTiles;
+    const currentTiles = bs.currentTiles;
     const isCheck = bs.isCheck;
     const isDoubleCheck = bs.isDoubleCheck;
     const allMoves = bs.allMoves;

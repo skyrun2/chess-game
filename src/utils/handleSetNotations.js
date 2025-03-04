@@ -6,7 +6,7 @@ import removeCastlingPiece from "./removeCastlingPiece";
 import setMoves from "./setMoves";
 import setNotation from "./setNotation";
 
-function handleSetNotations(bs,ts) {
+function handleSetNotations(bs) {
     const payload = {};
     const whiteKing = bs.whiteKingPosition;
     const blackKing = bs.blackKingPosition;
@@ -28,8 +28,8 @@ function handleSetNotations(bs,ts) {
     payload.castlingPiece = removeCastlingPiece(payload,bs);
     payload.currentPosition = currentPosition;
     payload.newPosition = bs.id;
-    payload.passant = enPassantOpen(bs,ts);
-    payload.isEnPassant = !!isEnPassant(bs,ts);
+    payload.passant = enPassantOpen(bs);
+    payload.isEnPassant = !!isEnPassant(bs);
     
     
     
@@ -41,7 +41,7 @@ function handleSetNotations(bs,ts) {
     
     
     
-    payload.possibleMoves = setMoves(newPosition,bs,ts);
+    payload.possibleMoves = setMoves(newPosition,bs);
     payload.moveNotation =  setNotation(payload,bs);
     console.log({payload,np:payload.newPosition});
     
