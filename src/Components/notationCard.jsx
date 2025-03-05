@@ -10,10 +10,10 @@ const NotationCard = () =>{
     const notationOrder = useBoardState((state)=> state.notationOrder);
     // const notationOrder = useBoardState((state)=> state.notationOrder);
     const moveCount = useBoardState((state)=> state.moveCount);
-    const tilesHistory = useTiles((state)=>state.tilesHistory);
-    const resetTiles = useTiles((state)=>state.resetTiles);
-    const currentView = useTiles((state)=>state.currentView);
-    const setCurrentView = useTiles((state)=>state.setCurrentView);
+    const tilesHistory = useBoardState((state)=>state.tilesHistory);
+    const resetTiles = useBoardState((state)=>state.resetTiles);
+    const currentView = useBoardState((state)=>state.currentView);
+    const setCurrentView = useBoardState((state)=>state.setCurrentView);
     
     let orderCount = notationOrder.length;
     
@@ -31,8 +31,11 @@ const NotationCard = () =>{
     // console.log(tilesHistory);
     
     const handleOnClick = (e,i)=>{
+        
         let btn = e.currentTarget;
         let id = btn.parentElement.id;
+        console.log(id);
+        
         payload.id = id
         payload.count = i+1;
         if (notationOrder.length == payload.count) {
@@ -41,6 +44,7 @@ const NotationCard = () =>{
         else if (notationOrder.length != payload.count) {
             payload.isPresentTiles = false;            
         }
+
         
         resetTiles(payload);
         

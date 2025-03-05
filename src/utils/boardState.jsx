@@ -151,8 +151,8 @@ const useBoardState = create((set,get) => ({
             let history;
             if (payload.moveCount) {
                 
-                let total = payload.notationOrder.length - payload.moveCount;
-                history = Math.ceil(total/2) +'_'+ (total-1)%2;
+                let sub = (payload.moveCount%2) ? 0 : 1;
+                history = Math.ceil(payload.moveCount/2) +'_'+ sub;
                 
                 updatedTilesHistory = { ...prev.tilesHistory};
                 updatedTilesHistory[history] = {...payload.tiles}; 
@@ -385,7 +385,7 @@ const useBoardState = create((set,get) => ({
         
         set((state)=>({            
             newPosition : payload.newPosition,
-            newCount: newCount,
+            newCount: newCount, 
             newBoardPosition: payload.newBoardPosition,
             isPieceToMove : !state.isPieceToMove,
             isCapture : payload.isCapture,
@@ -401,7 +401,7 @@ const useBoardState = create((set,get) => ({
         set(prev => {
             
             
-            const count = get().moveCount;
+            const count = Math.ceil(get().moveCount/2);
             const newTile = payload.newPosition;
             const currentTile = payload.currentPosition;
             const castlingPiece = payload.castlingPiece;    

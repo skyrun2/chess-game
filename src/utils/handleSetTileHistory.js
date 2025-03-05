@@ -1,8 +1,8 @@
 
 
-function handleSetTileHistory(bs,ts) {
+function handleSetTileHistory(bs) {
     const payload = {};
-    const tiles = ts.tiles;
+    const tiles = bs.currentTiles;
     const notationOrder = bs.notationOrder;
     const moveCount = bs.moveCount;
 
@@ -12,4 +12,4 @@ function handleSetTileHistory(bs,ts) {
     return payload;
 }
 
-export default handleSetTileHistory;
+export default handleSetTileHistory; 

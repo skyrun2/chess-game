@@ -39,9 +39,8 @@ function checkChecker (bs) {
     copyBs.checkPiecePath = checkPiecePath;
     copyBs.checkPieces = checkPieces;
     copyBs.targetKing = targetKing;
-    // console.log({notCheck,isCheck,isDoubleCheck,countForMoves,targetKing});
+
     let cleanMoves = cleanAllMoves(copyBs);
-    console.log({moves:cleanAllMoves(copyBs)});
     
     
     

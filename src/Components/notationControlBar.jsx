@@ -9,13 +9,13 @@ import { useEffect, useState } from "react";
 
 const NotationControlBar = () =>{
 
-    const resetTiles = useTiles((state)=>state.resetTiles);
-    const currentView = useTiles((state)=>state.currentView);
-    const presentView = useTiles((state)=>state.presentView);
+    const resetTiles = useBoardState((state)=>state.resetTiles);
+    const currentView = useBoardState((state)=>state.currentView);
+    const presentView = useBoardState((state)=>state.presentView);
     const reviewMode = useBoardState((state)=>state.reviewMode);
     const turn = useBoardState((state)=> state.turn);
     const resetAll = useBoardState((state)=>state.resetAll);
-    const resetTilesState = useTiles((state)=>state.resetTilesState);
+    const resetTilesState = useBoardState((state)=>state.resetTilesState);
     const resignModal = useBoardState((state)=>state.resignModal);
     const openResignModal = useBoardState((state)=>state.openResignModal);
     let [leftDisabled,setLeftDisabled] =  useState(false);

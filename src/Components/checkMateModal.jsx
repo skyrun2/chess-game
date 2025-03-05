@@ -8,7 +8,7 @@ const CheckMateModal = () =>{
     const checkMate = useBoardState((state)=>state.checkMate);
     const winningSet = useBoardState((state)=>state.winningSet);
     const resetAll = useBoardState((state)=>state.resetAll);
-    const resetTilesState = useTiles((state)=>state.resetTilesState);
+    // const resetTilesState = useTiles((state)=>state.resetTilesState);
     const setReviewMode = useBoardState((state)=>state.setReviewMode);
     const [localReview,setLocalReview] = useState(false);
     function handleOnclick(e) {
@@ -17,7 +17,7 @@ const CheckMateModal = () =>{
             case 'new_match':
                 
                 resetAll();
-                resetTilesState();
+                // resetTilesState();
                 break;
             case 'review':
                 setLocalReview(true)

@@ -132,7 +132,7 @@ const Board = () => {
                     setNewPosition(payload);
 
                     payload = { ...handleAddCapturedPieces(boardState) };
-                    addCapturedPieces(payload);
+                    
 
                     if (isCheck) {
                         if (pieceToMove.slice(-4) !== 'king') {
@@ -177,6 +177,7 @@ const Board = () => {
                     console.log(payload);
                     
                     setNewPosition(payload);
+                    addCapturedPieces(payload);
 
 
 
@@ -228,8 +229,13 @@ const Board = () => {
 
     useEffect(()=>{
         console.log({initial:"set Initial"});
-        
-        setInitialMoves(handleAllMoves(boardState));                
+        let ham = handleAllMoves(boardState);
+        let allMoves = ham.moves;
+        let cfm = ham.cfm;
+        let copyBs = {...boardState};
+        copyBs.allMoves = allMoves;
+        copyBs.cfm = cfm;
+        setInitialMoves(cleanAllMoves(copyBs));
     },[])
 
     useEffect(()=>{     
@@ -251,7 +257,7 @@ const Board = () => {
         if (newPosition) {
             
             console.log({setTiles:"set tiles"});
-            setTiles(handleSetTiles(boardState));  
+            setTiles(handleSetTiles(boardState));              
             setTileChangeIndicator();            
         
         }    
@@ -262,6 +268,7 @@ const Board = () => {
         if (tileChangeIndicator > 0) {
             console.log({moves:"set moves",tileChangeIndicator});           
             setAllMoves(handleAllMoves(boardState));            
+
         }
     },[tileChangeIndicator])
 
@@ -278,18 +285,22 @@ const Board = () => {
 
     useEffect(()=>{
         
+        console.log({isDoubleCheck,isCheck});
         
         if(count > 0){
             console.log({clean:"clean moves"});        
+        
             if (isCheck||isDoubleCheck) {
                 checkEffects(boardState);     
             } 
-            console.log({...handleSetNotations(boardState)});
             
-            setNotations(handleSetNotations(boardState))
+            setNotations(handleSetNotations(boardState));
         }
         
     },[count])
+    useEffect(()=>{
+        setTilesHistory(handleSetTileHistory(boardState));
+    },[notationOrder])
 
     return (       
         <div

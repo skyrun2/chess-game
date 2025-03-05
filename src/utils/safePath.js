@@ -11,6 +11,7 @@ function safePath (kingSet,kingMoves,cfm) {
     
 
     
+        
     for (const moves in kingMoves) {
         
         if (cfm.cFM[moves]) {        
@@ -20,8 +21,11 @@ function safePath (kingSet,kingMoves,cfm) {
         }
         
     }
+    if (kingSet == "black") {
+        console.log({kingMoves,kingPath,cfm,attackingSet});        
+    }
     
-    console.log({kingPath});
+    
     
     return kingPath
     

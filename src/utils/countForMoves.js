@@ -22,29 +22,42 @@ function countForMoves(payload) {
 
 
     
+    let blackSet = false;
+    let whiteSet = false;
+    
     
     for (const tilePiece in allMoves) {
         
         
         
         for (const tile in allMoves[tilePiece].path) {            
-            let blackSet = false;
-            let whiteSet = false;
-            if(!blackSet) blackSet = pieceSet(allMoves[tilePiece].piece) == "black";
-            if(!whiteSet) whiteSet = pieceSet(allMoves[tilePiece].piece) == "white";
+            
+            
+            
             if (!cFM[tile]) {       
                 if (tiles) {
-                    cFM[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]},blackSet,whiteSet};                       
+                    cFM[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]},blackSet:false,whiteSet:false}; 
+                    if(pieceSet(tiles[tilePiece]) == "black") cFM[tile].blackSet = true ;
+                    if(pieceSet(tiles[tilePiece]) == "white") cFM[tile].whiteSet = true ;  
                 }         
             }
             else if (cFM[tile]) {               
+                let blackSet = cFM[tile].blackSet;
+                let whiteSet = cFM[tile].whiteSet;
                 updatedCount = cFM[tile].count + 1;
                 newTile = {[tilePiece]:tiles[tilePiece]};
                 updatedTile = {...cFM[tile].pieces,...newTile}
-                cFM[tile] = { count:updatedCount,pieces:updatedTile,blackSet,whiteSet}                
-            }           
+                if(pieceSet(tiles[tilePiece]) == "black") blackSet = true ;
+                if(pieceSet(tiles[tilePiece]) == "white") whiteSet = true ;             
+                cFM[tile] = { count:updatedCount,pieces:updatedTile,blackSet,whiteSet}     
+            }      
+            // if (tile == "d7") {
+            //     console.log({whiteSet: cFM[tile].whiteSet, blackSet: cFM[tile].blackSet ,am:tiles[tilePiece]});
+                
+            // }     
         }   
-        
+        blackSet = false;
+        whiteSet = false;
         
         
         totalCount += updatedCount;
