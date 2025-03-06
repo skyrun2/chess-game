@@ -5,6 +5,7 @@ import piece from "./piece";
 
 import pieceSet from "./pieceSet";
 import defaultSetup from "./defaultSetup";
+import isCheckThreat from "./isCheckThreat";
 
 // import isEnPassant from "./isEnPassant"; 
 const useBoardState = create((set,get) => ({
@@ -23,9 +24,11 @@ const useBoardState = create((set,get) => ({
     count:0,
     countForMoves:{},
     currentPosition :null,
+    currentPositionCount :0,
     currentTile:'',
     currentTiles: {...defaultSetup()},
     currentView: '',
+    checkThreats: {},
     tileChangeIndicator:0,
     gameEnd: false,
     hasMoves: false,
@@ -308,6 +311,11 @@ const useBoardState = create((set,get) => ({
         const targetKing = payload.targetKing;
         const allMoves = payload.allMoves;
         const cfm = payload.cfm;
+        const checkThreats = payload.checkThreats;
+        const isCheckMate = payload.isCheckMate;
+        const winningCondition = payload.winningCondition;
+        const winningSet = payload.winningSet;
+        
         // let count = get().count + 1;
         
         set(()=>({
@@ -315,11 +323,14 @@ const useBoardState = create((set,get) => ({
             cfm:cfm,
             count:payload.count,
             isCheck:isCheck,
+            isCheckMate:isCheckMate,
             isDoubleCheck:isDoubleCheck,
             checkPieces: checkPieces,
             checkPiecePath: checkPiecePath,
             notCheck:  notCheck,
             targetKing: targetKing,
+            currRookPosition:null,
+            checkThreats:checkThreats,
         }))
         
     },
@@ -335,13 +346,14 @@ const useBoardState = create((set,get) => ({
 
     setCurrentPosition :  (position,isPieceToMove) => {
         const tiles = get().currentTiles;        
+        let updatedCount = get().currentPositionCount + 1;
         set({
             currentPosition:position,
             // newPosition:'',
             // currentTile: payload.currentTile, 
             isPieceToMove : isPieceToMove,
             pieceToMove: isPieceToMove ? tiles[position] : '',
-            
+            currentPositionCount:updatedCount
             
         })
     },

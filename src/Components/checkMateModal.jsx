@@ -5,7 +5,7 @@ import {  useState } from "react";
 
 
 const CheckMateModal = () =>{
-    const checkMate = useBoardState((state)=>state.checkMate);
+    const isCheckMate = useBoardState((state)=>state.isCheckMate);
     const winningSet = useBoardState((state)=>state.winningSet);
     const resetAll = useBoardState((state)=>state.resetAll);
     // const resetTilesState = useTiles((state)=>state.resetTilesState);
@@ -31,7 +31,7 @@ const CheckMateModal = () =>{
 
     return(
         <div 
-        id={(checkMate && !localReview) ? 'open' : 'none'}
+        id={(isCheckMate && !localReview) ? 'open' : 'none'}
         // id={''}
         >
             

@@ -39,6 +39,7 @@ function isCheckThreat (bs,moves){
         let isValidChecKThreat = false;
         let isSameBlock = false;
         let blocker = "";
+        let set = pSet == "white" ? "whiteSet" : "blackSet" ;
         direction = directionSetter(king,attackingPiece);
          
         
@@ -53,20 +54,18 @@ function isCheckThreat (bs,moves){
             for (const tile in path) {
                 if (currentTiles[tile]) {
                     if (tile !== move) {
-                        if ( pieceSet(currentTiles[tile]) == pSet) isSameBlock = true;                           
-                        else if( pieceSet(currentTiles[tile]) == oppSet ) {
-                            blocker = tile;
-                            if (blockCount > 1) {
-                                blocker = null;
-                            }
-                            blockCount++;
 
+                        blocker = tile;
+                        if (blockCount > 1) {
+                            blocker = null;
                         }
+                        blockCount++;
+                        
                     }
                 }
             }
-            isValidChecKThreat = !isSameBlock && (blockCount < 2 && blockCount > 0);
-            isValidChecKThreat ? checkThreats[move] = {tile:move,path,blocker} : null ;
+            isValidChecKThreat = (blockCount < 2 && blockCount > 0);
+            isValidChecKThreat ? checkThreats[move] = {tile:move,path,blocker,set } : null ;
             
             
         }                                        

@@ -38,9 +38,24 @@ function cleanAllMoves(bs) {
     }
     
     
+    let checkThreats = {};
+    let blockingPath = {};
+    let blocker ="";
+    let blockerPaths = {};
+    let threatPath = {};
     
+    checkThreats = {...isCheckThreat(bs)};
+
     
-    
+    for (const threat in checkThreats) {
+        blocker = checkThreats[threat].blocker;
+        blockerPaths = allMoves[blocker].path;
+        threatPath = checkThreats[threat].path;
+        blockingPath = {...blockCheckThreatPath(blocker,blockerPaths,threatPath)};
+        newAllMoves[blocker] = {path:blockingPath,piece:currentTiles[blocker]};
+    }
+
+
     
     if (isCheck||isDoubleCheck) {
         let newPath = {}    
@@ -52,44 +67,23 @@ function cleanAllMoves(bs) {
         newAllMoves = {...allMoves,...targetKingSetPieces};
         // console.log({aw:safePath(allMoves[blackKingPosition],cfm)});
         
-        newAllMoves[whiteKingPosition].path = {...safePath("white",allMoves[whiteKingPosition].path,cfm)};
-        newAllMoves[blackKingPosition].path = {...safePath("black",allMoves[blackKingPosition].path,cfm)};
-        payload.newAllMoves = newAllMoves;
-        payload.tiles = currentTiles;
-        let newCfm = countForMoves(payload);
-        return {moves:newAllMoves,cfm:newCfm};
-        
-    }
-    else if (notCheck){
-        let checkThreats = {};
-        let blocker = "";
-        let blockerPaths = {};
-        let blockingPath = {};
-        let threatPath = {};
-        
-        checkThreats = {...isCheckThreat(bs)};
-        for (const threat in checkThreats) {
-            blocker = checkThreats[threat].blocker;
-            blockerPaths = allMoves[blocker].path;
-            threatPath = checkThreats[threat].path;
-            blockingPath = {...blockCheckThreatPath(blocker,blockerPaths,threatPath)};
-            newAllMoves[blocker] = {path:blockingPath,piece:currentTiles[blocker]};
-        }
-        
-        // console.log({aw:safePath("black",allMoves[blackKingPosition].path,cfm)});
-        
-        newAllMoves[whiteKingPosition].path = {...safePath("white",allMoves[whiteKingPosition].path,cfm)};
-        newAllMoves[blackKingPosition].path = {...safePath("black",allMoves[blackKingPosition].path,cfm)};
-        
-        payload.newAllMoves = newAllMoves;
-        payload.tiles = currentTiles;
-        let newCfm = countForMoves(payload);
-        return {moves:newAllMoves,cfm:newCfm};
-        
         
         
     }
+    // else if (notCheck){
+        
+    // }
 
+    newAllMoves[whiteKingPosition].path = {...safePath("white",allMoves[whiteKingPosition].path,cfm,checkThreats)};
+    newAllMoves[blackKingPosition].path = {...safePath("black",allMoves[blackKingPosition].path,cfm,checkThreats)};
+    
+    payload.allMoves = newAllMoves;
+    payload.tiles = currentTiles;
+    // console.log({nem:newAllMoves});
+    
+    let newCfm = countForMoves(payload);
+    
+    return {moves:newAllMoves,cfm:newCfm,checkThreats};
 
 
 

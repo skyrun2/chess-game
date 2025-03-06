@@ -5,7 +5,7 @@ import piece from "./piece";
 import pieceSet from "./pieceSet";
 
 
-function safePath (kingSet,kingMoves,cfm) {
+function safePath (kingSet,kingMoves,cfm,checkThreats) {
   let kingPath = {...kingMoves};
   let attackingSet = kingSet == "white" ? "blackSet" : "whiteSet";
     
@@ -16,14 +16,22 @@ function safePath (kingSet,kingMoves,cfm) {
         
         if (cfm.cFM[moves]) {        
             if (cfm.cFM[moves][attackingSet]) {
-                delete kingPath[moves]
+                delete kingPath[moves];
             }
         }
         
     }
-    if (kingSet == "black") {
-        console.log({kingMoves,kingPath,cfm,attackingSet});        
+    for (const threat in checkThreats) {
+                
+        if (checkThreats[threat].set == attackingSet) {
+            if(kingMoves[checkThreats[threat].blocker]) delete kingPath[checkThreats[threat].blocker];
+        }
     }
+    
+    // if (kingSet == "black") {
+    //     console.log({kingPath});
+        
+    // }
     
     
     

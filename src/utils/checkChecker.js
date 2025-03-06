@@ -44,7 +44,17 @@ function checkChecker (bs) {
     
     
     
-    return{notCheck,isCheck,isDoubleCheck,checkPieces,checkPiecePath,targetKing,allMoves:cleanMoves.moves ,cfm:cleanMoves.cfm}
+    return{
+        notCheck,
+        isCheck,
+        isDoubleCheck,
+        checkPieces,
+        checkPiecePath,
+        targetKing,
+        allMoves:cleanMoves.moves ,
+        cfm:cleanMoves.cfm,
+        checkThreats:cleanMoves.checkThreats,
+    }
     
     
     

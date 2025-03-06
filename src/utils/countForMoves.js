@@ -3,6 +3,7 @@ import pieceSet from "./pieceSet";
 function countForMoves(payload) {
     let allMoves = payload.allMoves;
     let tiles =payload.tiles;
+    // console.log({nem2:allMoves});
     
     
     
@@ -36,6 +37,9 @@ function countForMoves(payload) {
             
             if (!cFM[tile]) {       
                 if (tiles) {
+                    // let blackSet = 
+                    // let whiteSet
+                    
                     cFM[tile] = { count:1,pieces:{[tilePiece]:tiles[tilePiece]},blackSet:false,whiteSet:false}; 
                     if(pieceSet(tiles[tilePiece]) == "black") cFM[tile].blackSet = true ;
                     if(pieceSet(tiles[tilePiece]) == "white") cFM[tile].whiteSet = true ;  
@@ -51,8 +55,8 @@ function countForMoves(payload) {
                 if(pieceSet(tiles[tilePiece]) == "white") whiteSet = true ;             
                 cFM[tile] = { count:updatedCount,pieces:updatedTile,blackSet,whiteSet}     
             }      
-            // if (tile == "d7") {
-            //     console.log({whiteSet: cFM[tile].whiteSet, blackSet: cFM[tile].blackSet ,am:tiles[tilePiece]});
+            // if (tile == "e7") {
+            //     // console.log({whiteSet: cFM[tile].whiteSet, blackSet: cFM[tile].blackSet ,am:tiles[tilePiece],pm:allMoves.e2});
                 
             // }     
         }   
@@ -63,7 +67,8 @@ function countForMoves(payload) {
         totalCount += updatedCount;
         
     }
-    // console.log(totalCount);
+    // if(cFM) console.log({cFM,allMoves});
+    
     
     
     return {cFM,count:totalCount};
