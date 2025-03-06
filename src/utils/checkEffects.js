@@ -10,7 +10,7 @@ function checkEffects(bs) {
     let targetKing = '';
     let set = '';
     let checkTile ;
-    console.log({checkPieces});
+
     
     let kingTile ;
     for (const checkPiece in checkPieces) {

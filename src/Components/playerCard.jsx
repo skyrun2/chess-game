@@ -1,8 +1,7 @@
 import pieceData from "@/utils/pieceData";
-import useBoardState from "@/utils/boardState";
 import CapturedPieceCount from "./capturedPiecesCount";
 
-
+ 
 
 const PlayerCard = ({player}) =>{
     

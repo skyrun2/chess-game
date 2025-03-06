@@ -9,12 +9,9 @@ function cleanAllMoves(bs) {
     const blackKingPosition = bs.blackKingPosition;
     const isCheck = bs.isCheck;
     const isDoubleCheck = bs.isDoubleCheck;
-    const notCheck = bs.notCheck;
     const allMoves = bs.allMoves;
     const cfm = bs.cfm;
     const targetKing = bs.targetKing;
-    const newPosition = bs.newPosition;
-    const checkPiecePath = bs.checkPiecePath;
     const currentTiles = bs.currentTiles;
     const whiteKingPosition = bs.whiteKingPosition;
     const targetKingSet = pieceSet(currentTiles[targetKing]);
@@ -64,22 +61,14 @@ function cleanAllMoves(bs) {
             newPath[piece] = {path:{...blockCheckPath(bs,targetKingSetPieces[piece])},piece: targetKingSetPieces[piece].piece};
         }
         targetKingSetPieces = {...newPath}
-        newAllMoves = {...allMoves,...targetKingSetPieces};
-        // console.log({aw:safePath(allMoves[blackKingPosition],cfm)});
-        
-        
-        
+        newAllMoves = {...allMoves,...targetKingSetPieces};                        
     }
-    // else if (notCheck){
-        
-    // }
 
     newAllMoves[whiteKingPosition].path = {...safePath("white",allMoves[whiteKingPosition].path,cfm,checkThreats)};
     newAllMoves[blackKingPosition].path = {...safePath("black",allMoves[blackKingPosition].path,cfm,checkThreats)};
     
     payload.allMoves = newAllMoves;
     payload.tiles = currentTiles;
-    // console.log({nem:newAllMoves});
     
     let newCfm = countForMoves(payload);
     

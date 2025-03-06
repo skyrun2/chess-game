@@ -1,7 +1,6 @@
 
 
 import countForMoves from "./countForMoves";
-import piece from "./piece";
 import setMoves from "./setMoves";
 
 function handleAllMoves(bs) {

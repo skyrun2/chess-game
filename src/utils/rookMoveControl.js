@@ -1,31 +1,18 @@
-import blockCheckPath from "./blockCheckPath";
-import isBlockingCheck from "./isCheckThreat";
-import piece from "./piece";
+
 import pieceSet from "./pieceSet";
 
 
-function rookMoveControl(set,terms,bs) {
+function rookMoveControl(set,terms) {
     let availableMoves = {};
-    let checkPieces = bs.checkPieces;
-    let checkPiecesPath = bs.checkPiecesPath;
-    let checkingSet = bs.checkingSet;
-    let countForMoves = bs.countForMoves;
-    let currentPosition = bs.currentPosition;
     let currTile = '';
     let direction = ['top','right','bottom','left']
     let eightPointX = terms.eightPointX;
-    let isCheck = bs.isCheck;
-    let isDoubleCheck = bs.isDoubleCheck;
-    let pathBlockers = {};
-    let pieceToMove = bs.pieceToMove;
-    let pieceToMoveSet = pieceSet(pieceToMove);
     let startTile = terms.startTile;
     let tiles = terms.tiles;
     let x = terms.x;
     let y = terms.y;
 
     let oppSet= set == 'white' ? 'black': 'white';
-    let p = piece(pieceToMove)
     const side = {
         top :8-y,
         right : 8-eightPointX,
@@ -48,14 +35,12 @@ function rookMoveControl(set,terms,bs) {
             
             if (!tiles[currTile]) {
                 availableMoves[currTile] ={'tile':currTile,color:`#1211aa99`};
-                // console.log(currTile);
                 
             }
             else {
                 if (pieceSet(tiles[startTile])  == set) {
                     if(pieceSet(tiles[currTile]) == oppSet){
                         availableMoves[currTile] ={'tile':currTile,color:`red`};
-                        // possibleMoveTiles[currTile] = currTile;
                         break;
                     }
                     else break;
@@ -63,7 +48,6 @@ function rookMoveControl(set,terms,bs) {
                 else{
                     if(pieceSet(tiles[currTile]) == set){
                         availableMoves[currTile] ={'tile':currTile,color:`red`};
-                        // possibleMoveTiles[currTile] = currTile;
                         break;
                     }
                     else break;

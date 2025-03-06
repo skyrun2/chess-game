@@ -1,6 +1,6 @@
 
 
-import useTiles from "../utils/useTiles";
+
 import useBoardState from "../utils/boardState";
 import setId from "../utils/setId";
 import setSrs from "../utils/setSrs";
@@ -11,14 +11,13 @@ import checkEffects from "../utils/checkEffects";
 const Boxes = () =>{
     const currentPosition = useBoardState((state) => state.currentPosition);
     const boardState =  useBoardState((state)=>state);
-    // const checkPieces = useBoardState((state)=> state.checkPieces);
     const checkPiecesPath = useBoardState((state)=> state.checkPiecesPath);
     const hasMoves = useBoardState((state)=> state.hasMoves);
     const isCheck = useBoardState((state)=> state.isCheck);
     const isDoubleCheck = useBoardState((state)=> state.isDoubleCheck);
-    const pieceToMove =  useBoardState((state)=>state.pieceToMove);
+
     const tileState = useBoardState((state)=>state);
-    const tiles = useBoardState((state)=>state.tiles);
+
     const currentTiles = useBoardState((state)=>state.currentTiles);
     const BoxArrangement = ()=>{
         
@@ -60,7 +59,7 @@ const Boxes = () =>{
             default:
                 break;
         }
-        // console.log(i);
+
         if (id == currentPosition) {
             if (hasMoves) {
                 bgColor = 'bg-[#fff111]';
@@ -75,7 +74,7 @@ const Boxes = () =>{
         else{
             bgColor = i%2 ? 'bg-[#739552]' : 'bg-[#EBECD0]'    
         }
-        // console.log(tiles[id]);
+
         
             
             
@@ -101,8 +100,7 @@ const Boxes = () =>{
         
         if (isCheck||isDoubleCheck){
 
-            if (isCheck) {
-                let checkPiece = Object.keys(checkPiecesPath)[0];
+            if (isCheck) {            
                 
                 
                 if (Object.keys(checkPiecesPath).length) {

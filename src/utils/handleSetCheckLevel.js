@@ -14,22 +14,22 @@ function handleSetCheckLevel(checkChecker) {
     payload.allMoves = checkChecker.allMoves;
     payload.cfm = checkChecker.cfm;
     payload.checkThreats = checkChecker.checkThreats;
-    payload.isCheckMate = true;
-    payload.winningCondition = 'checkmate';
-    payload.winningSet = 'white';
+    
 
-    // let noMoves = true;
-    // for (const moves in payload.allMoves) {
-    //     if (pieceSet(payload.allMoves[moves].piece) == pieceSet(payload.allMoves[payload.targetKing].piece)) {
-    //         if (Object.keys(payload.allMoves[moves].path).length) {
-    //             noMoves = false;
-    //         }  
-    //     }
-    // }
-    // if (noMoves){
-    //     payload.CheckMate = true;        
-    // }
-    console.log({...payload});
+    let noMoves = true;
+    for (const moves in payload.allMoves) {
+        if (pieceSet(payload.allMoves[moves].piece) == pieceSet(payload.allMoves[payload.targetKing].piece)) {
+            if (Object.keys(payload.allMoves[moves].path).length) {
+                noMoves = false;
+            }  
+        }
+    }
+    if (noMoves){
+        payload.isCheckMate = true;
+        payload.winningCondition = 'checkmate';
+        payload.winningSet = 'white';
+    }
+    
     
     
     return payload

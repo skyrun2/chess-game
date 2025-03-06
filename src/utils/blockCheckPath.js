@@ -1,13 +1,7 @@
 
 function blockCheckPath(bs,targetKingSetPiece) {
     const checkPiecePath = bs.checkPiecePath;
-    const currentTiles = bs.currentTiles;
-    const isCheck = bs.isCheck;
-    const isDoubleCheck = bs.isDoubleCheck;
-    const allMoves = bs.allMoves;
-    const cfm = bs.cfm.cFM;
-    const targetKing = bs.targetKing;
-    const newPosition = bs.newPosition;
+    const currentTiles = bs.currentTiles;    
     let availableMoves = {};
 
     
@@ -22,7 +16,6 @@ function blockCheckPath(bs,targetKingSetPiece) {
         }
     }
     
-    // console.log({availableMoves});
     
     return availableMoves;
 

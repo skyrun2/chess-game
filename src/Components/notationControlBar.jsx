@@ -1,6 +1,5 @@
 import useBoardState from "@/utils/boardState";
 import pieceData from "@/utils/pieceData";
-import useTiles from "@/utils/useTiles";
 import { useEffect, useState } from "react";
 
 
@@ -13,10 +12,8 @@ const NotationControlBar = () =>{
     const currentView = useBoardState((state)=>state.currentView);
     const presentView = useBoardState((state)=>state.presentView);
     const reviewMode = useBoardState((state)=>state.reviewMode);
-    const turn = useBoardState((state)=> state.turn);
     const resetAll = useBoardState((state)=>state.resetAll);
     const resetTilesState = useBoardState((state)=>state.resetTilesState);
-    const resignModal = useBoardState((state)=>state.resignModal);
     const openResignModal = useBoardState((state)=>state.openResignModal);
     let [leftDisabled,setLeftDisabled] =  useState(false);
     let [rightDisabled,setRightDisabled] =  useState(false);
@@ -25,7 +22,6 @@ const NotationControlBar = () =>{
     
     let payload = {};
     useEffect(()=>{
-        // console.log({rightDisabled,leftDisabled});
         if (currentView == '0_-1' ) setLeftDisabled(true)
         else if (currentView == '1_0' ) setLeftDisabled(true)
         else if (currentView != '1_0' ) setLeftDisabled(false)

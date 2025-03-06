@@ -1,40 +1,18 @@
 import useBoardState from "@/utils/boardState"
-import pieceData from "@/utils/pieceData";
+
 import pieceSrsIs from "@/utils/pieceSrsIs";
-import { useEffect, useState } from "react";
+
 
 
 const CapturedPieceCount = ({player,piece}) => {
     const capturedPieces = useBoardState((state)=> state.capturedPieces);
-    const capturedWhiteSet = useBoardState((state)=> state.capturedPieces.whiteSet);
-    const capturedBlackSet = useBoardState((state)=> state.capturedPieces.blackSet);
     const set = player == 'player1' ? 'blackSet' : 'whiteSet';
     let pieceSrc = pieceSrsIs(piece,set);
     let count = 0;
 
-    
-    
-    // const capturedWhiteSet ='wd'`
-    // useEffect(()=>{
-    // if (player == 'player1') {
-    //     console.log(capturedPieces[set][piece]);
-            
-    //     }        
-        
-        
-    // },[capturedPieces])
-
-
-  
-
-    
-    
-
-    
-
 
     if (capturedPieces[set][piece]) {
-        count = capturedPieces[set][piece]
+        count = capturedPieces[set][piece];
 
         return(
             

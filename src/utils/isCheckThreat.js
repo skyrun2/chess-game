@@ -5,15 +5,13 @@ import pathSetter from "./pathSetter";
 import piece from "./piece";
 import pieceSet from "./pieceSet";
 
-function isCheckThreat (bs,moves){
+function isCheckThreat (bs){
     const allMoves = bs.allMoves;    
-    const cfm  = bs.cfm;
     const blackKingPosition = bs.blackKingPosition;
     const whiteKingPosition = bs.whiteKingPosition;
     const currentTiles = bs.currentTiles;
     let targetKing = "";
     let pSet = "";
-    let oppSet = "";
     let direction = "";
     let newPieces = {}
     let checkThreats = {};
@@ -22,7 +20,6 @@ function isCheckThreat (bs,moves){
     
     for (const move in allMoves) {
         pSet = pieceSet(currentTiles[move]);
-        oppSet = pSet == "white" ? "black" : "white";
         targetKing = pSet == "white" ? blackKingPosition : whiteKingPosition;
         let pieceX = String(move[0]).charCodeAt(0);
         let pieceY = Number(move[1]);
@@ -37,7 +34,6 @@ function isCheckThreat (bs,moves){
         let path = {};
         let blockCount = 0;
         let isValidChecKThreat = false;
-        let isSameBlock = false;
         let blocker = "";
         let set = pSet == "white" ? "whiteSet" : "blackSet" ;
         direction = directionSetter(king,attackingPiece);

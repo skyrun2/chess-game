@@ -4,7 +4,6 @@ import pieceSet from "./pieceSet";
 
 function setNotation(payload,bs) {
     let symbol 
-    let turn = bs.turn ;
     let p = bs.pieceToMove;
     let set = pieceSet(p);
     let whiteKing = bs.whiteKingPosition;
@@ -17,8 +16,6 @@ function setNotation(payload,bs) {
     let castlingPieces = bs.castlingPieces;
     let castlingCondition = false;
     let castlingSide = '';
-    let isCheck = bs.isCheck;
-    let isDoubleCheck = bs.isDoubleCheck;
     let isCapture = bs.isCapture;
     let possibleMoves = payload.possibleMoves;
     
@@ -65,7 +62,6 @@ function setNotation(payload,bs) {
             if (newPosition == castlingQueenSide) {
                 let castlingQueenSideRook = set == 'white' ? 'a1' : 'a8';
                 okRook = !!castlingPieces[castlingQueenSideRook];
-                console.log({okRook});
                 
                 castlingSide = 'queenSide';
                 

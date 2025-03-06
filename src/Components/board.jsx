@@ -5,15 +5,12 @@ import Boxes from "./boxes";
 import LeftNum from "./leftNums";
 import useBoardState from "../utils/boardState";
 
-import useTiles from "../utils/useTiles";
+
 
 import showPossibleMoves from "../utils/showPossibleTiles";
 
 import pieceSet from "../utils/pieceSet";
 import checkChecker from "../utils/checkChecker";
-
-import handleSetCurrentPosition from "@/utils/handleSetCurrentPosition";
-import handleSetId from "@/utils/handleSetId";
 import handleSetNewPosition from "@/utils/handleSetNewPosition";
 import handleAddCapturedPieces from "@/utils/handleAddCapturedPieces";
 import handleSetTileHistory from "@/utils/handleSetTileHistory";
@@ -24,7 +21,6 @@ import handleSetTiles from "@/utils/handleSetTiles";
 
 
 import handleAllMoves from "@/utils/handleAllMoves";
-import legalMoves from "@/utils/legalMoves";
 import checkEffects from "@/utils/checkEffects";
 import cleanAllMoves from "@/utils/cleanAllMoves";
 import countForMoves from "@/utils/countForMoves";
@@ -44,40 +40,24 @@ const Board = () => {
     const currentPosition = useBoardState((state) => state.currentPosition);
     const currentPositionCount = useBoardState((state) => state.currentPositionCount);
     const currentTiles = useBoardState((state) => state.currentTiles);
-    const id = useBoardState((state) => state.id);
-
     const isCheck = useBoardState((state) => state.isCheck);
     const isDoubleCheck = useBoardState((state) => state.isDoubleCheck);
     const isPieceToMove = useBoardState((state) => state.isPieceToMove);
     const isPresentTiles = useBoardState((state) => state.isPresentTiles);
-    const moveNotation = useBoardState((state) => state.moveNotation);
     const newCount = useBoardState((state) => state.newCount);
     const newPosition = useBoardState((state) => state.newPosition);
-    // const NewBoardPosition = useBoardState((state) => state.NewBoardPosition);
-    const notCheck = useBoardState((state)=>state.notCheck);
     const notationOrder = useBoardState((state) => state.notationOrder);
     const pieceToMove = useBoardState((state) => state.pieceToMove);
-    // const pieceMoveNotation = useBoardState((state) => state.pieceMoveNotation);
-    // const pieceToMoveClass = useBoardState((state)=> state.pieceToMoveClass);
-    const possibleMoveTiles = useBoardState((state) => state.possibleMoveTiles);
-    const reviewMode = useBoardState((state) => state.reviewMode);
     const setCheckLevel = useBoardState((state) => state.setCheckLevel);
     const setAllMoves = useBoardState((state) => state.setAllMoves);
     const setAllMovesCount1 = useBoardState((state) => state.setAllMovesCount1);
-    const setCleanAllMoves = useBoardState((state) => state.setAllMoves);
-    const setCleanAllMovesCount = useBoardState((state) => state.setCleanAllMovesCount);
     const setCurrentPosition = useBoardState((state) => state.setCurrentPosition);
-    const setId = useBoardState((state) => state.setId);
     const setInitialMoves = useBoardState((state) => state.setInitialMoves);
-    const setHasMoves = useBoardState((state) => state.setHasMoves);
-    // const setIsPieceToMove = useBoardState((state) => state.setIsPieceToMove);
     const setNewPosition = useBoardState((state) => state.setNewPosition);
     const setNotations = useBoardState((state) => state.setNotations);
-    const setPossibleMoveTiles = useBoardState((state) => state.setPossibleMoveTiles);
     const setTiles = useBoardState((state) => state.setTiles);
     const setTileChangeIndicator = useBoardState((state)=>state.setTileChangeIndicator);
     const setTilesHistory = useBoardState((state) => state.setTilesHistory);
-    const setCurrentView = useBoardState((state) => state.setCurrentView);
     const setTurn = useBoardState((state) => state.setTurn);
     const tileChangeIndicator = useBoardState((state)=>state.tileChangeIndicator);
     const tiles = useBoardState((state) => state.tiles);
@@ -90,7 +70,7 @@ const Board = () => {
 
 
     const [prevCurrentPosition,setPrevCurrentPosition] = useState(null);
-    let prev = null;
+    
     
 
 
@@ -101,7 +81,6 @@ const Board = () => {
         let id = e.target.parentElement.id;
         
         
-        let legalMoves = false;
         let pieceToMoveDoubleTap = false;
         let toEmptyTile = false;
         let toCapture = false ;
@@ -122,26 +101,7 @@ const Board = () => {
             
         }
         
-        // if (activatePieceToMove) setPrevCurrentPosition  (id);
-        // if(toEmptyTile||toCapture) setPrevCurrentPosition(null);
-
-        if (toEmptyTile && allMoves[currentPosition]) {
-                    
-            if(allMoves[currentPosition].path[emptyTile.id]) legalMoves = true;
-            
-        }
-        else if (toCapture && allMoves[currentPosition]) {
-            
-            if(allMoves[currentPosition].path[id])   legalMoves = true; 
-            
-            
-        }
         
-        
-        // if (allMoves[currentPosition]) {
-        //     console.log({legalMoves,toEmptyTile,id,prevCurrentPosition,currentPosition,em:allMoves[currentPosition].path[emptyTile.id],am:allMoves});            
-        // }
-        // console.log({time:"before",prevCurrentPosition,currentPosition,id,em:emptyTile.id,prev});
         
         switch (true) {
             case e.target.id == 'notation':
@@ -151,7 +111,7 @@ const Board = () => {
                 console.log('piece did not move');
                 setCurrentPosition('', false);                
                 setPrevCurrentPosition(null);
-                prev = null;
+                
                 break;
 
             case toEmptyTile : {
@@ -165,7 +125,7 @@ const Board = () => {
                 
                 setNewPosition(payload);
                 setPrevCurrentPosition(null);
-                prev = null;
+                setTurn();
 
                 payload = { ...handleAddCapturedPieces(boardState) };
                 
@@ -186,14 +146,6 @@ const Board = () => {
                     unSetCheckLevel()
                 }    
                 
-                
-                
-
-
-
-                // payload = {...handleSetId(emptyTile.id,false)};
-
-                // setId(payload);
 
                 break;
             }
@@ -205,15 +157,14 @@ const Board = () => {
                 let copyBs = boardState;
                 copyBs.id = id;
                 
-                console.log({id:copyBs.id,currentPosition});
                 
                 payload = { ...handleSetNewPosition(copyBs) };
 
                 
                 setNewPosition(payload);
                 setPrevCurrentPosition(null);
-                prev = null;
                 addCapturedPieces(payload);
+                setTurn();
 
 
 
@@ -242,42 +193,45 @@ const Board = () => {
                 break;
             }
             case switchPieceToMove: {
-                
-                    // console.log({id,et:emptyTile.id});
-                    // if (pieceSet(tiles[id]) == turn){
-                    console.log('piece to move');
+                                    
+                if (pieceSet(currentTiles[id]) == turn){
+                    console.log('switched piece to move');
+
                     
-                    setCurrentPosition(id, true); 
+                    setCurrentPosition(id, true);      
                     setPrevCurrentPosition(id);
-                    prev = id;
+
                     
-                    // }
+                    }
+
+                    
+
                 
                 break;
             }
             case activatePieceToMove:
+                                
                 
-                    // console.log({id,et:emptyTile.id});
-                    // if (pieceSet(tiles[id]) == turn){
+                    if (pieceSet(currentTiles[id]) == turn){
                     console.log('piece to move');
 
                     
                     setCurrentPosition(id, true);      
                     setPrevCurrentPosition(id);
-                    prev = id;
+
                     
-                    // }
+                    }
                 
                 break;
 
             default:
                 break;
         }
-        // console.log({time:"after",prevCurrentPosition,currentPosition,id,em:emptyTile.id,prev});
-        // console.log({toEmptyTile,toCapture,activatePieceToMove,switchPieceToMove,pieceToMoveDoubleTap});
 
+        
+        
     }
-
+    
     useEffect(()=>{
         console.log({initial:"set Initial"});
         let ham = handleAllMoves(boardState);
@@ -287,12 +241,12 @@ const Board = () => {
         copyBs.allMoves = allMoves;
         copyBs.cfm = cfm;
         setInitialMoves(cleanAllMoves(copyBs));
-        // setInitialMoves(handleAllMoves(boardState));
+
     },[])
 
     useEffect(()=>{     
 
-        // console.log({isPieceToMove,currentPosition,currentPositionCount});
+
         
         if (isPieceToMove) {
             if (currentPosition) {
@@ -321,7 +275,7 @@ const Board = () => {
 
     useEffect(()=>{      
         if (tileChangeIndicator > 0) {
-            console.log({moves:"set moves",tileChangeIndicator});           
+            console.log({moves:"set moves"});           
             setAllMoves(handleAllMoves(boardState));            
 
         }
@@ -330,7 +284,7 @@ const Board = () => {
 
     useEffect(()=>{         
         if (setAllMovesCount1 > 0) {
-            console.log({checkLevel:"check level",count,setAllMovesCount1});            
+            console.log({checkLevel:"check level"});            
             let payload =  handleSetCheckLevel(checkChecker(boardState,currentTiles));
             payload.count = count+1;
             setCheckLevel(payload);
@@ -338,9 +292,7 @@ const Board = () => {
         }
     },[setAllMovesCount1])
 
-    useEffect(()=>{
-        
-        console.log({isDoubleCheck,isCheck});
+    useEffect(()=>{        
         
         if(count > 0){
             console.log({clean:"clean moves"});        
@@ -355,6 +307,7 @@ const Board = () => {
     },[count])
     useEffect(()=>{
         setTilesHistory(handleSetTileHistory(boardState));
+        
     },[notationOrder])
 
     return (       

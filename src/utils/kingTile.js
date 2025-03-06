@@ -1,5 +1,5 @@
 import piece from "./piece";
-// import pieceIs from "./pieceIs";
+
 import pieceSet from "./pieceSet";
 
 function kingTile(payload,bs,s) {

@@ -1,6 +1,5 @@
 import enPassantOpen from "./enPassantOpen";
 import isEnPassant from "./isEnPassant";
-import legalMoves from "./legalMoves";
 import pieceSet from "./pieceSet";
 import removeCastlingPiece from "./removeCastlingPiece";
 import setMoves from "./setMoves";
@@ -16,7 +15,6 @@ function handleSetNotations(bs) {
     const copyBs  = bs
     
     
-    // console.log({co});  
     
     const set = pieceSet(pieceToMove);
     const targetKing = set == 'white' ? whiteKing : blackKing;
@@ -43,7 +41,6 @@ function handleSetNotations(bs) {
     
     payload.possibleMoves = setMoves(newPosition,bs);
     payload.moveNotation =  setNotation(payload,bs);
-    console.log({payload,np:payload.newPosition});
     
     return payload;
 }

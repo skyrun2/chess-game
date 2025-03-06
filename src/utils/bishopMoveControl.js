@@ -1,25 +1,13 @@
 
-import blockCheckPath from "./blockCheckPath";
-import isBlockingCheck from "./isCheckThreat";
-import piece from "./piece";
+
 import pieceSet from "./pieceSet";
 
 
 
-function bishopMoveControl(set,terms,bs) { 
+function bishopMoveControl(set,terms) { 
     let availableMoves = {};
-    // let checkPieces = bs.checkPieces;
-    let checkPiecesPath = bs.checkPiecesPath;
-    let checkingSet = bs.checkingSet;
-    let countForMoves = bs.countForMoves;
-    let currentPosition = bs.currentPosition;
     let currTile = '';
     let direction = ['topRight','bottomRight','bottomLeft','topLeft'];
-    let isCheck = bs.isCheck;
-    let isDoubleCheck = bs.isDoubleCheck;
-    let pathBlockers = {};
-    let pieceToMove = bs.pieceToMove;
-    let pieceToMoveSet = pieceSet(pieceToMove);
     let startTile = terms.startTile;
     let tiles = terms.tiles;
     let x = terms.x;
@@ -29,7 +17,7 @@ function bishopMoveControl(set,terms,bs) {
     
     
     let oppSet= set == 'white' ? 'black': 'white';
-    let p = piece(pieceToMove);
+
     const side = {
         topRight: terms.topRight,
         bottomRight: terms.bottomRight,

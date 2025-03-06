@@ -1,25 +1,14 @@
 
-import blockCheckPath from "./blockCheckPath";
-import isBlockingCheck from "./isCheckThreat";
-import piece from "./piece";
+
+
 import pieceSet from "./pieceSet";
 
 
-function pawnMoveControl(set,terms,passant,bs){
+function pawnMoveControl(set,terms,passant){
     let availableMoves = {};
     let baseline = 0;
-    let checkPieces = bs.checkPieces;
-    let checkPiecesPath = bs.checkPiecesPath;
-    let checkingSet = bs.checkingSet;
-    let countForMoves = bs.countForMoves
-    let currentPosition = bs.currentPosition;
     let currTile = '';
-    let isCheck = bs.isCheck;
-    let isDoubleCheck = bs.isDoubleCheck;
     let left = '';
-    let pathBlockers = {};
-    let pieceToMove = bs.pieceToMove;
-    let pieceToMoveSet = pieceSet(pieceToMove);
     let right = '';
     let startTile = terms.startTile;
     let tiles = terms.tiles;
@@ -27,8 +16,6 @@ function pawnMoveControl(set,terms,passant,bs){
     let y = terms.y;
 
     let oppSet = set =='white' ? 'black':'white';
-    let p = piece(pieceToMove);
-    let payload = {};
     
     baseline = set == 'white' ? 2 : 7;
     
@@ -67,12 +54,7 @@ function pawnMoveControl(set,terms,passant,bs){
     
     
     left = String.fromCharCode(x-1)+(y);
-    right = String.fromCharCode(x+1)+(y);
-    // console.log({left,right,time:"after"});
-    // console.log({isTrue:tiles.d6});
-    
-    
-    // console.log(`${bs.isEnPassant} for possible passant`);
+    right = String.fromCharCode(x+1)+(y);    
     
     if (passant.length) {
         

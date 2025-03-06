@@ -1,8 +1,4 @@
 
-import cFM from "./countForMoves";
-import handleAllMoves from "./handleAllMoves";
-import piece from "./piece";
-import pieceSet from "./pieceSet";
 
 
 function safePath (kingSet,kingMoves,cfm,checkThreats) {
@@ -28,10 +24,7 @@ function safePath (kingSet,kingMoves,cfm,checkThreats) {
         }
     }
     
-    // if (kingSet == "black") {
-    //     console.log({kingPath});
-        
-    // }
+    
     
     
     

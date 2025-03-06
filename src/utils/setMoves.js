@@ -9,7 +9,6 @@ import rookMoveControl from "./rookMoveControl";
 
 
 function setMoves(tile, bs ) {
-    const allMoves = bs.allMoves;
     const tiles = bs.currentTiles;
     const tilePiece = tiles[tile];
     const passant = bs.passant;

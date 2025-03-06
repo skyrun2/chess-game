@@ -36,6 +36,7 @@ function handleSetNewPosition(bs) {
     payload.set = set;
     payload.blackKingPosition = blackKing;
     payload.whiteKingPosition = whiteKing;
+    payload.piece = p;
     
     
     if (p == 'king') {

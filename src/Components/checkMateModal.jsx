@@ -1,6 +1,5 @@
 import useBoardState from "@/utils/boardState";
 import pieceData from "@/utils/pieceData";
-import useTiles from "@/utils/useTiles";
 import {  useState } from "react";
 
 

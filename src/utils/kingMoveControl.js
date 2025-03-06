@@ -1,34 +1,16 @@
 import pieceSet from "./pieceSet";
-import safePath from "./safePath";
 
 
-function kingMoveControl(set,terms,bs) {
-    let availableMoves = {};
-    let castlingPieces = bs.castlingPieces;  
-    let canKingSideCastle = true;
-    let canQueenSideCastle = true;
-    // let checkPieces = bs.checkPieces;
-    // let checkPiecesPath = bs.checkPiecesPath;
-    // let checkingSet = bs.checkingSet;
-    // let countForMoves = bs.countForMoves;
-    let currentPosition = bs.currentPosition;  
+function kingMoveControl(set,terms) {
+    let availableMoves = {};    
     let currTile = '';
     let eightPointX = terms.eightPointX;
-    let isCheck = bs.isCheck;
-    let isDoubleCheck = bs.isDoubleCheck;
-    // let kingPath = {};
-    let startTile = terms.startTile;
-    // let tentativePath = {};
     let tiles = terms.tiles;
     let x = terms.x;
     let y = terms.y;
     
     
     let oppSet = set =='white' ? 'black':'white';
-    let kingSide = set =='white' ? 'h1' : 'h8';
-    let queenSide = set =='white' ? 'a1' : 'a8';
-    let castlingTileKingSide = set =='white' ? 'g1' : 'g8';
-    let castlingTileQueenSide = set =='white' ? 'c1' : 'c8';
     let direction = ['topLeft','topMid','topRight','rightMid','rightBottom','bottomMid','bottomLeft','leftMid'];
 
     const side = {

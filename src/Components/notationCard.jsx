@@ -1,5 +1,5 @@
 import useBoardState from "@/utils/boardState";
-import useTiles from "@/utils/useTiles";
+
 
 
 
@@ -8,12 +8,10 @@ import useTiles from "@/utils/useTiles";
 
 const NotationCard = () =>{
     const notationOrder = useBoardState((state)=> state.notationOrder);
-    // const notationOrder = useBoardState((state)=> state.notationOrder);
     const moveCount = useBoardState((state)=> state.moveCount);
-    const tilesHistory = useBoardState((state)=>state.tilesHistory);
     const resetTiles = useBoardState((state)=>state.resetTiles);
     const currentView = useBoardState((state)=>state.currentView);
-    const setCurrentView = useBoardState((state)=>state.setCurrentView);
+
     
     let orderCount = notationOrder.length;
     
@@ -28,13 +26,13 @@ const NotationCard = () =>{
     let count = 0
     let key = '';
     let payload = {}
-    // console.log(tilesHistory);
+
     
     const handleOnClick = (e,i)=>{
         
         let btn = e.currentTarget;
         let id = btn.parentElement.id;
-        console.log(id);
+
         
         payload.id = id
         payload.count = i+1;

@@ -1,4 +1,4 @@
-import piece from "./piece";
+
 import pieceSet from "./pieceSet";
 import checkPiecePathSetter from "./checkPiecePathSetter";
 import cleanAllMoves from "./cleanAllMoves";
