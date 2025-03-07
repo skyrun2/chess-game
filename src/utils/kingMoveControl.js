@@ -1,3 +1,4 @@
+import addCastlingMoves from "./addCastlingMoves";
 import pieceSet from "./pieceSet";
 
 
@@ -53,7 +54,7 @@ function kingMoveControl(set,terms) {
     });
     
     
-
+    addCastlingMoves(terms)
     
     return availableMoves;
 }

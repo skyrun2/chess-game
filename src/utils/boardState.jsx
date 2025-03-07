@@ -69,12 +69,12 @@ winningCondition: '',
 whiteKingPosition:'e1',
 
 castlingPieces:{
-    e1:{tile:'e1',piece:'king',set:'wite'},
+    e1:{tile:'e1',piece:'king',set:'white'},
     e8:{tile:'e8',piece:'king',set:'black'},
-    a1:{tile:'a1',piece:'rook',set:'white'},
-    a8:{tile:'a8',piece:'rook',set:'black'},
-    h1:{tile:'h1',piece:'rook',set:'white'},
-    h8:{tile:'h8',piece:'rook',set:'black'},
+    a1:{tile:'a1',piece:'rook',set:'white',direction:"left"},
+    a8:{tile:'a8',piece:'rook',set:'black',direction:"left"},
+    h1:{tile:'h1',piece:'rook',set:'white',direction:"right"},
+    h8:{tile:'h8',piece:'rook',set:'black',direction:"right"},
     
 },
 }
@@ -118,23 +118,9 @@ const useBoardState = create((set,get) => ({
     },
 
     
-    setPossibleMoveTiles: (payload)=>{                
-        set(()=>({
-            possibleMoveTiles: payload
-        }))
-    },
 
 
-    setCurrentView : (payload) => {
-        set(() =>{
-            let total = payload.notationOrder.length - payload.moveCount;
-            let history = Math.ceil(total/2) +'_'+ (total-1)%2;
-            return{
-                currentView : history,
-            }
-        })
-    },
-
+    
     resetTiles: (payload)=>{
         
         set(prev=>{
@@ -217,7 +203,7 @@ const useBoardState = create((set,get) => ({
             setCleanAllMovesCount: updatedSetCleanAllMovesCount,
         }))
     },
-
+    
     setCurrentPosition :  (position,isPieceToMove) => {
         const tiles = get().currentTiles;        
         let updatedCount = get().currentPositionCount + 1;
@@ -229,7 +215,17 @@ const useBoardState = create((set,get) => ({
             
         })
     },
+    setCurrentView : (payload) => {
+        set(() =>{
+            let total = payload.notationOrder.length - payload.moveCount;
+            let history = Math.ceil(total/2) +'_'+ (total-1)%2;
+            return{
+                currentView : history,
+            }
+        })
+    },
 
+    
     setHasMoves : (payload) => {
         set(()=>({
             hasMoves: payload.hasMoves,
@@ -309,6 +305,11 @@ const useBoardState = create((set,get) => ({
                 isEnPassant: payload.isEnPassant,
             };
         });
+    },
+    setPossibleMoveTiles: (payload)=>{                
+        set(()=>({
+            possibleMoveTiles: payload
+        }))
     },
     
     setResign: () =>{

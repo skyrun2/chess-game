@@ -7,7 +7,7 @@ function defaultSetup() {
             ds[String.fromCharCode(97+i)+'8'] = pieceIs(i,'b')
         }
         else{
-            ds[String.fromCharCode(97+(i%8))+'7'] = pieceIs(i,'b')
+            // ds[String.fromCharCode(97+(i%8))+'7'] = pieceIs(i,'b')
         }
     }
     for (let i = 0; i < 16; i++) {
@@ -15,11 +15,11 @@ function defaultSetup() {
             ds[String.fromCharCode(97+i)+'1'] = pieceIs(i,'w')
         }
         else{
-            ds[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
+            // ds[String.fromCharCode(97+(i%8))+'2'] = pieceIs(i,'w')
         }
     }
-    // ds.c7 = pieceIs(10,'b')
-    // ds.b2 = pieceIs(10,'w')
+    ds.c7 = pieceIs(10,'b')
+    ds.b2 = pieceIs(10,'w')
     return ds
 }
  export default defaultSetup;

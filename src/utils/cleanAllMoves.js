@@ -55,14 +55,14 @@ function cleanAllMoves(bs) {
 
     
     if (isCheck||isDoubleCheck) {
-        let newPath = {}    
-        
-        for (const piece in targetKingSetPieces) {            
+        let newPath = {}            
+        for (const piece in targetKingSetPieces) {                        
             newPath[piece] = {path:{...blockCheckPath(bs,targetKingSetPieces[piece])},piece: targetKingSetPieces[piece].piece};
         }
         targetKingSetPieces = {...newPath}
         newAllMoves = {...allMoves,...targetKingSetPieces};                        
     }
+    
 
     newAllMoves[whiteKingPosition].path = {...safePath("white",allMoves[whiteKingPosition].path,cfm,checkThreats)};
     newAllMoves[blackKingPosition].path = {...safePath("black",allMoves[blackKingPosition].path,cfm,checkThreats)};

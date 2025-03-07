@@ -12,6 +12,8 @@ function setMoves(tile, bs ) {
     const tiles = bs.currentTiles;
     const tilePiece = tiles[tile];
     const passant = bs.passant;
+    const cfm = bs.cfm;
+    const castlingPieces = bs.castlingPieces;    
 
     const p = piece(tilePiece);
     let eightPointX = Number(tile[0].charCodeAt()) - 96;
@@ -23,16 +25,18 @@ function setMoves(tile, bs ) {
 
 
     const terms = {
-        x: Number(tile[0].charCodeAt()),
-        eightPointX: Number(tile[0].charCodeAt()) - 96,
-        y: Number(tile[1]) * 1,
-        topRight: Math.min(8 - eightPointX, 8 - y),
-        bottomRight: Math.min(8 - eightPointX, y - 1),
         bottomLeft: Math.min(eightPointX - 1, y - 1),
-        topLeft: Math.min(eightPointX - 1, 8 - y),
+        bottomRight: Math.min(8 - eightPointX, y - 1),
+        castlingPieces,
+        cfm,
+        eightPointX: Number(tile[0].charCodeAt()) - 96,
         startTile: tile,
-        tiles: tiles,
-        x1: 1
+        tiles,
+        topLeft: Math.min(eightPointX - 1, 8 - y),
+        topRight: Math.min(8 - eightPointX, 8 - y),
+        x: Number(tile[0].charCodeAt()),
+        x1: 1,
+        y: Number(tile[1]) * 1,
     }
 
 

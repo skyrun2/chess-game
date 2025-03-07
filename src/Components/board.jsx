@@ -24,6 +24,7 @@ import handleAllMoves from "@/utils/handleAllMoves";
 import checkEffects from "@/utils/checkEffects";
 import cleanAllMoves from "@/utils/cleanAllMoves";
 import countForMoves from "@/utils/countForMoves";
+import updateCastlingPieces from "@/utils/updateCastlingPieces";
 
 
 
@@ -35,6 +36,7 @@ const Board = () => {
     const blackKingPosition = useBoardState((state) => state.blackKingPosition);
     const boardState = useBoardState((state) => state);
     const isCheckMate = useBoardState((state) => state.isCheckMate);
+    const castlingPieces = useBoardState((state) => state.castlingPieces);
     const checkPiecesPath = useBoardState((state) => state.checkPiecesPath);
     const count = useBoardState((state) => state.count);
     const currentPosition = useBoardState((state) => state.currentPosition);
@@ -60,7 +62,6 @@ const Board = () => {
     const setTilesHistory = useBoardState((state) => state.setTilesHistory);
     const setTurn = useBoardState((state) => state.setTurn);
     const tileChangeIndicator = useBoardState((state)=>state.tileChangeIndicator);
-    const tiles = useBoardState((state) => state.tiles);
     const turn = useBoardState((state) => state.turn);
     const whiteKingPosition = useBoardState((state) => state.whiteKingPosition);
     const unSetCheckLevel = useBoardState((state) => state.unSetCheckLevel);
@@ -120,7 +121,7 @@ const Board = () => {
                 let copyBs = boardState;
                 copyBs.id = emptyTile.id
                 
-                
+                console.log(updateCastlingPieces(copyBs,"toEmptyTile"));
                 payload = { ...handleSetNewPosition(copyBs) };
                 
                 setNewPosition(payload);
@@ -157,6 +158,7 @@ const Board = () => {
                 let copyBs = boardState;
                 copyBs.id = id;
                 
+                console.log(updateCastlingPieces(copyBs,"toCapture"));
                 
                 payload = { ...handleSetNewPosition(copyBs) };
 
@@ -252,9 +254,7 @@ const Board = () => {
             if (currentPosition) {
                 console.log({show:"show moves"});
                 if (allMoves) {
-                    if (allMoves[currentPosition]) {            
-                        console.log(allMoves[currentPosition].path);
-                        
+                    if (allMoves[currentPosition]) {                                                        
                         showPossibleMoves(allMoves[currentPosition].path);            
                     }               
                 }                    
@@ -283,7 +283,9 @@ const Board = () => {
 
 
     useEffect(()=>{         
-        if (setAllMovesCount1 > 0) {
+        console.log({castlingPieces});
+        
+        if (setAllMovesCount1 > 0) {            
             console.log({checkLevel:"check level"});            
             let payload =  handleSetCheckLevel(checkChecker(boardState,currentTiles));
             payload.count = count+1;

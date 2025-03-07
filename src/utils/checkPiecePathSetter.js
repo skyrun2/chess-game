@@ -1,6 +1,8 @@
+
 import directionSetter from "./directionSetter";
 import distanceSetter from "./distanceSetter";
 import pathSetter from "./pathSetter";
+import setPiece from "./piece";
 
 function checkPiecePathSetter(checkPieceMoves,piece,targetKing){
     let pieceX = String(piece[0]).charCodeAt(0);
@@ -16,7 +18,8 @@ function checkPiecePathSetter(checkPieceMoves,piece,targetKing){
     let path = {}
 
     
-    switch (checkPieceMoves.piece) {
+    
+    switch ( setPiece(checkPieceMoves.piece)) {
         case "queen":
             path = pathSetter(distance,direction,piece);                
             break;

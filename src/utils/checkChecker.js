@@ -33,6 +33,7 @@ function checkChecker (bs) {
         }
         else notCheck = true;
     }
+    
     copyBs.notCheck = notCheck;
     copyBs.isCheck = isCheck;
     copyBs.isDoubleCheck = isDoubleCheck;
