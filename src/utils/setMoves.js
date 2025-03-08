@@ -1,4 +1,5 @@
 import bishopMoveControl from "./bishopMoveControl";
+import countForMoves from "./countForMoves";
 import kingMoveControl from "./kingMoveControl";
 import knightMoveControl from "./knightMoveControl";
 import pawnMoveControl from "./pawnMoveControl";
@@ -12,14 +13,13 @@ function setMoves(tile, bs ) {
     const tiles = bs.currentTiles;
     const tilePiece = tiles[tile];
     const passant = bs.passant;
-    const cfm = bs.cfm;
+    let  cfm = bs.cfm;
     const castlingPieces = bs.castlingPieces;    
 
     const p = piece(tilePiece);
     let eightPointX = Number(tile[0].charCodeAt()) - 96;
     let y = Number(tile[1]) * 1;
-
-
+    
 
 
 

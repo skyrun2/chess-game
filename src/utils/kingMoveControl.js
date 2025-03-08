@@ -54,7 +54,7 @@ function kingMoveControl(set,terms) {
     });
     
     
-    addCastlingMoves(terms)
+    terms.cfm ? addCastlingMoves(terms) : null;
     
     return availableMoves;
 }
